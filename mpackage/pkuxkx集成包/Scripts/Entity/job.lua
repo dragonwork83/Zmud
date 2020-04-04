@@ -1,0 +1,27 @@
+job = {}
+job.statistics = {
+    IdleTime = 0,
+    DeathTime = 0,
+    PreviousExp = 0,
+    PreviousPot = 0,
+    PreviousMoney = 0,
+    StartTime = os.time()
+}
+job.time = {}
+job.time.b = os.time()
+job.time.e = os.time()
+job.time.over = os.time()
+job.time["refresh"] = 94
+job.name = nil
+job.target = "任务目标"
+job.exp = 0
+job.pot = 0
+job.guard = {}
+job.party = "未检测"
+job.zuhe = {}
+job.killer = {}
+job.list = {}
+job.group = {}
+job.group.times = nil
+job.wudang = {}
+job.wudang.FinishTime = ""

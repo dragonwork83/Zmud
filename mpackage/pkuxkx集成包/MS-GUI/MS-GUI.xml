@@ -1,0 +1,4651 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE MudletPackage>
+<MudletPackage version="1.000">
+    <TriggerPackage/>
+    <TimerPackage/>
+    <AliasPackage/>
+    <ActionPackage/>
+    <ScriptPackage>
+                <ScriptGroup isActive="yes" isFolder="yes">
+                    <name>MS_GUI</name>
+                    <packageName>Template</packageName>
+                    <script>mudlet = mudlet or {}
+
+ms_path = string.gsub(getMudletHomeDir()..&quot;/MS-GUI&quot;,&quot;\\&quot;,&quot;/&quot;)
+
+mudlet.mapper_script = true
+
+CURRENT_TAB = &quot;&quot;
+
+MS_VARS = MS_VARS or {}
+if io.exists(getMudletHomeDir() .. &quot;/MS-GUI_vars.lua&quot;) then
+	table.load(getMudletHomeDir() .. &quot;/MS-GUI_vars.lua&quot;, MS_VARS)
+end</script>
+                    <eventHandlerList/>
+                    <ScriptGroup isActive="yes" isFolder="yes">
+                        <name>CSSman</name>
+                        <packageName>CSSman</packageName>
+                        <script></script>
+                        <eventHandlerList/>
+                        <Script isActive="yes" isFolder="no">
+                            <name>CSSMan</name>
+                            <packageName></packageName>
+                            <script>-- CSSMan by Vadi. Public domain.
+
+CSSMan = {}
+CSSMan.__index = CSSMan
+
+function CSSMan.new(stylesheet)
+  local obj  = { stylesheet = {} }
+  setmetatable(obj,CSSMan)
+  local trim = string.trim
+
+  assert(type(stylesheet) == &quot;string&quot;, &quot;CSSMan.new: no stylesheet provided. A possible error is that you might have used CSSMan.new, not CSSMan:new&quot;)
+
+  for line in stylesheet:gmatch(&quot;[^\r\n]+&quot;) do
+    local attribute, value = line:match(&quot;^(.-):(.-);$&quot;)
+    if attribute and value then
+      attribute, value = trim(attribute), trim(value)
+      obj.stylesheet[attribute] = value
+    end
+  end
+
+  return obj
+end
+
+function CSSMan:set(key, value)
+  self.stylesheet[key] = value
+end
+
+function CSSMan:get(key)
+  return self.stylesheet[key]
+end
+
+function CSSMan:getCSS(key)
+  local lines, concat = {}, table.concat
+  for k,v in pairs(self.stylesheet) do lines[#lines+1] = concat({k,&quot;: &quot;, v, &quot;;&quot;}) end
+  return concat(lines, &quot;\n&quot;)
+end
+
+function CSSMan:gettable()
+  return self.stylesheet
+end
+
+function CSSMan:settable(tbl)
+  assert(type(tbl) == &quot;table&quot;, &quot;CSSMan:settable: table expected, got &quot;..type(tbl))
+
+  self.stylesheet = tbl
+end</script>
+                            <eventHandlerList/>
+                        </Script>
+                    </ScriptGroup>
+                    <ScriptGroup isActive="yes" isFolder="yes">
+                        <name>GUI</name>
+                        <packageName></packageName>
+                        <script>GUI = GUI or {}
+
+
+</script>
+                        <eventHandlerList/>
+                        <Script isActive="yes" isFolder="no">
+                            <name>Set Borders</name>
+                            <packageName></packageName>
+                            <script>setBorderLeft(295)
+setBorderTop(125)
+setBorderBottom(140)
+setBorderRight(380)
+
+--setMainWindowSize(1024,600)
+--setMainWindowSize(1366,768)
+
+
+
+
+
+
+  
+</script>
+                            <eventHandlerList/>
+                        </Script>
+                        <Script isActive="yes" isFolder="no">
+                            <name>Create Background</name>
+                            <packageName></packageName>
+                            <script>--TOP SECTION--
+
+GUI.Top = Geyser.Label:new({
+  name = &quot;GUI.Top&quot;,
+  x = 290, y = 0,
+  width = &quot;100%&quot;,
+  height = &quot;125&quot;,
+})
+GUI.Top:setStyleSheet([[background-color: #301D14; background-image : url(]] .. ms_path .. [[/images/layout/wood.png)]]);
+
+GUI.TopHeader = Geyser.Container:new({
+  name = &quot;GUI.TopHeader&quot;,
+  x = 0, y = 0,
+  width = &quot;100%&quot;,
+  height = 125,
+},GUI.Top)
+
+GUI.TopTitle = Geyser.Label:new({
+  name = &quot;GUI.TopTitle&quot;,
+  x = 15, y = 10,
+  width = 400,
+  height = 65,
+},GUI.TopHeader)
+GUI.TopTitle:setStyleSheet([[background-image : url(]] .. ms_path .. [[/images/layout/MS2.png)]]);
+
+--BOTTOM SECTION--
+
+GUI.Bottom = Geyser.Label:new({
+  name = &quot;GUI.Bottom&quot;,
+  x = 280, y = -140,
+  width = &quot;100%&quot;,
+  height = 140,
+})
+GUI.Bottom:setStyleSheet([[background-color: #301D14; background-image : url(]] .. ms_path .. [[/images/layout/wood.png)]]);
+
+GUI.Dragon = Geyser.Label:new({
+  name = &quot;GUI.Dragon&quot;,
+  x = 532, y = -151,
+  width = 159,
+  height = 156,
+},GUI.Bottom)
+GUI.Dragon:setStyleSheet([[background-image : url(]] .. ms_path .. [[/images/layout/dragon.png)]]);
+
+--LEFT SECTION--
+
+GUI.Left = Geyser.Label:new({
+  name = &quot;GUI.Left&quot;,
+  x = 0, y = 0,
+  width = 290,
+  height = &quot;100%&quot;,
+})
+GUI.Left:setStyleSheet([[background-color: #F3E3B3; background-image : url(]] .. ms_path .. [[/images/layout/book.png)]]);
+
+GUI.Left2 = Geyser.Label:new({
+  name = &quot;GUI.Left2&quot;,
+  x = 0, y = 0,
+  width = 290,
+  height = 275,
+},GUI.Left)
+GUI.Left2:setStyleSheet([[background-color: #F3E3B3; background-image : url(]] .. ms_path .. [[/images/layout/book-top.png)]]);
+
+GUI.Left3 = Geyser.Label:new({
+  name = &quot;GUI.Left3&quot;,
+  x = 0, y = 275,
+  width = 290,
+  height = &quot;100%&quot;,
+},GUI.Left)
+GUI.Left3:setStyleSheet([[background-color : transparent]]);
+
+GUI.Left0 = Geyser.Label:new({
+  name = &quot;GUI.Left0&quot;,
+  x = 0, y = -166,
+  width = 290,
+  height = 170,
+},GUI.Left)
+GUI.Left0:setStyleSheet([[background-color: #F3E3B3; background-image : url(]] .. ms_path .. [[/images/layout/book-btm000.png)]]);
+
+--RIGHT SECTION--
+
+GUI.Right = Geyser.Label:new({
+  name = &quot;GUI.Right&quot;,
+  x = -380, y = 394,
+  width = 380,
+  height = &quot;100%&quot;,
+})
+GUI.Right:setStyleSheet([[background-color: #301D14; background-image : url(]] .. ms_path .. [[/images/layout/wood.png)]]);
+
+GUI.MapBorderTop = Geyser.Label:new({
+  name = &quot;GUI.MapBorderTop&quot;,
+  x = -380, y = 0,
+  width = 380,
+  height = 14,
+})
+GUI.MapBorderTop:setStyleSheet([[background-image : url(]] .. ms_path .. [[/images/layout/mapbgtop.png)]])
+setLabelOnEnter(&quot;GUI.MapBorderTop&quot;,&quot;gui_help&quot;,&quot;mapper&quot;)
+
+GUI.MapBorderLeft = Geyser.Label:new({
+  name = &quot;GUI.MapBorderLeft&quot;,
+  x = -380, y = 0,
+  width = 14,
+  height = 394,
+})
+GUI.MapBorderLeft:setStyleSheet([[background-image : url(]] .. ms_path .. [[/images/layout/mapbgleft.png)]])
+setLabelOnEnter(&quot;GUI.MapBorderLeft&quot;,&quot;gui_help&quot;,&quot;mapper&quot;)
+
+GUI.MapBorderRight = Geyser.Label:new({
+  name = &quot;GUI.MapBorderRight&quot;,
+  x = -14, y = 0,
+  width = 14,
+  height = 394,
+})
+GUI.MapBorderRight:setStyleSheet([[background-image : url(]] .. ms_path .. [[/images/layout/mapbgright.png)]])
+setLabelOnEnter(&quot;GUI.MapBorderRight&quot;,&quot;gui_help&quot;,&quot;mapper&quot;)
+
+GUI.MapBorderBtm = Geyser.Label:new({
+  name = &quot;GUI.MapBorderBtm&quot;,
+  x = -380, y = 380,
+  width = 380,
+  height = 14,
+})
+GUI.MapBorderBtm:setStyleSheet([[background-image : url(]] .. ms_path .. [[/images/layout/mapbgbtm.png)]])
+setLabelOnEnter(&quot;GUI.MapBorderBtm&quot;,&quot;gui_help&quot;,&quot;mapper&quot;)
+
+function resize_top()
+	x, y = getMainWindowSize()
+	y = 125
+	if not msconfig[&quot;HIDE_LEFT&quot;] then
+		x = x-290
+	end
+	if not msconfig[&quot;HIDE_RIGHT&quot;] then
+		x = x-380
+	end
+	if msconfig[&quot;HIDE_TOP&quot;] then
+		y = 43
+	end
+	GUI.Top:resize(x,y)
+end
+
+registerAnonymousEventHandler(&quot;sysWindowResizeEvent&quot;,&quot;resize_top&quot;)</script>
+                            <eventHandlerList/>
+                        </Script>
+                        <Script isActive="yes" isFolder="no">
+                            <name>Tabs</name>
+                            <packageName></packageName>
+                            <script>GUI.Tabs = Geyser.Container:new({
+  name = &quot;GUI.Tabs&quot;,
+  x = 0, y = 80,
+  width = 575,
+  height = 43,
+},GUI.Top)
+
+GUI.TabButtons = Geyser.HBox:new({
+  name = &quot;GUI.TabButtons&quot;,
+  x = 4, y = 0,
+  width = 550,
+  height = 43,
+},GUI.Tabs)
+
+GUI.TabMenuWho = Geyser.Label:new({
+  name = &quot;GUI.TabMenuWho&quot;,
+  width = 135,
+  height = 43,
+},GUI.TabButtons)
+GUI.TabMenuWho:setStyleSheet([[font-family: Tahoma, Geneva, sans-serif; background-repeat: no-repeat; background-image : url(]] .. ms_path .. [[/images/layout/tab.png)]]);
+GUI.TabMenuWho:echo(&quot;Who List&quot;,&quot;#575747&quot;,&quot;cb11&quot;)
+GUI.TabMenuWho:setClickCallback(&quot;tab_menu&quot;,&quot;Who&quot;)
+setLabelOnEnter(&quot;GUI.TabMenuWho&quot;,&quot;gui_help&quot;,&quot;who&quot;)
+
+GUI.TabMenuChannels = Geyser.Label:new({
+  name = &quot;GUI.TabMenuChannels&quot;,
+  width = 135,
+  height = 43,
+},GUI.TabButtons)
+GUI.TabMenuChannels:setStyleSheet([[font-family: Tahoma, Geneva, sans-serif; background-repeat: no-repeat; background-image : url(]] .. ms_path .. [[/images/layout/tab.png)]]);
+GUI.TabMenuChannels:echo(&quot;Channels&quot;,&quot;#575747&quot;,&quot;cb11&quot;)
+GUI.TabMenuChannels:setClickCallback(&quot;tab_menu&quot;,&quot;Channels&quot;)
+setLabelOnEnter(&quot;GUI.TabMenuChannels&quot;,&quot;gui_help&quot;,&quot;channels&quot;)
+
+GUI.TabMenuWorldMap = Geyser.Label:new({
+  name = &quot;GUI.TabMenuWorldMap&quot;,
+  width = 135,
+  height = 43,
+},GUI.TabButtons)
+GUI.TabMenuWorldMap:setStyleSheet([[font-family: Tahoma, Geneva, sans-serif; background-repeat: no-repeat; background-image : url(]] .. ms_path .. [[/images/layout/tab.png)]]);
+GUI.TabMenuWorldMap:echo(&quot;World Map&quot;,&quot;#575747&quot;,&quot;cb11&quot;)
+GUI.TabMenuWorldMap:setClickCallback(&quot;tab_menu&quot;,&quot;WorldMap&quot;)
+setLabelOnEnter(&quot;GUI.TabMenuWorldMap&quot;,&quot;gui_help&quot;,&quot;worldmap&quot;)
+
+--GUI.TabMenuQuests = Geyser.Label:new({
+--  name = &quot;GUI.TabMenuQuests&quot;,
+--  width = 135,
+--  height = 43,
+--},GUI.TabButtons)
+--GUI.TabMenuQuests:setStyleSheet([[font-family: Tahoma, Geneva, sans-serif; background-repeat: no-repeat; background-image : url(]] .. ms_path .. [[/images/layout/tab.png)]]);
+--GUI.TabMenuQuests:echo(&quot;Quests&quot;,&quot;#575747&quot;,&quot;cb11&quot;)
+--GUI.TabMenuQuests:setClickCallback(&quot;tab_menu&quot;,&quot;Quests&quot;)
+--setLabelOnEnter(&quot;GUI.TabMenuQuests&quot;,&quot;gui_help&quot;,&quot;quests&quot;)
+
+GUI.TabMenuHelp = Geyser.Label:new({
+  name = &quot;GUI.TabMenuHelp&quot;,
+  width = 135,
+  height = 43,
+},GUI.TabButtons)
+GUI.TabMenuHelp:setStyleSheet([[font-family: Tahoma, Geneva, sans-serif; background-repeat: no-repeat; background-image : url(]] .. ms_path .. [[/images/layout/tab.png)]]);
+GUI.TabMenuHelp:echo(&quot;Help&quot;,&quot;#575747&quot;,&quot;cb11&quot;)
+GUI.TabMenuHelp:setClickCallback(&quot;tab_menu&quot;,&quot;Help&quot;)
+setLabelOnEnter(&quot;GUI.TabMenuHelp&quot;,&quot;gui_help&quot;,&quot;help&quot;)
+
+--collapse top icon
+
+GUI.CollapseVIcon = Geyser.Label:new({
+  name = &quot;GUI.CollapseVIcon&quot;,
+  x = -18, y = -40,
+  width = 16,
+  height = 16,
+  h_policy=Geyser.Fixed,
+  v_policy=Geyser.Fixed,
+},GUI.Tabs)
+GUI.CollapseVIcon:setStyleSheet([[background-color: #BCAA8C; background-image: url(]] .. ms_path .. [[/images/layout/collapsevicon.png)]])
+GUI.CollapseVIcon:setClickCallback(&quot;collapse_top&quot;)
+setLabelOnEnter(&quot;GUI.CollapseVIcon&quot;,&quot;gui_help&quot;,&quot;collapse&quot;)
+</script>
+                            <eventHandlerList/>
+                        </Script>
+                        <Script isActive="yes" isFolder="no">
+                            <name>Player Info</name>
+                            <packageName></packageName>
+                            <script>--DISPLAY--
+
+GUI.Guild = Geyser.Label:new({
+  name = &quot;GUI.Guild&quot;,
+  x = 80, y = 100,
+  width = 210,
+  height = 175,
+},GUI.Left2)
+GUI.Guild:setStyleSheet([[background-color: transparent;]]);
+
+GUI.Avatar = Geyser.Label:new({
+  name = &quot;GUI.Avatar&quot;,
+  x = 15, y = 183,
+  width = 64,
+  height = 64,
+},GUI.Left2)
+GUI.Avatar:setStyleSheet([[background-color: transparent;]]);
+
+GUI.PlayerName = Geyser.Label:new({
+  name = &quot;GUI.PlayerName&quot;,
+  x = 15, y = 255,
+  width = 290,
+  height = 20,
+},GUI.Left2)
+GUI.PlayerName:setStyleSheet([[font-family: Tahoma, Geneva, sans-serif; background-color: transparent;]]);
+
+GUI.PlayerTitle = Geyser.Label:new({
+  name = &quot;GUI.PlayerTitle&quot;,
+  x = 10, y = 0,
+  width = 250,
+  height = 36,
+},GUI.Left3)
+GUI.PlayerTitle:setStyleSheet([[font-family: Tahoma, Geneva, sans-serif; qproperty-wordWrap: true; background-color: transparent;]]);
+
+GUI.PlayerLevel = Geyser.Label:new({
+  name = &quot;GUI.PlayerLevel&quot;,
+  x = 10, y = 35,
+  width = 250,
+  height = 18,
+},GUI.Left3)
+GUI.PlayerLevel:setStyleSheet([[font-family: Tahoma, Geneva, sans-serif; background-color: transparent;]]);
+
+GUI.PlayerStats = Geyser.Label:new({
+  name = &quot;GUI.PlayerStats&quot;,
+  x = 15, y = 25,
+  width = 250,
+  height = 150,
+},GUI.Left3)
+GUI.PlayerStats:setStyleSheet([[font-family: Tahoma, Geneva, sans-serif; background-color: transparent;]]);
+
+--collapse book icon--
+
+GUI.CollapseIcon = Geyser.Label:new({
+  name = &quot;GUI.CollapseIcon&quot;,
+  x = 2, y = -135,
+  width = 16,
+  height = 16,
+},GUI.Bottom)
+GUI.CollapseIcon:setStyleSheet([[background-color: #BCAA8C; background-image: url(]] .. ms_path .. [[/images/layout/collapseicon.png)]])
+GUI.CollapseIcon:setClickCallback(&quot;collapse_left&quot;)
+setLabelOnEnter(&quot;GUI.CollapseIcon&quot;,&quot;gui_help&quot;,&quot;collapse&quot;)
+</script>
+                            <eventHandlerList/>
+                        </Script>
+                        <Script isActive="yes" isFolder="no">
+                            <name>Vitals</name>
+                            <packageName></packageName>
+                            <script>--CSS--
+
+GUI.MGaugeBackCSS = CSSMan.new([[
+	 background-color: QLinearGradient(x1: 0, y1: 0, x2: 1, y2: 0,stop:0 rgba(25,5,5,250), stop:.099 rgba(20,0,0,250), stop:.1 rgba(35,15,5,250), stop:.199 rgba(30,10,0,250), stop:.2 rgba(45,25,15,250), stop:.299 rgba(40,20,10,250), stop:.3 rgba(55,35,25,250), stop:.399 rgba(50,30,20,250), stop:.4 rgba(65,45,35,250), stop:.499 rgba(60,40,30,250), stop:.5 rgba(75,55,45,250), stop:.599 rgba(70,50,40,250), stop:.6 rgba(85,65,55,250), stop:.699 rgba(80,60,50,250), stop:.7 rgba(95,75,65,250), stop:.799 rgba(90,70,60,250), stop:.8 rgba(105,85,75,250), stop:.899 rgba(100,80,70,250), stop:.9 rgba(115,95,85,250), stop:1 rgba(110,90,80,250));
+    border-width: 1px;
+    border-color: rgba(0,0,0,200);
+    border-style: solid;
+	 margin: 1px 0;
+]])
+
+GUI.HGaugeBackCSS = CSSMan.new([[
+	 background-color: QLinearGradient(x1: 0, y1: 0, x2: 1, y2: 0,stop:0 rgba(25,5,5,250), stop:.099 rgba(20,0,0,250), stop:.1 rgba(35,15,5,250), stop:.199 rgba(30,10,0,250), stop:.2 rgba(45,25,15,250), stop:.299 rgba(40,20,10,250), stop:.3 rgba(55,35,25,250), stop:.399 rgba(50,30,20,250), stop:.4 rgba(65,45,35,250), stop:.499 rgba(60,40,30,250), stop:.5 rgba(75,55,45,250), stop:.599 rgba(70,50,40,250), stop:.6 rgba(85,65,55,250), stop:.699 rgba(80,60,50,250), stop:.7 rgba(95,75,65,250), stop:.799 rgba(90,70,60,250), stop:.8 rgba(105,85,75,250), stop:.899 rgba(100,80,70,250), stop:.9 rgba(115,95,85,250), stop:1 rgba(110,90,80,250));
+    border-width: 1px;
+    border-color: rgba(0,0,0,200);
+    border-style: solid;
+	 margin: 1px 0;
+]])
+
+GUI.OGaugeBackCSS = CSSMan.new([[
+	 background-color: QLinearGradient(x1: 0, y1: 0, x2: 1, y2: 0,stop:0 rgba(25,5,5,250), stop:.099 rgba(20,0,0,250), stop:.1 rgba(35,15,5,250), stop:.199 rgba(30,10,0,250), stop:.2 rgba(45,25,15,250), stop:.299 rgba(40,20,10,250), stop:.3 rgba(55,35,25,250), stop:.399 rgba(50,30,20,250), stop:.4 rgba(65,45,35,250), stop:.499 rgba(60,40,30,250), stop:.5 rgba(75,55,45,250), stop:.599 rgba(70,50,40,250), stop:.6 rgba(85,65,55,250), stop:.699 rgba(80,60,50,250), stop:.7 rgba(95,75,65,250), stop:.799 rgba(90,70,60,250), stop:.8 rgba(105,85,75,250), stop:.899 rgba(100,80,70,250), stop:.9 rgba(115,95,85,250), stop:1 rgba(110,90,80,250));
+    border-width: 1px;
+    border-color: rgba(0,0,0,200);
+    border-style: solid;
+	 font-weight: bold;
+	 margin: 1px 0;
+]])
+
+GUI.MGaugeFrontCSS = CSSMan.new([[ 
+	 background-color: QLinearGradient(x1: 0, y1: 0, x2: 0, y2: 1,stop:0 rgba(160,240,250,180), stop:.5 rgba(0,105,225,160), stop:.51 rgba(0,85,110,160), stop:1 rgba(60,180,210,180));
+    border-width: 1px;
+    border-color: rgba(0,0,0,200);
+    border-style: solid;
+	 margin: 1px 0;
+ ]])
+
+GUI.HGaugeFrontCSS = CSSMan.new([[ 
+	 background-color: QLinearGradient(x1: 0, y1: 0, x2: 0, y2: 1,stop:0 rgba(250,160,160,180), stop:.5 rgba(255,0,0,160), stop:.51 rgba(160,0,0,160), stop:1 rgba(210,60,60,180));
+    border-width: 1px;
+    border-color: rgba(0,0,0,200);
+    border-style: solid;
+	 margin: 1px 0;
+ ]])
+
+GUI.OGaugeFrontCSS = CSSMan.new([[ 
+	 background-color: QLinearGradient(x1: 0, y1: 0, x2: 0, y2: 1,stop:.0 #487200, stop:0 #fed19a, stop:.5 #b16201, stop:.51 #8e4e00, stop:1 #fd991f);
+    border-width: 1px;
+    border-color: rgba(0,0,0,200);
+    border-style: solid;
+	 font-weight: bold;
+	 margin: 1px 0;
+ ]])
+
+GUI.GaugeFoodFrontCSS = CSSMan.new([[
+	background-color: QLinearGradient(x1: 0, y1: 0, x2: 1, y2: 0,stop:0 rgba(220,180,100,180), stop:.5 rgba(155,100,0,220), stop:.51 rgba(120,80,0,250), stop:1 rgba(180,150,60,180));
+	border-width: 1px;
+   border-color: rgba(0,0,0,140);
+   border-style: solid;
+	margin: 2px;
+]])
+
+GUI.GaugeFoodBackCSS = CSSMan.new([[
+   background-color: QLinearGradient(x1: 0, y1: 0, x2: 1, y2: 0,stop:0 rgba(250,250,250,0), stop:.5 rgba(250,250,250,80), stop:.51 rgba(250,250,250,100), stop:1 rgba(250,250,250,0));
+	border-width: 1px;
+   border-color: rgba(0,0,0,140);
+   border-style: solid;
+   margin: 2px;
+]])
+
+--BOXES--
+
+GUI.Vitals = Geyser.HBox:new({
+  name = &quot;GUI.Vitals&quot;,
+  x = 75, y = -93,
+  width = 450,
+  height = 50,
+},GUI.Bottom)
+
+GUI.VitalsIcons = Geyser.VBox:new({
+	name = &quot;GUI.VitalsIcons&quot;;
+	width = 16,
+	height = 50,
+	h_stretch_factor = 2.4,
+}, GUI.Vitals)
+
+GUI.VitalsLeftEnd = Geyser.VBox:new({
+	name = &quot;GUI.VitalsLeftEnd&quot;;
+	width = 8,
+	height = 50,
+	h_stretch_factor = 0.8,
+}, GUI.Vitals)
+
+GUI.VitalsGauges = Geyser.VBox:new({
+	name = &quot;GUI.VitalsGauges&quot;;
+   h_stretch_factor = 41,
+},GUI.Vitals)
+
+GUI.VitalsRightEnd = Geyser.VBox:new({
+	name = &quot;GUI.VitalsRightEnd&quot;;
+	width = 8,
+	height = 50,
+	h_stretch_factor = 0.8,
+}, GUI.Vitals)
+
+--DISPLAY--
+
+GUI.ManaLabel = Geyser.Label:new({
+  name = &quot;GUI.ManaLabel&quot;,
+  width = 16,
+  height = 16,
+  h_policy=Geyser.Fixed,
+  v_policy=Geyser.Fixed,
+},GUI.VitalsIcons)
+GUI.ManaLabel:setStyleSheet([[background-image : url(]] .. ms_path .. [[/images/layout/manaicon.png)]]);
+
+GUI.LeftEnd = Geyser.Label:new({
+  name = &quot;GUI.LeftEnd&quot;,
+  width = 8,
+  height = 16,
+},GUI.VitalsLeftEnd)
+GUI.LeftEnd:setStyleSheet([[background-image : url(]] .. ms_path .. [[/images/layout/barend.png)]]);
+
+GUI.Mana = Geyser.Gauge:new({
+  name = &quot;GUI.Mana&quot;,
+},GUI.VitalsGauges)
+GUI.Mana.back:setStyleSheet(GUI.MGaugeBackCSS:getCSS())
+GUI.Mana.front:setStyleSheet(GUI.MGaugeFrontCSS:getCSS())
+
+GUI.RightEnd = Geyser.Label:new({
+  name = &quot;GUI.RightEnd&quot;,
+  width = 8,
+  height = 16,
+},GUI.VitalsRightEnd)
+GUI.RightEnd:setStyleSheet([[background-image : url(]] .. ms_path .. [[/images/layout/barend.png) no-repeat]]);
+
+GUI.HealthLabel = Geyser.Label:new({
+  name = &quot;GUI.HealthLabel&quot;,
+  width = 16,
+  height = 16,
+  h_policy=Geyser.Fixed,
+  v_policy=Geyser.Fixed,
+},GUI.VitalsIcons)
+GUI.HealthLabel:setStyleSheet([[background-image : url(]] .. ms_path .. [[/images/layout/healthicon.png)]]);
+
+GUI.Health = Geyser.Gauge:new({
+  name = &quot;GUI.Health&quot;,
+  x = 0, y = 15,
+  width = 700,
+  height = 15,
+},GUI.VitalsGauges)
+GUI.Health.back:setStyleSheet(GUI.HGaugeBackCSS:getCSS())
+GUI.Health.front:setStyleSheet(GUI.HGaugeFrontCSS:getCSS())
+
+GUI.OpponentLabel = Geyser.Label:new({
+  name = &quot;GUI.OpponentLabel&quot;,
+  width = 16,
+  height = 16,
+  h_policy=Geyser.Fixed,
+  v_policy=Geyser.Fixed,
+},GUI.VitalsIcons)
+GUI.OpponentLabel:setStyleSheet([[border-image : url(]] .. ms_path .. [[/images/layout/opponenticon.png)]]);
+
+GUI.Opponent = Geyser.Gauge:new({
+  name = &quot;GUI.Opponent&quot;,
+  x = 0, y = 30,
+  width = 700,
+  height = 15,
+},GUI.VitalsGauges)
+GUI.Opponent.back:setStyleSheet(GUI.OGaugeBackCSS:getCSS())
+GUI.Opponent.front:setStyleSheet(GUI.OGaugeFrontCSS:getCSS())
+
+GUI.VitalsLabel = Geyser.Label:new({
+  name = &quot;GUI.VitalsLabel&quot;,
+  x = 75, y = -93,
+  width = 600,
+  height = 50,
+},GUI.Bottom)
+GUI.VitalsLabel:setStyleSheet([[background-color: transparent]])
+setLabelOnEnter(&quot;GUI.VitalsLabel&quot;,&quot;gui_help&quot;,&quot;vitals&quot;)
+
+--INTOXICATION, FOOD, SOAKEDNESS--
+
+GUI.FoodGaugesLabel = Geyser.Label:new({
+  name = &quot;GUI.FoodGaugesLabel&quot;,
+  x = 531, y = -107,
+  width = 63,
+  height = 100,
+},GUI.Bottom)
+GUI.FoodGaugesLabel:setStyleSheet([[background-image : url(]] .. ms_path .. [[/images/layout/drinkgauges-bg.png)]])
+setLabelOnEnter(&quot;GUI.FoodGaugesLabel&quot;,&quot;gui_help&quot;,&quot;foodgauges&quot;)
+
+GUI.FoodGauges = Geyser.HBox:new({
+  name = &quot;GUI.FoodGauges&quot;,
+  x = 4, y = 8,
+  width = 55,
+  height = 82,
+},GUI.FoodGaugesLabel)
+
+GUI.Intox = Geyser.Gauge:new({
+  name = &quot;GUI.Intox&quot;,
+  x = 2, y = -80,
+  orientation = &quot;vertical&quot;,
+},GUI.FoodGauges)
+GUI.Intox.back:setStyleSheet(GUI.GaugeFoodBackCSS:getCSS())
+GUI.Intox.front:setStyleSheet(GUI.GaugeFoodFrontCSS:getCSS())
+
+GUI.Stuffed = Geyser.Gauge:new({
+  name = &quot;GUI.Stuffed&quot;,
+  x = 18, y = -80,
+  orientation = &quot;vertical&quot;,
+},GUI.FoodGauges)
+GUI.Stuffed.back:setStyleSheet(GUI.GaugeFoodBackCSS:getCSS())
+GUI.Stuffed.front:setStyleSheet(GUI.GaugeFoodFrontCSS:getCSS())
+
+GUI.Soaked = Geyser.Gauge:new({
+  name = &quot;GUI.Soaked&quot;,
+  x = 34, y = -80,
+  orientation = &quot;vertical&quot;,
+},GUI.FoodGauges)
+GUI.Soaked.back:setStyleSheet(GUI.GaugeFoodBackCSS:getCSS())
+GUI.Soaked.front:setStyleSheet(GUI.GaugeFoodFrontCSS:getCSS())
+
+--Align indicator--
+
+GUI.Align = Geyser.Label:new({
+  name = &quot;GUI.Align&quot;,
+  x = 15, y = -95,
+  width = 55,
+  height = 50,
+},GUI.Bottom)
+
+GUI.AlignGem = Geyser.Label:new({
+  name = &quot;GUI.AlignGem&quot;,
+  x = 15, y = -95,
+  width = 55,
+  height = 55,
+},GUI.Bottom)
+GUI.AlignGem:setStyleSheet([[background-image : url(]] .. ms_path .. [[/images/layout/align-gem.png)]]);
+setLabelOnEnter(&quot;GUI.AlignGem&quot;,&quot;gui_help&quot;,&quot;alignment&quot;)
+
+--wimpy--
+
+GUI.Wimpy = Geyser.VBox:new({
+  name = &quot;Wimpy&quot;;
+  x = 8, y = -54,
+  width = 60,
+  height = 50,
+},GUI.Bottom)
+
+GUI.WimpyIcon = Geyser.Label:new({
+  name = &quot;GUI.WimpyIcon&quot;,
+  x = 5, y = 0,
+  width = 16,
+  height = 16,
+  h_policy=Geyser.Fixed,
+  v_policy=Geyser.Fixed,
+},GUI.Wimpy)
+GUI.WimpyIcon:setStyleSheet([[background-image : url(]] .. ms_path .. [[/images/layout/wimpyicon.png)]]);
+setLabelOnEnter(&quot;GUI.WimpyIcon&quot;,&quot;gui_help&quot;,&quot;wimpy&quot;)
+
+GUI.WimpyStatus = Geyser.Label:new({
+  name = &quot;GUI.WimpyStatus&quot;,
+  width = 60,
+  height = 14,
+  h_policy=Geyser.Fixed,
+  v_policy=Geyser.Fixed,
+},GUI.Wimpy)
+GUI.WimpyStatus:setStyleSheet([[qproperty-alignment: &quot;AlignCenter&quot;; font-family: Tahoma, Geneva, sans-serif; background-color: transparent;]])
+setLabelOnEnter(&quot;GUI.WimpyStatus&quot;,&quot;gui_help&quot;,&quot;wimpy&quot;)
+
+GUI.WimpyDir = Geyser.Label:new({
+  name = &quot;GUI.WimpyDir&quot;,
+  width = 60,
+  height = 14,
+  h_policy=Geyser.Fixed,
+  v_policy=Geyser.Fixed,
+},GUI.Wimpy)
+GUI.WimpyDir:setStyleSheet([[qproperty-alignment: &quot;AlignCenter&quot;; font-family: Tahoma, Geneva, sans-serif; background-color: transparent;]])
+setLabelOnEnter(&quot;GUI.WimpyDir&quot;,&quot;gui_help&quot;,&quot;wimpy&quot;)
+
+GUI.WimpyDot = Geyser.Label:new({
+  name = &quot;GUI.WimpyDot&quot;,
+  x = &quot;50%&quot;, y = &quot;30%&quot;,
+  width = 2,
+  height = 8,
+},GUI.Health)
+GUI.WimpyDot:setStyleSheet([[background-color: rgba(220,220,120,100);]]);
+GUI.WimpyDot:hide()
+</script>
+                            <eventHandlerList/>
+                        </Script>
+                        <Script isActive="yes" isFolder="no">
+                            <name>Effects</name>
+                            <packageName></packageName>
+                            <script>--CSS--
+
+GUI.GaugeTimerFrontCSS = CSSMan.new([[
+   background-color: rgba(20,20,20,160);
+	border-width: 1px;
+	border-color: rgba(30,30,30,140);
+	border-style: solid;
+]])
+
+--BOXES--
+
+GUI.EffectIcons = Geyser.HBox:new({
+  name = &quot;GUI.EffectIcons&quot;,
+  x = 55, y = 2,
+  width = 600,
+  height = 45,
+},GUI.Bottom)
+
+GUI.EffectOverlays = Geyser.HBox:new({
+  name = &quot;GUI.EffectOverlays&quot;,
+  x = 55, y = 2,
+  width = 600,
+  height = 45,
+},GUI.Bottom)
+
+GUI.Timers = Geyser.HBox:new({
+  name = &quot;GUI.Timers&quot;,
+  x = 55, y = 2,
+  width = 600,
+  height = 45,
+},GUI.Bottom)
+GUI.Timers:hide()
+
+--DISPLAY--
+--the layout can hold 11 icons in a row
+
+GUI.EffectIcon1 = Geyser.Label:new({
+  name = &quot;GUI.EffectIcon1&quot;,
+  x=0, y=0,
+  width = 42,
+  height = 42,
+  h_policy=Geyser.Fixed,
+  v_policy=Geyser.Fixed,
+},GUI.EffectIcons)
+GUI.EffectIcon1:setStyleSheet([[background-color: transparent]])
+
+GUI.EffectIcon2 = Geyser.Label:new({
+  name = &quot;GUI.EffectIcon2&quot;,
+  width = 42,
+  height = 42,
+  h_policy=Geyser.Fixed,
+  v_policy=Geyser.Fixed,
+},GUI.EffectIcons)
+GUI.EffectIcon2:setStyleSheet([[background-color: transparent]])
+
+GUI.EffectIcon3 = Geyser.Label:new({
+  name = &quot;GUI.EffectIcon3&quot;,
+  width = 42,
+  height = 42,
+  h_policy=Geyser.Fixed,
+  v_policy=Geyser.Fixed,
+},GUI.EffectIcons)
+GUI.EffectIcon3:setStyleSheet([[background-color: transparent]])
+
+GUI.EffectIcon4 = Geyser.Label:new({
+  name = &quot;GUI.EffectIcon4&quot;,
+  width = 42,
+  height = 42,
+  h_policy=Geyser.Fixed,
+  v_policy=Geyser.Fixed,
+},GUI.EffectIcons)
+GUI.EffectIcon4:setStyleSheet([[background-color: transparent]])
+
+GUI.EffectIcon5 = Geyser.Label:new({
+  name = &quot;GUI.EffectIcon5&quot;,
+  width = 42,
+  height = 42,
+  h_policy=Geyser.Fixed,
+  v_policy=Geyser.Fixed,
+},GUI.EffectIcons)
+GUI.EffectIcon5:setStyleSheet([[background-color: transparent]])
+
+GUI.EffectIcon6 = Geyser.Label:new({
+  name = &quot;GUI.EffectIcon6&quot;,
+  width = 42,
+  height = 42,
+  h_policy=Geyser.Fixed,
+  v_policy=Geyser.Fixed,
+},GUI.EffectIcons)
+GUI.EffectIcon6:setStyleSheet([[background-color: transparent]])
+
+GUI.EffectIcon7 = Geyser.Label:new({
+  name = &quot;GUI.EffectIcon7&quot;,
+  width = 42,
+  height = 42,
+  h_policy=Geyser.Fixed,
+  v_policy=Geyser.Fixed,
+},GUI.EffectIcons)
+GUI.EffectIcon7:setStyleSheet([[background-color: transparent]])
+
+GUI.EffectIcon8 = Geyser.Label:new({
+  name = &quot;GUI.EffectIcon8&quot;,
+  width = 42,
+  height = 42,
+  h_policy=Geyser.Fixed,
+  v_policy=Geyser.Fixed,
+},GUI.EffectIcons)
+GUI.EffectIcon8:setStyleSheet([[background-color: transparent]])
+
+GUI.EffectIcon9 = Geyser.Label:new({
+  name = &quot;GUI.EffectIcon9&quot;,
+  width = 42,
+  height = 42,
+  h_policy=Geyser.Fixed,
+  v_policy=Geyser.Fixed,
+},GUI.EffectIcons)
+GUI.EffectIcon9:setStyleSheet([[background-color: transparent]])
+
+GUI.EffectIcon10 = Geyser.Label:new({
+  name = &quot;GUI.EffectIcon10&quot;,
+  width = 42,
+  height = 42,
+  h_policy=Geyser.Fixed,
+  v_policy=Geyser.Fixed,
+},GUI.EffectIcons)
+GUI.EffectIcon10:setStyleSheet([[background-color: transparent]])
+
+GUI.EffectIcon11 = Geyser.Label:new({
+  name = &quot;GUI.EffectIcon11&quot;,
+  width = 42,
+  height = 42,
+  h_policy=Geyser.Fixed,
+  v_policy=Geyser.Fixed,
+},GUI.EffectIcons)
+GUI.EffectIcon11:setStyleSheet([[background-color: transparent]])
+
+--transparent gauge overlay as timer
+
+GUI.EffectTimer = Geyser.Gauge:new({
+  name = &quot;GUI.EffectTimer&quot;,
+--  x = -82, y = 232,
+  width = 42,
+  height = 42,
+  h_policy=Geyser.Fixed,
+  v_policy=Geyser.Fixed,
+  orientation = &quot;vertical&quot;,
+},GUI.Timers)
+GUI.EffectTimer.back:setStyleSheet([[background-color: transparent;]])
+GUI.EffectTimer.front:setStyleSheet(GUI.GaugeTimerFrontCSS:getCSS())
+GUI.EffectTimer:setValue(40,100)
+GUI.EffectTimer:hide()
+
+--Overlay for glass effect--
+
+GUI.EffectOver1ay1 = Geyser.Label:new({
+  name = &quot;GUI.EffectOver1ay1&quot;,
+  x=0, y=0,
+  width = 42,
+  height = 42,
+  h_policy=Geyser.Fixed,
+  v_policy=Geyser.Fixed,
+},GUI.EffectOverlays)
+GUI.EffectOver1ay1:setStyleSheet([[background-image : url(]] .. ms_path .. [[/images/layout/iconoverlay.png)]])
+GUI.EffectOver1ay1:hide()
+
+GUI.EffectOver1ay2 = Geyser.Label:new({
+  name = &quot;GUI.EffectOver1ay2&quot;,
+  width = 42,
+  height = 42,
+  h_policy=Geyser.Fixed,
+  v_policy=Geyser.Fixed,
+},GUI.EffectOverlays)
+GUI.EffectOver1ay2:setStyleSheet([[background-image : url(]] .. ms_path .. [[/images/layout/iconoverlay.png)]])
+GUI.EffectOver1ay2:hide()
+
+GUI.EffectOver1ay3 = Geyser.Label:new({
+  name = &quot;GUI.EffectOver1ay3&quot;,
+  width = 42,
+  height = 42,
+  h_policy=Geyser.Fixed,
+  v_policy=Geyser.Fixed,
+},GUI.EffectOverlays)
+GUI.EffectOver1ay3:setStyleSheet([[background-image : url(]] .. ms_path .. [[/images/layout/iconoverlay.png)]])
+GUI.EffectOver1ay3:hide()
+
+GUI.EffectOver1ay4 = Geyser.Label:new({
+  name = &quot;GUI.EffectOver1ay4&quot;,
+  width = 42,
+  height = 42,
+  h_policy=Geyser.Fixed,
+  v_policy=Geyser.Fixed,
+},GUI.EffectOverlays)
+GUI.EffectOver1ay4:setStyleSheet([[background-image : url(]] .. ms_path .. [[/images/layout/iconoverlay.png)]])
+GUI.EffectOver1ay4:hide()
+
+GUI.EffectOver1ay5 = Geyser.Label:new({
+  name = &quot;GUI.EffectOver1ay5&quot;,
+  width = 42,
+  height = 42,
+  h_policy=Geyser.Fixed,
+  v_policy=Geyser.Fixed,
+},GUI.EffectOverlays)
+GUI.EffectOver1ay5:setStyleSheet([[background-image : url(]] .. ms_path .. [[/images/layout/iconoverlay.png)]])
+GUI.EffectOver1ay5:hide()
+
+GUI.EffectOver1ay6 = Geyser.Label:new({
+  name = &quot;GUI.EffectOver1ay6&quot;,
+  width = 42,
+  height = 42,
+  h_policy=Geyser.Fixed,
+  v_policy=Geyser.Fixed,
+},GUI.EffectOverlays)
+GUI.EffectOver1ay6:setStyleSheet([[background-image : url(]] .. ms_path .. [[/images/layout/iconoverlay.png)]])
+GUI.EffectOver1ay6:hide()
+
+GUI.EffectOver1ay7 = Geyser.Label:new({
+  name = &quot;GUI.EffectOver1ay7&quot;,
+  width = 42,
+  height = 42,
+  h_policy=Geyser.Fixed,
+  v_policy=Geyser.Fixed,
+},GUI.EffectOverlays)
+GUI.EffectOver1ay7:setStyleSheet([[background-image : url(]] .. ms_path .. [[/images/layout/iconoverlay.png)]])
+GUI.EffectOver1ay7:hide()
+
+GUI.EffectOver1ay8 = Geyser.Label:new({
+  name = &quot;GUI.EffectOver1ay8&quot;,
+  width = 42,
+  height = 42,
+  h_policy=Geyser.Fixed,
+  v_policy=Geyser.Fixed,
+},GUI.EffectOverlays)
+GUI.EffectOver1ay8:setStyleSheet([[background-image : url(]] .. ms_path .. [[/images/layout/iconoverlay.png)]])
+GUI.EffectOver1ay8:hide()
+
+GUI.EffectOver1ay9 = Geyser.Label:new({
+  name = &quot;GUI.EffectOver1ay9&quot;,
+  width = 42,
+  height = 42,
+  h_policy=Geyser.Fixed,
+  v_policy=Geyser.Fixed,
+},GUI.EffectOverlays)
+GUI.EffectOver1ay9:setStyleSheet([[background-image : url(]] .. ms_path .. [[/images/layout/iconoverlay.png)]])
+GUI.EffectOver1ay9:hide()
+
+GUI.EffectOver1ay10 = Geyser.Label:new({
+  name = &quot;GUI.EffectOver1ay10&quot;,
+  width = 42,
+  height = 42,
+  h_policy=Geyser.Fixed,
+  v_policy=Geyser.Fixed,
+},GUI.EffectOverlays)
+GUI.EffectOver1ay10:setStyleSheet([[background-image : url(]] .. ms_path .. [[/images/layout/iconoverlay.png)]])
+GUI.EffectOver1ay10:hide()
+
+GUI.EffectOver1ay11 = Geyser.Label:new({
+  name = &quot;GUI.EffectOver1ay11&quot;,
+  width = 42,
+  height = 42,
+  h_policy=Geyser.Fixed,
+  v_policy=Geyser.Fixed,
+},GUI.EffectOverlays)
+GUI.EffectOver1ay11:setStyleSheet([[background-image : url(]] .. ms_path .. [[/images/layout/iconoverlay.png)]])
+GUI.EffectOver1ay11:hide()
+</script>
+                            <eventHandlerList/>
+                        </Script>
+                        <Script isActive="yes" isFolder="no">
+                            <name>Inventory</name>
+                            <packageName></packageName>
+                            <script>-- CSS --
+
+GUI.GaugeBurdenFrontCSS = CSSMan.new([[
+	background-color: #571113;
+   margin: 2px;
+]])
+
+GUI.GaugeBurdenBackCSS = CSSMan.new([[
+	background-color: rgba(163,207,216,30);
+   margin: 2px;
+]])
+
+-- DISPLAY --
+
+GUI.RightInv = Geyser.Label:new({
+  name = &quot;GUI.RightInv&quot;,
+  x = 0, y = 0,
+  width = 380,
+  height = 396,
+},GUI.Right)
+GUI.RightInv:setStyleSheet([[background-image : url(]] .. ms_path .. [[/images/layout/invbg.png);]]);
+setLabelOnEnter(&quot;GUI.RightInv&quot;,&quot;gui_help&quot;,&quot;inventory&quot;)
+
+--BURDEN GAUGE--
+
+GUI.BurdenLabel = Geyser.Label:new({
+  name = &quot;GUI.BurdenLabel&quot;,
+  x = 9, y = -26,
+  width = 362,
+  height = 15,
+},GUI.RightInv )
+GUI.BurdenLabel:setStyleSheet([[background-color: transparent]])
+setLabelOnEnter(&quot;GUI.BurdenLabel&quot;,&quot;gui_help&quot;,&quot;burden&quot;)
+
+GUI.Burden = Geyser.Gauge:new({
+  name = &quot;GUI.Burden&quot;,
+  x = 12, y = -24,
+  width = 357,
+  height = 11,
+},GUI.RightInv )
+GUI.Burden.back:setStyleSheet(GUI.GaugeBurdenBackCSS:getCSS())
+GUI.Burden.front:setStyleSheet(GUI.GaugeBurdenFrontCSS:getCSS())
+
+--MONEY--
+
+GUI.RightMoney = Geyser.Label:new({
+  name = &quot;GUI.RightMoney&quot;,
+  x = 35, y = 400,
+  width = 350,
+  height = 84,
+},GUI.RightInv)
+GUI.RightMoney:setStyleSheet([[background: no-repeat; background-image : url(]] .. ms_path .. [[/images/layout/coins.png)]]);
+setLabelOnEnter(&quot;GUI.RightMoney&quot;,&quot;gui_help&quot;,&quot;money&quot;)
+
+GUI.MoneyCount = Geyser.Label:new({
+  name = &quot;GUI.MoneyCount&quot;,
+  x = 100, y = 6,
+  width = 275,
+  height = 20,
+},GUI.RightMoney)
+GUI.MoneyCount:setStyleSheet([[font-family: Tahoma, Geneva, sans-serif; background-color: transparent]]);
+setLabelOnEnter(&quot;GUI.MoneyCount&quot;,&quot;gui_help&quot;,&quot;money&quot;)
+
+--collapse right icon--
+
+GUI.CollapseRIcon = Geyser.Label:new({
+  name = &quot;GUI.CollapseRIcon&quot;,
+  x = -398, y = -135,
+  width = 16,
+  height = 16,
+})
+GUI.CollapseRIcon:setStyleSheet([[background-color: #BCAA8C; background-image: url(]] .. ms_path .. [[/images/layout/expandicon.png)]])
+GUI.CollapseRIcon:setClickCallback(&quot;collapse_right&quot;)
+setLabelOnEnter(&quot;GUI.CollapseRIcon&quot;,&quot;gui_help&quot;,&quot;collapse&quot;)
+</script>
+                            <eventHandlerList/>
+                        </Script>
+                        <Script isActive="yes" isFolder="no">
+                            <name>Misc Info</name>
+                            <packageName></packageName>
+                            <script>--CSS--
+
+GUI.ExpGaugeBackCSS = CSSMan.new([[
+	 background-color: transparent;
+    border-width: 1px;
+    border-color: rgba(0,0,0,180);
+    border-style: solid;
+]])
+
+GUI.ExpGaugeFrontCSS = CSSMan.new([[ 
+	 background-color: QLinearGradient(x1: 0, y1: 0, x2: 0, y2: 1,stop:0 rgba(242,202,0,200), stop:.5 rgba(118,89,0,200), stop:.51 rgba(96,78,0,200), stop:1 rgba(162,135,0,200));
+    border-width: 1px;
+    border-color: rgba(0,0,0,180);
+    border-style: solid;
+]])
+
+--DISPLAY--
+
+--Exp--
+
+GUI.ExpLabel = Geyser.Label:new({
+  name = &quot;GUI.ExpLabel&quot;,
+  x = 52, y = -6,
+  width = 520,
+  height = 6,
+},GUI.Bottom)
+GUI.ExpLabel:setStyleSheet([[background-image : url(]] .. ms_path .. [[/images/layout/expgauge-bg.png)]]);
+setLabelOnEnter(&quot;GUI.ExpLabel&quot;,&quot;gui_help&quot;,&quot;experience&quot;)
+
+GUI.Exp = Geyser.Gauge:new({
+  name = &quot;GUI.Exp&quot;,
+  x = 10, y = 0,
+  width = 500,
+  height = 6,
+},GUI.ExpLabel)
+GUI.Exp.back:setStyleSheet(GUI.ExpGaugeBackCSS:getCSS())
+GUI.Exp.front:setStyleSheet(GUI.ExpGaugeFrontCSS:getCSS())
+
+GUI.ExpHalfway = Geyser.Label:new({
+  name = &quot;GUI.ExpHalfway&quot;,
+  x = 258, y = -5,
+  width = 4,
+  height = 4,
+},GUI.ExpLabel)
+GUI.ExpHalfway:setStyleSheet([[border-color: rgba(220,220,120,240); border-width: 1px; border-style: solid; border-radius: 2px;]]);</script>
+                            <eventHandlerList/>
+                        </Script>
+                        <Script isActive="yes" isFolder="no">
+                            <name>Who List</name>
+                            <packageName></packageName>
+                            <script>GUI.TabWhoCSS = CSSMan.new([[
+	border-width: 2px;
+   border-color: rgba(30,30,30,150);
+   border-style: solid;
+   border-radius: 6;
+	padding: 15px;
+	padding-left: 20px;
+	font-family: Tahoma, Geneva, sans-serif;
+	font-weight: bold;
+	qproperty-alignment: &quot;AlignTop | AlignLeft&quot;;
+   qproperty-wordWrap: true;
+   background-color: QLinearGradient(x1: 0, y1: 0, x2: 0, y2: 1,stop:0 rgba(230,250,250,130), stop:.055 rgba(30,30,30,255), stop:.97 rgba(20,20,20,255), stop:1 rgba(80,80,80,150));
+]])
+
+GUI.TabWho = Geyser.Label:new({
+  name = &quot;GUI.TabWho&quot;,
+  x = 4, y = 45,
+  width = 400,
+  height = 450,
+},GUI.Tabs)
+GUI.TabWho:setStyleSheet(GUI.TabWhoCSS:getCSS());
+GUI.TabWho:hide()</script>
+                            <eventHandlerList/>
+                        </Script>
+                        <Script isActive="yes" isFolder="no">
+                            <name>Quest Overview</name>
+                            <packageName></packageName>
+                            <script>GUI.TabQuestsCSS = CSSMan.new([[
+	border-width: 2px;
+   border-color: rgba(30,30,30,150);
+   border-style: solid;
+   border-radius: 6;
+	padding: 15px;
+	padding-left: 20px;
+	font-family: Tahoma, Geneva, sans-serif;
+	font-weight: bold;
+	qproperty-alignment: &quot;AlignTop | AlignLeft&quot;;
+   qproperty-wordWrap: true;
+   background-color: QLinearGradient(x1: 0, y1: 0, x2: 0, y2: 1,stop:0 rgba(230,250,250,130), stop:.055 rgba(30,30,30,255), stop:.97 rgba(20,20,20,255), stop:1 rgba(80,80,80,150));
+]])
+
+GUI.TabQuests = Geyser.Label:new({
+  name = &quot;GUI.TabQuests&quot;,
+  x = 4, y = 45,
+  width = 700,
+  height = 280,
+},GUI.Tabs)
+GUI.TabQuests:setStyleSheet(GUI.TabQuestsCSS:getCSS());
+GUI.TabQuests:echo(&quot;Not yet available.&quot;,&quot;#CCCC99&quot;,&quot;b10&quot;)
+GUI.TabQuests:hide()
+</script>
+                            <eventHandlerList/>
+                        </Script>
+                        <Script isActive="yes" isFolder="no">
+                            <name>Help</name>
+                            <packageName></packageName>
+                            <script>GUI.TabHelpCSS = CSSMan.new([[
+	border-width: 2px;
+   border-color: rgba(30,30,30,150);
+   border-style: solid;
+   border-radius: 6;
+	padding: 15px;
+	padding-left: 20px;
+	font-family: Tahoma, Geneva, sans-serif;
+	font-weight: bold;
+	qproperty-alignment: &quot;AlignTop | AlignLeft&quot;;
+   qproperty-wordWrap: true;
+   background-color: QLinearGradient(x1: 0, y1: 0, x2: 0, y2: 1,stop:0 rgba(230,250,250,130), stop:.1 rgba(30,30,30,255), stop:.93 rgba(20,20,20,255), stop:1 rgba(80,80,80,150));
+]])
+
+GUI.TabHelp = Geyser.Label:new({
+  name = &quot;GUI.TabHelp&quot;,
+  x = 4, y = 45,
+  width = 700,
+  height = 170,
+},GUI.Tabs)
+GUI.TabHelp:setStyleSheet(GUI.TabHelpCSS:getCSS());
+GUI.TabHelp:hide()
+setLabelOnEnter(&quot;GUI.TabHelp&quot;,&quot;gui_help&quot;,&quot;help&quot;)
+</script>
+                            <eventHandlerList/>
+                        </Script>
+                        <Script isActive="yes" isFolder="no">
+                            <name>info_function</name>
+                            <packageName></packageName>
+                            <script>
+
+function info_function()
+
+	if gmcp.Char.Info.name ~= nil then
+		GUI.PlayerName:echo(gmcp.Char.Info.name,&quot;brown&quot;,&quot;b12&quot;);
+
+		local avatar = lfs.attributes(ms_path .. [[/images/]] ..gmcp.Char.Info.name.. [[.png]])
+		if avatar == nil then
+			GUI.Avatar:setStyleSheet([[background-image : url(]] .. ms_path .. [[/images/Noavatar.png)]])
+		else
+			GUI.Avatar:setStyleSheet([[background-color: transparent; background-image : url(]] .. ms_path .. [[/images/]] ..gmcp.Char.Info.name.. [[.png)]]);			
+		end
+		setLabelOnEnter(&quot;GUI.Avatar&quot;,&quot;gui_help&quot;,&quot;avatar&quot;,gmcp.Char.Info.name)		
+
+		if gmcp.Char.Info.guild ~= nil then
+			local guild = lfs.attributes(ms_path .. [[/images/guilds/]] ..gmcp.Char.Info.guild.. [[/trinket.png]])
+			if guild ~= nil then
+				GUI.Guild:setStyleSheet([[background-image : url(]] .. ms_path .. [[/images/guilds/]] ..gmcp.Char.Info.guild.. [[/trinket.png)]]);
+				setLabelOnEnter(&quot;GUI.Guild&quot;,&quot;gui_help&quot;,&quot;guild&quot;)				
+			else
+				GUI.Guild:setStyleSheet([[background-color: transparent]])
+			end
+	   else
+			GUI.Guild:setStyleSheet([[background-color: transparent]])		
+		end
+		local a, b, c = 0, 0, 0
+		if tonumber(gmcp.Char.Info.level) &gt; 20 then
+			b = 1
+		end
+		if string.len(gmcp.Char.Info.lordroom) &gt; 0 then
+			a = 1
+		end
+		if tonumber(gmcp.Char.Info.level) &gt; 99 then
+			b = 0
+		end
+		GUI.Left0:setStyleSheet([[background-image : url(]] .. ms_path .. [[/images/layout/book-btm]] .. tostring(a) .. tostring(b) .. tostring(c) .. [[.png)]]);
+
+		GUI.PlayerLevel:echo([[Level ]] ..gmcp.Char.Info.level,&quot;black&quot;,&quot;b10&quot;)
+		GUI.PlayerTitle:echo(gmcp.Char.Info.title,&quot;black&quot;,&quot;b10&quot;)
+		GUI.PlayerStats:echo(gmcp.Char.Info.stats.str.. [[&lt;br/&gt;]]
+							   ..gmcp.Char.Info.stats.dex.. [[&lt;br/&gt;]]
+								..gmcp.Char.Info.stats.int.. [[&lt;br/&gt;]]
+								..gmcp.Char.Info.stats.con.. [[&lt;br/&gt;]]
+								..gmcp.Char.Info.stats.wis.. [[&lt;br/&gt;]]
+								..gmcp.Char.Info.stats.cha,&quot;black&quot;,&quot;10&quot;)
+		setLabelOnEnter(&quot;GUI.PlayerLevel&quot;,&quot;gui_help&quot;,&quot;stats&quot;)		
+		setLabelOnEnter(&quot;GUI.PlayerTitle&quot;,&quot;gui_help&quot;,&quot;stats&quot;)	
+		setLabelOnEnter(&quot;GUI.PlayerStats&quot;,&quot;gui_help&quot;,&quot;stats&quot;)		
+		if gmcp.Char.Wimpy ~= nil then
+			GUI.WimpyStatus:echo(gmcp.Char.Wimpy.setting,&quot;#999966&quot;,&quot;b8&quot;)
+			if gmcp.Char.Wimpy.direction ~= &quot;0&quot; then
+				GUI.WimpyDir:echo(gmcp.Char.Wimpy.direction,&quot;#999966&quot;,&quot;b8&quot;)
+			else
+				GUI.WimpyDir:echo(&quot;none&quot;,&quot;#999966&quot;,&quot;b8&quot;)
+			end
+		end
+
+	end
+
+end
+
+if gmcp.Char ~= nil and gmcp.Char.Info ~= nil then
+	info_function()
+end</script>
+                            <eventHandlerList>
+                                <string>gmcp.Char.Info</string>
+                                <string>gmcp.Char.Wimpy</string>
+                            </eventHandlerList>
+                        </Script>
+                        <Script isActive="yes" isFolder="no">
+                            <name>my_vitals_function</name>
+                            <packageName></packageName>
+                            <script>function my_vitals_function()
+
+current = 0
+red = 130
+green = 130
+blue = 130
+
+	if gmcp.Char.Vitals ~= nil then
+		if gmcp.Char.Vitals.HP ~= nil then
+			current = tonumber(gmcp.Char.Vitals.HP)
+			GUI.Health:setValue(current, 100)
+		end	
+
+		if gmcp.Char.Vitals.SP ~= nil then
+			current = tonumber(gmcp.Char.Vitals.SP)
+			GUI.Mana:setValue(current, 100)
+			-- Workaround for gauge bug, setValue(0,100)
+			if current == 0 then
+				GUI.Mana:hide()
+				GUI.Mana:show()
+			end
+		end	
+
+		if gmcp.Char.Vitals.Exp ~= nil then
+			current = tonumber(gmcp.Char.Vitals.Exp)
+			GUI.Exp:setValue(current, 100)
+			-- Workaround for gauge bug, setValue(0,100)
+			if current == 0 then
+				GUI.Exp:hide()
+				GUI.Exp:show()
+			end
+		end	
+
+		if gmcp.Char.Vitals.Intox ~= nil then
+			current = 1 + tonumber(gmcp.Char.Vitals.Intox) --we add 1 to get around mudlet's vertical gauges bug
+			GUI.Intox:setValue(current, 100)
+		end	
+
+		if gmcp.Char.Vitals.Stuffed ~= nil then
+			current = 1 + tonumber(gmcp.Char.Vitals.Stuffed) --we add 1 to get around mudlet's vertical gauges bug
+			GUI.Stuffed:setValue(current, 100)
+		end	
+
+		if gmcp.Char.Vitals.Soaked ~= nil then
+			current = 1 + tonumber(gmcp.Char.Vitals.Soaked) --we add 1 to get around mudlet's vertical gauges bug
+			GUI.Soaked:setValue(current, 100)
+		end	
+
+		if gmcp.Char.Vitals.Burden ~= nil then
+			current = tonumber(gmcp.Char.Vitals.Burden)
+			GUI.Burden:setValue(current, 100)
+		end	
+
+		if gmcp.Char.Vitals.Money ~= nil then
+			current = tonumber(gmcp.Char.Vitals.Money)
+			local out = [[You have ]] ..current.. [[ coins.]]
+			GUI.MoneyCount:echo(out,&quot;#999966&quot;,&quot;b10&quot;)
+		end	
+	end
+
+	if gmcp.Char.Opponent ~= nil then
+		if gmcp.Char.Opponent.HP ~= nil then
+			current = tonumber(gmcp.Char.Opponent.HP)
+			GUI.Opponent:setValue(current, 100, gmcp.Char.Opponent.short)
+		elseif gmcp.Char.Opponent.HP == 0 then
+			GUI.Opponent:setValue(0, 100)		
+		end	
+	end
+
+	if gmcp.Char.Align ~= nil and gmcp.Char.Align.value ~= nil then
+		current = tonumber(gmcp.Char.Align.value)
+		red = 155 + (current * 0.1)
+		green = 130 + (current * 0.12)
+		blue = 130 + (current * 0.07)
+		GUI.Align:setColor(red,green,blue,255)
+	end	
+
+	if gmcp.Char.Wimpy.percentage ~= nil then
+		if gmcp.Char.Wimpy.percentage ~= 0 then
+			local xpos = gmcp.Char.Wimpy.percentage
+			GUI.WimpyDot:move(xpos..&quot;%&quot;,&quot;30%&quot;)
+			GUI.WimpyDot:show()
+		end
+	end
+
+end
+
+if gmcp.Char ~= nil and (gmcp.Char.Align ~= nil or gmcp.Char.Opponent or gmcp.Vitals ~= mil) then
+	my_vitals_function()
+end
+
+if gmcp.Char ~= nil and gmcp.Char.Vitals ~= nil then
+	--We missed inventory, so resend.
+	sendGMCP(&quot;gmcp.Char.Vitals.Query&quot;)
+end</script>
+                            <eventHandlerList>
+                                <string>gmcp.Char.Vitals</string>
+                                <string>gmcp.Char.Opponent</string>
+                                <string>gmcp.Char.Align</string>
+                            </eventHandlerList>
+                        </Script>
+                        <Script isActive="yes" isFolder="no">
+                            <name>tab_menu</name>
+                            <packageName></packageName>
+                            <script>function tab_menu(clicked_tab)
+	if CURRENT_TAB ~= clicked_tab then
+		hideWindow(&quot;GUI.Tab&quot;..CURRENT_TAB)
+		clearWindow(&quot;GUI.Tab&quot;..CURRENT_TAB)
+		showWindow(&quot;GUI.Tab&quot;..clicked_tab)
+		setLabelStyleSheet(&quot;GUI.TabMenu&quot;..CURRENT_TAB, [[font-family: Tahoma, Geneva, sans-serif; background-repeat: no-repeat; background-image : url(]] .. ms_path .. [[/images/layout/tab.png)]])
+		setLabelStyleSheet(&quot;GUI.TabMenu&quot;..clicked_tab, [[font-family: Tahoma, Geneva, sans-serif; background-repeat: no-repeat; background-image : url(]] .. ms_path .. [[/images/layout/tab2.png)]])
+		raiseEvent(&quot;show_tab&quot;,clicked_tab)
+		raiseEvent(&quot;hide_tab&quot;,CURRENT_TAB)
+		CURRENT_TAB = clicked_tab
+	else
+		hideWindow(&quot;GUI.Tab&quot;..clicked_tab)
+		clearWindow(&quot;GUI.Tab&quot;..clicked_tab)
+		setLabelStyleSheet(&quot;GUI.TabMenu&quot;..clicked_tab, [[font-family: Tahoma, Geneva, sans-serif; background-repeat: no-repeat; background-image : url(]] .. ms_path .. [[/images/layout/tab.png)]])
+		raiseEvent(&quot;hide_tab&quot;,clicked_tab)
+		CURRENT_TAB = &quot;&quot;
+	end
+end  
+</script>
+                            <eventHandlerList/>
+                        </Script>
+                        <Script isActive="yes" isFolder="no">
+                            <name>Channel Console</name>
+                            <packageName></packageName>
+                            <script>GUI.TabChannelsCSS = CSSMan.new([[
+	border-width: 2px;
+   border-color: rgba(30,30,30,150);
+   border-style: solid;
+   border-radius: 6;
+	padding: 15px;
+	padding-left: 20px;
+	font-family: Tahoma, Geneva, sans-serif;
+	font-weight: bold;
+	qproperty-alignment: &quot;AlignTop | AlignLeft&quot;;
+   qproperty-wordWrap: true;
+   background-color: QLinearGradient(x1: 0, y1: 0, x2: 0, y2: 1,stop:0 rgba(230,250,250,130), stop:.055 rgba(30,30,30,255), stop:.97 rgba(20,20,20,255), stop:1 rgba(80,80,80,150));
+]])
+
+GUI.ChannelsBtnCSS = CSSMan.new([[
+	padding: 0 5px;
+	font-family: Tahoma, Geneva, sans-serif;
+	font-weight: bold;
+	border-width: 2px;
+	border-color: #666666;
+	border-style: solid;
+	border-radius: 6;
+	background-color: #003300;
+]])
+
+GUI.ChannelsBtnSelectedCSS = CSSMan.new([[
+	padding: 0 5px;
+	font-family: Tahoma, Geneva, sans-serif;
+	font-weight: bold;
+	border-width: 2px;
+	border-color: #888888;
+	border-style: solid;
+	border-radius: 6;
+	background-color: #005300;
+]])
+
+USE_CHANNEL_DRAG = false
+if getMudletVersion ~= nil and (getMudletVersion(&quot;major&quot;) &gt; 3 or (getMudletVersion(&quot;major&quot;) == 3 and getMudletVersion(&quot;minor&quot;) == 1)) then
+	USE_CHANNEL_DRAG = true
+end
+
+if MS_VARS ~= nil and MS_VARS.TAB_CHANNEL_HEIGHT ~= nil then
+	TAB_CHANNEL_HEIGHT = MS_VARS.TAB_CHANNEL_HEIGHT or 579
+else
+	TAB_CHANNEL_HEIGHT = TAB_CHANNEL_HEIGHT or 579
+end
+
+GUI.TabChannels = Geyser.Label:new({
+  name = &quot;GUI.TabChannels&quot;,
+  x = 4, y = 45,
+  width = 700,
+  height = TAB_CHANNEL_HEIGHT,
+},GUI.Tabs)
+GUI.TabChannels:setStyleSheet(GUI.TabChannelsCSS:getCSS());
+GUI.TabChannels:hide()
+
+if USE_CHANNEL_DRAG then
+	GUI.ChannelsDrag = Geyser.Label:new({
+		name = &quot;GUI.ChannelsDrag&quot;,
+		x = 335, y = TAB_CHANNEL_HEIGHT - 10,
+		width = 18, height = 5
+	}, GUI.TabChannels)
+	GUI.ChannelsDrag:setStyleSheet([[background-image : url(]] .. ms_path .. [[/images/layout/draghrz.png);]]);
+	GUI.ChannelsDrag:show()
+	GUI.ChannelsDrag:setClickCallback(&quot;channels_drag_click&quot;)
+end
+GUI.TabChannels:hide()</script>
+                            <eventHandlerList/>
+                        </Script>
+                        <Script isActive="yes" isFolder="no">
+                            <name>channel_functions</name>
+                            <packageName></packageName>
+                            <script>channels = channels or {}
+GUI.Channels = GUI.Channels or {}
+GUI.ChannelsConsole = GUI.ChannelsConsole or {}
+nr_of_channels = nr_of_channels or 0
+current_channel = nil
+marked_lines = marked_lines or {}
+
+--
+-- Mark functions.
+--
+function add_mark(name)
+	if marked_lines[name] ~= nil then
+		return
+	end
+	moveCursorEnd([[GUI.ChannelsConsole.]] .. name)
+	marked_lines[name] = getLineNumber([[GUI.ChannelsConsole.]] .. name)
+	GUI.ChannelsConsole[name]:cecho(&quot;&lt;red&gt;-----------------------------------  &quot; .. os.date(&quot;%H:%M&quot;) .. &quot;  -----------------------------------\n&quot;)
+	GUI.Channels[name]:echo([[&lt;center&gt;]] .. name .. [[&lt;/center&gt;]],&quot;#FFFFE2&quot;,&quot;b8&quot;)
+	GUI.TabMenuChannels:echo(&quot;Channels*&quot;,&quot;#575747&quot;,&quot;cb11&quot;)
+end
+
+function remove_mark(name)
+	if marked_lines[name] == nil then
+		return
+	end
+	moveCursor([[GUI.ChannelsConsole.]] .. name, 0, marked_lines[name])
+	deleteLine([[GUI.ChannelsConsole.]] .. name)
+	moveCursorEnd([[GUI.ChannelsConsole.]] .. name)
+	GUI.Channels[name]:echo([[&lt;center&gt;]] .. name .. [[&lt;/center&gt;]],&quot;#999966&quot;,&quot;b8&quot;)
+	marked_lines[name] = nil
+end
+
+--
+-- Add text to a channel.
+--
+function add_text(name, text)
+	-- Filter out some channels.
+	if name == &quot;say&quot; then
+		-- Dont show say
+		return
+	end
+
+	-- Add channel if it is new.
+	if channels[name] == nil then
+		add_channel(name)
+		GUI.TabMenuChannels:echo(&quot;Channels*&quot;,&quot;#575747&quot;,&quot;cb11&quot;)
+	end
+
+	-- Mark Channel as unread if needed.
+	if CURRENT_TAB ~= &quot;Channels&quot; or (current_channel ~= name and current_channel ~= &quot;All&quot;) then
+		add_mark(name)
+		add_mark(&quot;All&quot;)
+	end
+
+	-- And at last add the text itself.
+	text = ansi2decho(text:gsub(&quot;\\u001b&quot;, &quot;\027&quot;))
+	decho([[GUI.ChannelsConsole.]] .. name, text)
+	decho([[GUI.ChannelsConsole.All]], text)
+end
+
+--
+-- Select proper channel in the Channel tab.
+---
+function select_channel(name)
+	-- Update the current channel, remove marks, etc.
+	if current_channel ~= nil then
+		GUI.Channels[current_channel]:setStyleSheet(GUI.ChannelsBtnCSS:getCSS())
+		GUI.ChannelsConsole[current_channel]:hide()
+		remove_mark(current_channel)
+	end
+
+	-- If we show 'All' remove marks on other channels.
+	if name == &quot;All&quot; then
+		for n in pairs(marked_lines) do
+			if n ~= &quot;All&quot; then
+				remove_mark(n)
+			end
+		end
+	end
+
+	-- Change style of button to highlight it and show console, remove start.
+	GUI.Channels[name]:setStyleSheet(GUI.ChannelsBtnSelectedCSS:getCSS())
+	GUI.ChannelsConsole[name]:show()
+	if marked_lines[name] ~= nil then
+		GUI.Channels[name]:echo([[&lt;center&gt;]] .. name .. [[&lt;/center&gt;]],&quot;#999966&quot;,&quot;b8&quot;)
+	end
+
+	current_channel = name
+end
+
+--
+-- Add a new channel to the tab.
+--
+function add_channel(name)
+	local ystart
+
+	if channels[name] ~= nil then
+		-- Already exists so nothing to do.
+		return;
+	end
+
+	ystart = 16 + math.floor(nr_of_channels / 9) * 25
+
+	-- If we start a new row of buttons, resize and move all consoles
+	if nr_of_channels &gt; 0 and (nr_of_channels % 9) == 0 then
+		for n in pairs(channels) do
+			GUI.ChannelsConsole[n]:move(14, ystart + 25)
+			GUI.ChannelsConsole[n]:resize(672, TAB_CHANNEL_HEIGHT - ystart - 40)
+		end
+	end
+
+	-- Add Button.
+	channels[name] = {}
+	GUI.Channels[name] = Geyser.Label:new({
+		name = &quot;GUI.Channels.&quot; .. name,
+		x = 14 + (nr_of_channels % 9) * 74,
+		y = ystart,
+		width = 60,
+		height = 20,
+	},GUI.TabChannels)
+	GUI.Channels[name]:setStyleSheet(GUI.ChannelsBtnCSS:getCSS())
+	GUI.Channels[name]:echo([[&lt;center&gt;]] .. name .. [[&lt;/center&gt;]],&quot;#999966&quot;,&quot;b8&quot;)
+	GUI.Channels[name]:setClickCallback(&quot;select_channel&quot;, name)
+	GUI.Channels[name]:show()
+
+	-- Add the console window.
+	GUI.ChannelsConsole[name] = Geyser.MiniConsole:new({
+		name = &quot;GUI.ChannelsConsole.&quot; .. name,
+		x = 14, y = ystart + 25,
+		width = 672,
+		height = TAB_CHANNEL_HEIGHT - ystart - 40,
+	},GUI.TabChannels)
+	GUI.ChannelsConsole[name]:setWrap(80)
+	GUI.ChannelsConsole[name]:setColor(10,10,10)
+	GUI.ChannelsConsole[name]:setFontSize(10)
+	clearWindow(&quot;GUI.ChannelsConsole.&quot; .. name)
+	GUI.ChannelsConsole[name]:hide()
+
+	-- And Show the new channel if needed.
+	nr_of_channels = nr_of_channels + 1
+	if nr_of_channels == 1 then
+		select_channel(name)
+	end
+	if CURRENT_TAB ~= &quot;Channels&quot; then
+		GUI.TabChannels:hide()
+	end
+end
+
+--
+-- Call back funtion to show or hide the channel tab.
+--
+function show_channels_tab(event, tab)
+	if tab ~= &quot;Channels&quot; then
+		return
+	end
+	if event == &quot;show_tab&quot; then
+		GUI.TabChannels:show()
+		GUI.TabMenuChannels:echo(&quot;Channels&quot;,&quot;#575747&quot;,&quot;cb11&quot;)
+		GUI.Channels[current_channel]:echo([[&lt;center&gt;]] .. current_channel .. [[&lt;/center&gt;]],&quot;#999966&quot;,&quot;b8&quot;)
+
+		-- If we show 'All' channel, remove marks on all other channels, as they are shown in 'All' channel
+		if current_channel == &quot;All&quot; then
+			for n in pairs(marked_lines) do
+				if n ~= &quot;All&quot; then
+					remove_mark(n)
+				end
+			end
+		elseif marked_lines[&quot;All&quot;] ~= nil then
+			-- Check if only marked lines in this console, if so remove mark on All.
+			local remove_all = true
+			for n in pairs(marked_lines) do
+				if n ~= &quot;All&quot; and n ~= current_tab then
+					remove_all = false
+					break
+				end
+			end
+			if remove_all then
+				remove_mark(&quot;All&quot;)
+			end
+		end
+	elseif event == &quot;hide_tab&quot; then
+		-- Remove mark on the current tab.
+		if current_channel ~= nil then
+			remove_mark(current_channel)
+		end
+		-- Remove mark on All, if it is the only one marked.
+		local remove_all = true
+		for n in pairs(marked_lines) do
+			if n ~= &quot;All&quot; then
+				remove_all = false
+				break
+			end
+		end
+		if remove_all then
+			remove_mark(&quot;All&quot;)
+		end
+
+		GUI.TabChannels:hide()
+	end
+end
+
+--
+-- Drag functions. Used to resize channel window.
+--
+if USE_CHANNEL_DRAG then
+	-- Use only dragging for Mudlet 3.1.0
+	setLabelReleaseCallback(&quot;GUI.ChannelsDrag&quot;, &quot;channels_drag_release&quot;)
+end
+
+function drag_timer()
+	local x
+	local y
+	local ystart
+
+	ystart = 16 + math.floor((nr_of_channels- 1) / 9) * 25
+
+	x, y = getMousePosition()
+	TAB_CHANNEL_HEIGHT = y - 125 + 14
+	if TAB_CHANNEL_HEIGHT &lt; 150 then
+		TAB_CHANNEL_HEIGHT = 159
+	elseif TAB_CHANNEL_HEIGHT &gt; 579 then
+		TAB_CHANNEL_HEIGHT = 579
+	end
+	
+	GUI.ChannelsDrag:move(335, TAB_CHANNEL_HEIGHT - 10)
+	GUI.TabChannels:resize(700, TAB_CHANNEL_HEIGHT)
+
+	for n in pairs(channels) do
+		GUI.ChannelsConsole[n]:resize(675, TAB_CHANNEL_HEIGHT - ystart -40)
+	end
+	dragTimer = tempTimer(0.1, &quot;drag_timer()&quot;)
+end
+
+function channels_drag_click()
+	dragTimer = tempTimer(.1, &quot;drag_timer()&quot;)
+end
+
+function channels_drag_release()
+	killTimer(dragTimer)
+
+	-- Dragging done, now save height for later sessions.
+	MS_VARS.TAB_CHANNEL_HEIGHT = TAB_CHANNEL_HEIGHT
+	table.save(getMudletHomeDir() .. &quot;/MS-GUI_vars.lua&quot;, MS_VARS)
+end
+
+--
+-- The GMCP event function.
+--
+function channel_functions()
+	add_text(gmcp.Channels.Channel, gmcp.Channels.Message)
+end
+
+--
+-- Init Channel functions.
+---
+add_channel(&quot;All&quot;)
+GUI.TabChannels:hide()
+
+registerAnonymousEventHandler(&quot;show_tab&quot;,&quot;show_channels_tab&quot;)
+registerAnonymousEventHandler(&quot;hide_tab&quot;,&quot;show_channels_tab&quot;)</script>
+                            <eventHandlerList>
+                                <string>gmcp.Channels</string>
+                            </eventHandlerList>
+                        </Script>
+                        <Script isActive="yes" isFolder="no">
+                            <name>Big Map</name>
+                            <packageName></packageName>
+                            <script>GUI.BigMap = Geyser.Container:new({
+  name = &quot;GUI.BigMap&quot;,
+  x = 0, y = 45,
+  width = &quot;100%&quot;,
+  height = 639,
+},GUI.Tabs)
+GUI.BigMap:hide()
+
+GUI.MapBigBorderTop = Geyser.Label:new({
+  name = &quot;GUI.MapBigBorderTop&quot;,
+  x = 0, y = 0,
+  width = 856,
+  height = 14,
+}, GUI.BigMap)
+GUI.MapBigBorderTop:setStyleSheet([[background-image : url(]] .. ms_path .. [[/images/layout/mapbigbgtop.png)]])
+GUI.MapBigBorderTop:show()
+
+GUI.MapBigBorderBtm = Geyser.Label:new({
+  name = &quot;GUI.MapBigBorderBtm&quot;,
+  x = 0, y = 580,
+  width = 856,
+  height = 14,
+}, GUI.BigMap)
+GUI.MapBigBorderBtm:setStyleSheet([[background-image : url(]] .. ms_path .. [[/images/layout/mapbigbgbtm.png)]])
+GUI.MapBigBorderBtm:show()
+
+GUI.MapBigBorderLeft = Geyser.Label:new({
+  name = &quot;GUI.MapBigBorderLeft&quot;,
+  x = 0, y = 0,
+  width = 14,
+  height = 594,
+}, GUI.BigMap)
+GUI.MapBigBorderLeft:setStyleSheet([[background-image : url(]] .. ms_path .. [[/images/layout/mapbigbgleft.png)]])
+GUI.MapBigBorderLeft:show()
+
+GUI.MapBigBorderRight = Geyser.Label:new({
+  name = &quot;GUI.MapBigBorderRight&quot;,
+  x = 840, y = 0,
+  width = 14,
+  height = 594,
+}, GUI.BigMap)
+GUI.MapBigBorderRight:setStyleSheet([[background-image : url(]] .. ms_path .. [[/images/layout/mapbigbgright.png)]])
+GUI.MapBigBorderRight:show()
+GUI.BigMap:hide()
+</script>
+                            <eventHandlerList/>
+                        </Script>
+                        <Script isActive="yes" isFolder="no">
+                            <name>map_colors</name>
+                            <packageName></packageName>
+                            <script>EnvColors = { 
+[100] = {100,80,60}, --shop 
+[105] = {100,80,60}, --pub
+[110] = {90,100,110}, --tunnel
+[115] = {90,100,110}, --passage
+[120] = {70,80,90}, --crypt
+[125] = {70,80,90}, --cellar
+[130] = {90,100,110}, --cave
+[135] = {90,100,110}, --cavern
+[140] = {85,65,5}, --road
+[145] = {90,50,10}, --house
+[150] = {90,50,10}, --shack
+[155] = {120,90,10}, --tent
+[160] = {230,220,190}, --tower
+[163] = {220,210,190}, -- chapel
+[164] = {220,210,190}, -- shrine
+[165] = {100,120,75}, --cemetery
+[170] = {130,200,0}, --garden
+[172] = {220,210,190}, -- church
+[175] = {90,40,10}, --manor
+[180] = {220,210,190}, --temple
+[185] = {75,50,20}, --ship
+[190] = {180,180,180}, --castle
+[195] = {190,180,160}, --city
+[200] = {200,175,90}, --village
+[205] = {160,120,0}, --field
+[210] = {40,150,0}, --clearing
+[212] = {160,120,0}, -- shore
+[215] = {90,200,250}, --lake
+[220] = {90,200,250}, --stream
+[225] = {45,90,90}, --swamp
+[230] = {30,100,0}, --forest
+[235] = {200,170,100}, --plain
+[240] = {250,220,70}, --desert
+[242] = {160,130,30}, --hills
+[244] = {200,220,220}, --mountains
+[246] = {0,60,250}, --sea
+[255] = {100,100,100} --place
+}
+
+function map_colors()
+	for envid,rgb in pairs(EnvColors) do
+		local r,g,b = unpack(rgb)
+		setCustomEnvColor(envid,r,g,b,255)
+	end
+end</script>
+                            <eventHandlerList/>
+                        </Script>
+                        <Script isActive="yes" isFolder="no">
+                            <name>map_functions</name>
+                            <packageName></packageName>
+                            <script>StandardExits = { north = &quot;n&quot;, south = &quot;s&quot;, east = &quot;e&quot;, west = &quot;w&quot;, northeast = &quot;ne&quot;, northwest = &quot;nw&quot;, southeast = &quot;se&quot;, southwest = &quot;sw&quot;, up = &quot;u&quot;, down = &quot;d&quot;, enter = &quot;in&quot;, pub = &quot;in&quot;, house = &quot;in&quot;, cave = &quot;in&quot;, out = &quot;out&quot;, leave = &quot;out&quot; }
+ExitMap = { [1] = &quot;n&quot;, [2] = &quot;ne&quot;, [3] = &quot;nw&quot;, [4] = &quot;e&quot;, [5] = &quot;w&quot;, [6] = &quot;s&quot;, [7] = &quot;se&quot;, [8] = &quot;sw&quot;, [9] = &quot;u&quot;, [10] = &quot;d&quot; }
+CompassExits = { &quot;north&quot;, &quot;northeast&quot;, &quot;east&quot;, &quot;southeast&quot;, &quot;south&quot;, &quot;southwest&quot;, &quot;west&quot;, &quot;northwest&quot;, &quot;up&quot;, &quot;down&quot; }
+AreaFilter = { &quot;0&quot;, &quot;std&quot; }
+Envs = { [100] = &quot;shop&quot;, [105] = &quot;pub&quot;, [110] = &quot;tunnel&quot;, [115] = &quot;passage&quot;, [120] = &quot;crypt&quot;, [125] = &quot;cellar&quot;, [130] = &quot;cave&quot;, [135] = &quot;cavern&quot;, [140] = &quot;road&quot;, [145] = &quot;house&quot;, [150] = &quot;shack&quot;, [155] = &quot;tent&quot;, [160] = &quot;tower&quot;, [163] = &quot;chapel&quot;, [164] = &quot;shrine&quot;, [165] = &quot;cemetery&quot;, [170] = &quot;garden&quot;, [175] = &quot;manor&quot;, [172] = &quot;church&quot;, [180] = &quot;temple&quot;, [185] = &quot;ship&quot;, [190] = &quot;castle&quot;, [195] = &quot;city&quot;, [200] = &quot;village&quot;, [205] = &quot;field&quot;, [210] = &quot;clearing&quot;, [212] = &quot;shore&quot;, [215] = &quot;lake&quot;, [220] = &quot;stream&quot;, [225] = &quot;swamp&quot;, [230] = &quot;forest&quot;, [235] = &quot;plain&quot;, [240] = &quot;desert&quot;, [242] = &quot;hills&quot;, [244] = &quot;mountains&quot;, [246] = &quot;sea&quot;, [255] = &quot;place&quot; }
+
+smallMap = true
+
+GUI.Mapper = Geyser.Mapper:new({
+  name = &quot;GUI.Mapper&quot;,
+  x = -366, y = 14,
+  width = 352,
+  height = 366,
+})
+setMapZoom(15)
+
+function show_hide()
+	if msconfig[&quot;HIDE_RIGHT&quot;] then
+		GUI.Mapper:hide()
+	end
+end
+
+map_colors()
+
+function findAreaID(areaname)
+  local list = getAreaTable()
+  local returnid, fullareaname
+  for area, id in pairs(list) do
+    if area == areaname then		 		
+      returnid = id; fullareaname = area
+    end
+  end
+  return returnid, fullareaname
+end
+
+function add_exits()
+	local roomid = tonumber(gmcp.Map.Room.id)
+	local roomexits = gmcp.Map.Room.exits
+	local stubs = getExitStubs(gmcp.Map.Room.id)
+	local rexits = getRoomExits(gmcp.Map.Room.id)
+	for dir,destination in pairs(roomexits) do
+		match = false
+		for exit, nr in pairs(rexits) do
+			if exit == dir then
+				match = true
+				break
+			end
+		end
+		if match == false then
+			for long,short in pairs(StandardExits) do			
+				if long == dir then
+					for nr, exit in pairs(ExitMap) do
+						if short == exit then
+							setExitStub(roomid, nr, true)
+						end			
+					end	
+					match = true
+					setExit(roomid, destination, short)
+				end
+			end
+			if match == false then
+				addSpecialExit(roomid, destination, dir)
+			end
+		end
+	end
+	if getRoomExits(previousid) == nil or getRoomExits(previousid)[gmcp.Map.Room.verb] == nil then
+		for _, dir in pairs(CompassExits) do
+			if dir == gmcp.Map.Room.verb then
+				setExit(previousid, roomid, StandardExits[dir])
+				break
+			end
+		end
+	end
+end
+
+function add_room()	
+	local roomid = tonumber(gmcp.Map.Room.id)
+	local roomarea = findAreaID(gmcp.Map.Room.area)
+	local roomname = gmcp.Map.Room.short
+	addRoom(roomid)
+	setRoomArea(roomid, roomarea)
+	setRoomName(roomid,roomname)
+end
+
+function set_coordinates(currentid)
+	local from = &quot;&quot;
+	local to = &quot;&quot;
+	local match = false
+	local StdExits = getRoomExits(currentid)
+	local SpecExits = getSpecialExitsSwap(currentid)	
+	local x,y,z = getRoomCoordinates(currentid)
+
+	if math.abs(x)+math.abs(y)+math.abs(z) == 0 then	--so that we don't overwrite coords if player changed them manually (this means room has no coords yet, or coords 0,0,0)
+
+		if roomExists(previousid) then
+			if match == false then
+				x,y,z = getRoomCoordinates(previousid)
+				for dir, id in pairs(StdExits) do
+					if id == previousid then
+						from = dir
+						match = true
+						if dir == &quot;south&quot; then
+							  y = y+1
+						elseif dir == &quot;southwest&quot; then
+							  y = y+1
+							  x = x+1
+						elseif dir == &quot;west&quot; then
+							  x = x+1
+						elseif dir == &quot;northwest&quot; then
+							  y = y-1
+							  x = x+1
+						elseif dir == &quot;north&quot; then
+							  y = y-1
+						elseif dir == &quot;northeast&quot; then
+							  y = y-1
+							  x = x-1
+						elseif dir == &quot;east&quot; then
+							  x = x-1
+						elseif dir == &quot;southeast&quot; then
+							  y = y+1
+							  x = x-1
+						elseif dir == &quot;down&quot; then
+							  z = z+1
+						elseif dir == &quot;up&quot; then
+							  z = z-1
+						end
+					setRoomCoordinates(currentid, x, y, z)
+					end
+				end
+			end
+
+			--now let's run this backwards as well in case it was a standard exit from the other side
+			if match == false then
+				x,y,z = getRoomCoordinates(previousid)				
+				for dir, id in pairs(PrevExits) do
+					if id == currentid then
+						match = true
+						to = dir
+						if dir == &quot;south&quot; then
+							  y = y-1
+						elseif dir == &quot;southwest&quot; then
+							  y = y-1
+							  x = x-1
+						elseif dir == &quot;west&quot; then
+							  x = x-1
+						elseif dir == &quot;northwest&quot; then
+							  y = y+1
+							  x = x-1
+						elseif dir == &quot;north&quot; then
+							  y = y+1
+						elseif dir == &quot;northeast&quot; then
+							  y = y+1
+							  x = x+1
+						elseif dir == &quot;east&quot; then
+							  x = x+1
+						elseif dir == &quot;southeast&quot; then
+							  y = y-1
+							  x = x+1
+						elseif dir == &quot;down&quot; then
+							  z = z-1
+						elseif dir == &quot;up&quot; then
+							  z = z+1
+						end
+					setRoomCoordinates(currentid, x, y, z)
+					end					
+				end
+			end
+
+			-- still nothing? let's check for special exits
+			if match == false then -- we didn't come through a standard exit
+				for dir, id in pairs(SpecExits) do
+				if id == previousid then
+						match = true							
+						x,y,z = getRoomCoordinates(previousid) -- we'll assume it's somewhere close, so let's keep it in the same spot
+						x,y,z = getRoomCoordinates(currentid) -- unless it has coords already
+						setRoomCoordinates(currentid, x, y, z)
+					end
+				end
+			end
+
+			-- Check if verb was a north, northeast etc, and if that is the case place new room relative the old previous room
+			if match == false and gmcp.Map.Room.verb ~= nil then
+				x,y,z = getRoomCoordinates(previousid)
+				local dir = gmcp.Map.Room.verb
+				if dir == &quot;south&quot; then
+					y = y-1
+					match = true
+					setRoomCoordinates(currentid, x, y, z)
+				elseif dir == &quot;southwest&quot; then
+					y = y-1
+					x = x-1
+					match = true
+					setRoomCoordinates(currentid, x, y, z)
+				elseif dir == &quot;west&quot; then
+					x = x-1
+					match = true
+					setRoomCoordinates(currentid, x, y, z)
+				elseif dir == &quot;northwest&quot; then
+					y = y+1
+					x = x-1
+					match = true
+					setRoomCoordinates(currentid, x, y, z)
+				elseif dir == &quot;north&quot; then
+					y = y+1
+					match = true
+					setRoomCoordinates(currentid, x, y, z)
+				elseif dir == &quot;northeast&quot; then
+					y = y+1
+					x = x+1
+					match = true
+					setRoomCoordinates(currentid, x, y, z)
+				elseif dir == &quot;east&quot; then
+					x = x+1
+					match = true
+					setRoomCoordinates(currentid, x, y, z)
+				elseif dir == &quot;southeast&quot; then
+					y = y-1
+					x = x+1
+					match = true
+					setRoomCoordinates(currentid, x, y, z)
+				elseif dir == &quot;down&quot; then
+					z = z-1
+					match = true
+					setRoomCoordinates(currentid, x, y, z)
+				elseif dir == &quot;up&quot; then
+					z = z+1
+					match = true
+					setRoomCoordinates(currentid, x, y, z)
+				end
+				-- If we match add exits not supplied in gmcp
+				if match == true then
+					local pexits = getRoomExits(previousid)
+					if pexits[dir] == nil then
+						setExit(previousid, currentid, StandardExits[dir])
+					end
+				end
+			end	
+
+			if match == false then -- we didn't come through a standard OR special exit
+				cecho(&quot;&lt;pale_goldenrod:dark_olive_green&gt;MAPPER: Unable to connect room &quot;..currentid..&quot;. Setting coordinates to 0/0/0.&quot;)
+			end
+			
+		else
+		end
+
+	end
+
+end
+
+function set_env(currentid)
+	local envid = 256
+	local props = gmcp.Map.Room.props
+
+	if (getRoomEnv(currentid) &gt; 256) then
+		return
+	end
+	for i,prop in ipairs(props) do
+		for env,property in pairs(Envs) do
+			if prop == property then
+				if env &lt; envid then
+					setRoomEnv(currentid, env)
+					envid = env
+				end
+			end
+		end
+	end
+end
+
+function map_functions()
+	if gmcp.Map.Room.id ~= nil then
+		currentid = tonumber(gmcp.Map.Room.id)
+		if not previousid then
+			previousid = currentid
+			centerview(currentid)
+		end
+		if previousid ~= currentid then
+
+			if gmcp.Map.Room.area ~= nil then
+				for i, area in ipairs(AreaFilter) do
+					if gmcp.Map.Room.area == area then
+						cecho(&quot;&lt;pale_goldenrod:dark_olive_green&gt;MAPPER: Area on restricted list. Ignored.&quot;)
+						return
+					end
+				end
+				local id, msg = findAreaID(gmcp.Map.Room.area)
+				if id == nil then
+					local area = addAreaName(gmcp.Map.Room.area)
+				end
+			end
+			add_room()
+			add_exits()
+			set_coordinates(currentid)
+			set_env(currentid)
+			GUI.Mapper:show()
+			centerview(currentid)
+			previousid = currentid
+			PrevExits = gmcp.Map.Room.exits
+		else
+			GUI.Mapper:show()
+			centerview(currentid)
+		end
+	end
+	show_hide()
+end
+
+-- Sub menu on mapper
+function doToggleMap()
+	GUI.Mapper:hide()
+	if smallMap == false then
+		GUI.BigMap:hide()
+		GUI.Mapper = Geyser.Mapper:new({name = &quot;GUI.Mapper&quot;,x=-366,y=14,height=366,width=352})
+		smallMap = true
+	else
+		GUI.BigMap:show()
+		GUI.Mapper = Geyser.Mapper:new({name = &quot;GUI.Mapper&quot;,x=14,y=59,height=566,width=826}, GUI.Tabs)
+		smallMap = false
+	end
+end
+
+addMapEvent(&quot;ToggleMap&quot;, &quot;onToggleMap&quot;, nil, &quot;Toggle Big Map&quot;)
+registerAnonymousEventHandler(&quot;onToggleMap&quot;, &quot;doToggleMap&quot;)
+
+--if gmcp.Map ~= nil and gmcp.Map.Room ~= nil then
+--	map_functions()
+--	--centerview(currentid)
+--end</script>
+                            <eventHandlerList>
+                                <string>gmcp.Map.Room</string>
+                            </eventHandlerList>
+                        </Script>
+                        <Script isActive="yes" isFolder="no">
+                            <name>effect_functions</name>
+                            <packageName></packageName>
+                            <script>Effects = Effects or {}
+
+function update_images()
+
+	for i, spell in ipairs(Effects) do
+		if i &lt; 12 then
+			local icon = lfs.attributes(ms_path.. [[/images/effects/]] ..spell.. [[.png]])
+			if icon == nil then
+				setLabelStyleSheet(&quot;GUI.EffectIcon&quot;..i, [[background-color: transparent]])
+				hideWindow(&quot;GUI.EffectOver1ay&quot;..i)	
+			else
+				setLabelStyleSheet(&quot;GUI.EffectIcon&quot;..i, [[background-image : url(]] .. ms_path .. [[/images/effects/]]..spell..[[.png)]])
+				showWindow(&quot;GUI.EffectOver1ay&quot;..i)
+			end
+		end
+	end
+
+end
+
+function clear_all()
+	Effects = {}
+	for i=1,11 do
+		setLabelStyleSheet(&quot;GUI.EffectIcon&quot;..i, [[background-color: transparent]])
+		hideWindow(&quot;GUI.EffectOver1ay&quot;..i)
+	end
+end
+
+function remove_effect()
+
+	if gmcp.Char.Effect.Removed.spell ~= nil then
+		for i, spell in ipairs(Effects) do
+			if spell == gmcp.Char.Effect.Removed.spell then
+				local last = table.size(Effects)
+				if last &lt; 12 then
+					setLabelStyleSheet(&quot;GUI.EffectIcon&quot;..last, [[background-color: transparent]])
+					hideWindow(&quot;GUI.EffectOver1ay&quot;..last)
+				end
+				table.remove(Effects,i)
+				update_images()
+			end
+		end
+	end
+
+end
+
+function add_effect()
+
+	if gmcp.Char.Effect.Active.spell ~= nil then
+		if table.contains(Effects,gmcp.Char.Effect.Active.spell) == false then
+			table.insert(Effects,gmcp.Char.Effect.Active.spell)
+		end	
+	end
+	update_images()
+
+end
+
+registerAnonymousEventHandler(&quot;gmcp.Char.Effect.Active&quot;, &quot;add_effect&quot;)
+registerAnonymousEventHandler(&quot;gmcp.Char.Effect.Removed&quot;, &quot;remove_effect&quot;)
+registerAnonymousEventHandler(&quot;sysConnectionEvent&quot;,&quot;clear_all&quot;)
+registerAnonymousEventHandler(&quot;sysDisconnectionEvent&quot;,&quot;clear_all&quot;)
+</script>
+                            <eventHandlerList/>
+                        </Script>
+                        <Script isActive="yes" isFolder="no">
+                            <name>inventory_functions</name>
+                            <packageName></packageName>
+                            <script>inventory_items = {}
+
+scrollamt = 1
+page = 17
+offset = offset or 0
+mode = &quot;all&quot;
+
+function clean_up()
+	inventory_items = {}
+	WornItems = {}
+	KeptItems = {}
+	CarriedItems = {}
+	offset = 0	
+end
+
+function table_contains(table, element)
+  for key, value in pairs(table) do
+    if key == element then
+      return true
+    end
+  end
+  return false
+end
+
+function show_inventory()
+	pos = offset
+	if not msconfig[&quot;HIDE_RIGHT&quot;] then
+		if table.contains({ &quot;worn&quot;, &quot;all&quot; }, mode) then
+			for key,value in pairs(WornItems) do
+				pos = pos+1
+				if pos &gt; 0 then
+					local out = [[&lt;span style=&quot;color:#E79E02&quot;&gt;]]..value..[[&lt;/span&gt;]]
+					echo(&quot;GUI.InvItem&quot;..pos,out)
+					echo(&quot;GUI.InvCount&quot;..pos,&quot;&quot;)
+					showWindow(&quot;GUI.InvLine&quot;..pos)
+					showWindow(&quot;GUI.InvCount&quot;..pos)
+					showWindow(&quot;GUI.InvItem&quot;..pos)
+				end
+			end
+		end
+		if table.contains({ &quot;carried&quot;, &quot;all&quot; }, mode) then
+			for key,value in pairs(KeptItems) do
+				pos = pos+1
+				if pos &gt; 0 then
+					echo(&quot;GUI.InvCount&quot;..pos,&quot;&quot;)
+					local out = [[&lt;span style=&quot;color:#CC6666&quot;&gt;]]..key..[[&lt;/span&gt;]]		
+					echo(&quot;GUI.InvItem&quot;..pos,out)
+					if value &gt; 1 then
+						local out2 = [[&lt;span style=&quot;color:#CC6666&quot;&gt;]]..value..[[&lt;/span&gt;]]
+						echo(&quot;GUI.InvCount&quot;..pos,out2)
+					end
+					showWindow(&quot;GUI.InvLine&quot;..pos)
+					showWindow(&quot;GUI.InvCount&quot;..pos)
+					showWindow(&quot;GUI.InvItem&quot;..pos)
+				end
+			end
+		end
+		if table.contains({ &quot;carried&quot;, &quot;all&quot; }, mode) then
+			for key,value in pairs(CarriedItems) do
+				pos = pos+1
+				if pos &gt; 0 then
+					echo(&quot;GUI.InvCount&quot;..pos,&quot;&quot;)
+					echo(&quot;GUI.InvItem&quot;..pos,key)
+					if value &gt; 1 then
+						echo(&quot;GUI.InvCount&quot;..pos,value)
+					end
+					showWindow(&quot;GUI.InvLine&quot;..pos)
+					showWindow(&quot;GUI.InvCount&quot;..pos)
+					showWindow(&quot;GUI.InvItem&quot;..pos)
+				end
+			end
+		end
+	end
+	for i=pos+1,17 do
+		hideWindow(&quot;GUI.InvLine&quot;..i)
+		hideWindow(&quot;GUI.InvCount&quot;..i)
+		hideWindow(&quot;GUI.InvItem&quot;..i)
+	end
+end
+
+function update_offset(count)
+	offset = offset+count
+	if mode == &quot;carried&quot; then
+		itemstotal = table.size(KeptItems) + table.size(CarriedItems)
+	elseif mode == &quot;worn&quot; then
+		itemstotal = table.size(WornItems)
+	else
+		itemstotal = table.size(WornItems) + table.size(KeptItems) + table.size(CarriedItems)
+	end
+	maxoffset = -itemstotal + page
+	offset = math.max(offset, maxoffset)
+	offset = math.min(0,offset)
+	show_inventory()
+end
+
+function set_mode(what)
+	mode = what
+	offset = 0
+	update_offset(0)
+	show_inventory()
+end
+
+function inventory_functions()
+	WornItems = {}
+	KeptItems = {}
+	CarriedItems = {}
+
+	if gmcp.Char.Inv.action == &quot;add&quot; then
+		if string.findPattern(gmcp.Char.Inv.short,&quot;\n&quot;) then
+			local fakeitems = string.split(gmcp.Char.Inv.short,&quot;\n&quot;)
+			for i, fakeitem in ipairs(fakeitems) do
+				local fakeid = i..&quot;f&quot;..gmcp.Char.Inv.id
+				inventory_items[fakeid] = {tostring(fakeitem),gmcp.Char.Inv.used,gmcp.Char.Inv.kept}
+			end
+		else
+			inventory_items[gmcp.Char.Inv.id] = {tostring(gmcp.Char.Inv.short),gmcp.Char.Inv.used,gmcp.Char.Inv.kept}
+		end
+	elseif gmcp.Char.Inv.action == &quot;del&quot; then
+		for key, value in pairs(inventory_items) do
+			if string.findPattern(key,&quot;f&quot;..gmcp.Char.Inv.id) then
+				inventory_items[key] = nil
+			else
+				inventory_items[gmcp.Char.Inv.id] = nil
+			end
+		end
+	end
+
+	for key,value in pairs(inventory_items) do 
+		if value[2] == &quot;1&quot; then
+			WornItems[key] = value[1]
+		elseif value[3] == &quot;1&quot; then
+			-- here it gets tricky because we need to group identical elements.
+			if not table_contains(KeptItems,value[1]) then
+				KeptItems[value[1]] = 1
+			else
+				KeptItems[value[1]] = KeptItems[value[1]] + 1
+			end
+		else
+			if not table_contains(CarriedItems,value[1]) then
+				CarriedItems[value[1]] = 1
+			else
+				CarriedItems[value[1]] = CarriedItems[value[1]] + 1
+			end
+		end
+	end
+	show_inventory()
+		
+end
+
+--CSS--
+
+GUI.InvItemCSS = CSSMan.new([[
+	padding-left: 1px;
+	margin-bottom: 1px;
+   background-color: QLinearGradient(x1: 0, y1: 0, x2: 0, y2: 1,stop:0 rgba(80,90,90,80), stop:.3 rgba(160,180,180,40), stop:.35 rgba(160,180,180,40), stop:1 rgba(60,70,70,80));
+	font-family: Tahoma, Geneva, sans-serif;
+	font-weight: bold;
+	color: #999966;
+	qproperty-alignment: &quot;AlignBottom&quot;;
+   qproperty-wordWrap: false;
+]])
+
+GUI.InvCountCSS = CSSMan.new([[
+	padding-left: 1px;
+	margin-bottom: 1px;
+   background-color: QLinearGradient(x1: 0, y1: 0, x2: 0, y2: 1,stop:0 rgba(80,90,90,80), stop:.3 rgba(160,180,180,40), stop:.35 rgba(160,180,180,40), stop:1 rgba(60,70,70,80));
+	font-family: Tahoma, Geneva, sans-serif;
+	font-weight: bold;
+	color: #999966;
+	qproperty-alignment: &quot;AlignBottom | AlignRight&quot;;
+   qproperty-wordWrap: false;
+]])
+
+--NAVIGATION--
+
+GUI.InvUp = Geyser.Label:new({
+  name = &quot;GUI.InvUp&quot;,
+  x = 18, y = 20,
+  width = 18,
+  height = 18,
+},GUI.RightInv)
+GUI.InvUp:setStyleSheet([[border-radius: 2; background-color: QLinearGradient(x1: 0, y1: 0, x2: 0, y2: 1,stop:0 rgba(80,90,90,90), stop:.3 rgba(160,180,180,70), stop:.35 rgba(160,180,180,70), stop:1 rgba(60,70,70,90));]])
+
+GUI.InvUpIcon = Geyser.Label:new({
+  name = &quot;GUI.InvUpIcon&quot;,
+  x = 1, y = 1,
+  width = 16,
+  height = 16,
+},GUI.InvUp)
+GUI.InvUpIcon:setStyleSheet([[background-image: url(]] .. ms_path .. [[/images/layout/upicon.png)]])
+GUI.InvUpIcon:setClickCallback(&quot;update_offset&quot;,scrollamt)
+
+GUI.InvDown = Geyser.Label:new({
+  name = &quot;GUI.InvDown&quot;,
+  x = 17, y = -45,
+  width = 18,
+  height = 18,
+},GUI.RightInv)
+GUI.InvDown:setStyleSheet([[border-radius: 2; background-color: QLinearGradient(x1: 0, y1: 0, x2: 0, y2: 1,stop:0 rgba(80,90,90,90), stop:.3 rgba(160,180,180,70), stop:.35 rgba(160,180,180,70), stop:1 rgba(60,70,70,90));]])
+
+GUI.InvDownIcon = Geyser.Label:new({
+  name = &quot;GUI.InvDownIcon&quot;,
+  x = 1, y = 1,
+  width = 16,
+  height = 16,
+},GUI.InvDown)
+GUI.InvDownIcon:setStyleSheet([[background-image: url(]] .. ms_path .. [[/images/layout/downicon.png)]])
+GUI.InvDownIcon:setClickCallback(&quot;update_offset&quot;,-scrollamt)
+
+GUI.InvPgUp = Geyser.Label:new({
+  name = &quot;GUI.InvPgUp&quot;,
+  x = 39, y = 20,
+  width = 18,
+  height = 18,
+},GUI.RightInv)
+GUI.InvPgUp:setStyleSheet([[border-radius: 2; background-color: QLinearGradient(x1: 0, y1: 0, x2: 0, y2: 1,stop:0 rgba(80,90,90,90), stop:.3 rgba(160,180,180,70), stop:.35 rgba(160,180,180,70), stop:1 rgba(60,70,70,90));]])
+
+GUI.InvPgUpIcon = Geyser.Label:new({
+  name = &quot;GUI.InvPgUpIcon&quot;,
+  x = 1, y = 1,
+  width = 16,
+  height = 16,
+},GUI.InvPgUp)
+GUI.InvPgUpIcon:setStyleSheet([[background-image: url(]] .. ms_path .. [[/images/layout/pgupicon.png)]])
+GUI.InvPgUpIcon:setClickCallback(&quot;update_offset&quot;,page)
+
+GUI.InvPgDown = Geyser.Label:new({
+  name = &quot;GUI.InvPgDown&quot;,
+  x = 38, y = -45,
+  width = 18,
+  height = 18,
+},GUI.RightInv)
+GUI.InvPgDown:setStyleSheet([[border-radius: 2; background-color: QLinearGradient(x1: 0, y1: 0, x2: 0, y2: 1,stop:0 rgba(80,90,90,90), stop:.3 rgba(160,180,180,70), stop:.35 rgba(160,180,180,70), stop:1 rgba(60,70,70,90));]])
+
+GUI.InvPgDownIcon = Geyser.Label:new({
+  name = &quot;GUI.InvPgDownIcon&quot;,
+  x = 1, y = 1,
+  width = 16,
+  height = 16,
+},GUI.InvPgDown)
+GUI.InvPgDownIcon:setStyleSheet([[background-image: url(]] .. ms_path .. [[/images/layout/pgdownicon.png)]])
+GUI.InvPgDownIcon:setClickCallback(&quot;update_offset&quot;,-page)
+
+GUI.InvAll = Geyser.Label:new({
+  name = &quot;GUI.InvAll&quot;,
+  x = 60, y = 20,
+  width = 30,
+  height = 18,
+},GUI.RightInv)
+GUI.InvAll:setStyleSheet([[qproperty-alignment: &quot;AlignBottom | AlignCenter&quot;; border-radius: 2; background-color: QLinearGradient(x1: 0, y1: 0, x2: 0, y2: 1,stop:0 rgba(80,90,90,90), stop:.3 rgba(160,180,180,70), stop:.35 rgba(160,180,180,70), stop:1 rgba(60,70,70,90));]])
+GUI.InvAll:echo(&quot;ALL&quot;,&quot;#999966&quot;,&quot;b8&quot;)
+GUI.InvAll:setClickCallback(&quot;set_mode&quot;,&quot;all&quot;)
+
+GUI.InvWorn = Geyser.Label:new({
+  name = &quot;GUI.InvWorn&quot;,
+  x = 93, y = 20,
+  width = 44,
+  height = 18,
+},GUI.RightInv)
+GUI.InvWorn:setStyleSheet([[qproperty-alignment: &quot;AlignBottom | AlignCenter&quot;; border-radius: 2; background-color: QLinearGradient(x1: 0, y1: 0, x2: 0, y2: 1,stop:0 rgba(80,90,90,90), stop:.3 rgba(160,180,180,70), stop:.35 rgba(160,180,180,70), stop:1 rgba(60,70,70,90));]])
+GUI.InvWorn:echo(&quot;WORN&quot;,&quot;#999966&quot;,&quot;b8&quot;)
+GUI.InvWorn:setClickCallback(&quot;set_mode&quot;,&quot;worn&quot;)
+
+GUI.InvCarried = Geyser.Label:new({
+  name = &quot;GUI.InvCarried&quot;,
+  x = 140, y = 20,
+  width = 60,
+  height = 18,
+},GUI.RightInv)
+GUI.InvCarried:setStyleSheet([[qproperty-alignment: &quot;AlignBottom | AlignCenter&quot;; border-radius: 2; background-color: QLinearGradient(x1: 0, y1: 0, x2: 0, y2: 1,stop:0 rgba(80,90,90,90), stop:.3 rgba(160,180,180,70), stop:.35 rgba(160,180,180,70), stop:1 rgba(60,70,70,90));]])
+GUI.InvCarried:echo(&quot;CARRIED&quot;,&quot;#999966&quot;,&quot;b8&quot;)
+GUI.InvCarried:setClickCallback(&quot;set_mode&quot;,&quot;carried&quot;)
+
+--INVENTORY ITEMS--
+
+GUI.InvList = Geyser.VBox:new({
+  name = &quot;GUI.InvList&quot;,
+  x = 16, y = 42,
+  width = 350,
+  height = 350,
+},GUI.RightInv)
+
+--Inventory rows--
+--1--
+GUI.InvLine1 = Geyser.HBox:new({
+  name = &quot;GUI.InvLine1&quot;,
+  width = 358,
+  height = 18,
+  v_policy=Geyser.Fixed,
+},GUI.InvList)
+
+GUI.InvCount1 = Geyser.Label:new({
+  name = &quot;GUI.InvCount1&quot;,
+  x = 0,
+  width = 25,
+  height = 18,
+  h_policy=Geyser.Fixed,
+},GUI.InvLine1)
+GUI.InvCount1:setStyleSheet(GUI.InvCountCSS:getCSS())
+GUI.InvCount1:hide()
+
+
+GUI.InvItem1 = Geyser.Label:new({
+  name = &quot;GUI.InvItem1&quot;,
+},GUI.InvLine1)
+GUI.InvItem1:setStyleSheet(GUI.InvItemCSS:getCSS())
+GUI.InvItem1:hide()
+
+--2--
+GUI.InvLine2 = Geyser.HBox:new({
+  name = &quot;GUI.InvLine2&quot;,
+  width = 358,
+  height = 18,
+  v_policy=Geyser.Fixed,
+},GUI.InvList)
+
+GUI.InvCount2 = Geyser.Label:new({
+  name = &quot;GUI.InvCount2&quot;,
+  x = 0,
+  width = 25,
+  height = 18,
+  h_policy=Geyser.Fixed,
+},GUI.InvLine2)
+GUI.InvCount2:setStyleSheet(GUI.InvCountCSS:getCSS())
+GUI.InvCount2:hide()
+
+GUI.InvItem2 = Geyser.Label:new({
+  name = &quot;GUI.InvItem2&quot;,
+},GUI.InvLine2)
+GUI.InvItem2:setStyleSheet(GUI.InvItemCSS:getCSS())
+GUI.InvItem2:hide()
+
+--3--
+GUI.InvLine3 = Geyser.HBox:new({
+  name = &quot;GUI.InvLine3&quot;,
+  width = 358,
+  height = 18,
+  v_policy=Geyser.Fixed,
+},GUI.InvList)
+
+GUI.InvCount3 = Geyser.Label:new({
+  name = &quot;GUI.InvCount3&quot;,
+  x = 0,
+  width = 25,
+  height = 18,
+  h_policy=Geyser.Fixed,
+},GUI.InvLine3)
+GUI.InvCount3:setStyleSheet(GUI.InvCountCSS:getCSS())
+GUI.InvCount3:hide()
+
+GUI.InvItem3 = Geyser.Label:new({
+  name = &quot;GUI.InvItem3&quot;,
+},GUI.InvLine3)
+GUI.InvItem3:setStyleSheet(GUI.InvItemCSS:getCSS())
+GUI.InvItem3:hide()
+
+--4--
+GUI.InvLine4 = Geyser.HBox:new({
+  name = &quot;GUI.InvLine4&quot;,
+  width = 358,
+  height = 18,
+  v_policy=Geyser.Fixed,
+},GUI.InvList)
+
+GUI.InvCount4 = Geyser.Label:new({
+  name = &quot;GUI.InvCount4&quot;,
+  x = 0,
+  width = 25,
+  height = 18,
+  h_policy=Geyser.Fixed,
+},GUI.InvLine4)
+GUI.InvCount4:setStyleSheet(GUI.InvCountCSS:getCSS())
+GUI.InvCount4:hide()
+
+GUI.InvItem4 = Geyser.Label:new({
+  name = &quot;GUI.InvItem4&quot;,
+},GUI.InvLine4)
+GUI.InvItem4:setStyleSheet(GUI.InvItemCSS:getCSS())
+GUI.InvItem4:hide()
+
+--5--
+GUI.InvLine5 = Geyser.HBox:new({
+  name = &quot;GUI.InvLine5&quot;,
+  width = 358,
+  height = 18,
+  v_policy=Geyser.Fixed,
+},GUI.InvList)
+
+GUI.InvCount5 = Geyser.Label:new({
+  name = &quot;GUI.InvCount5&quot;,
+  x = 0,
+  width = 25,
+  height = 18,
+  h_policy=Geyser.Fixed,
+},GUI.InvLine5)
+GUI.InvCount5:setStyleSheet(GUI.InvCountCSS:getCSS())
+GUI.InvCount5:hide()
+
+GUI.InvItem5 = Geyser.Label:new({
+  name = &quot;GUI.InvItem5&quot;,
+},GUI.InvLine5)
+GUI.InvItem5:setStyleSheet(GUI.InvItemCSS:getCSS())
+GUI.InvItem5:hide()
+
+--6--
+GUI.InvLine6 = Geyser.HBox:new({
+  name = &quot;GUI.InvLine6&quot;,
+  width = 358,
+  height = 18,
+  v_policy=Geyser.Fixed,
+},GUI.InvList)
+
+GUI.InvCount6 = Geyser.Label:new({
+  name = &quot;GUI.InvCount6&quot;,
+  x = 0,
+  width = 25,
+  height = 18,
+  h_policy=Geyser.Fixed,
+},GUI.InvLine6)
+GUI.InvCount6:setStyleSheet(GUI.InvCountCSS:getCSS())
+GUI.InvCount6:hide()
+
+GUI.InvItem6 = Geyser.Label:new({
+  name = &quot;GUI.InvItem6&quot;,
+},GUI.InvLine6)
+GUI.InvItem6:setStyleSheet(GUI.InvItemCSS:getCSS())
+GUI.InvItem6:hide()
+
+--7--
+GUI.InvLine7 = Geyser.HBox:new({
+  name = &quot;GUI.InvLine7&quot;,
+  width = 358,
+  height = 18,
+  v_policy=Geyser.Fixed,
+},GUI.InvList)
+
+GUI.InvCount7 = Geyser.Label:new({
+  name = &quot;GUI.InvCount7&quot;,
+  x = 0,
+  width = 25,
+  height = 18,
+  h_policy=Geyser.Fixed,
+},GUI.InvLine7)
+GUI.InvCount7:setStyleSheet(GUI.InvCountCSS:getCSS())
+GUI.InvCount7:hide()
+
+GUI.InvItem7 = Geyser.Label:new({
+  name = &quot;GUI.InvItem7&quot;,
+},GUI.InvLine7)
+GUI.InvItem7:setStyleSheet(GUI.InvItemCSS:getCSS())
+GUI.InvItem7:hide()
+
+--8--
+GUI.InvLine8 = Geyser.HBox:new({
+  name = &quot;GUI.InvLine8&quot;,
+  width = 358,
+  height = 18,
+  v_policy=Geyser.Fixed,
+},GUI.InvList)
+
+GUI.InvCount8 = Geyser.Label:new({
+  name = &quot;GUI.InvCount8&quot;,
+  x = 0,
+  width = 25,
+  height = 18,
+  h_policy=Geyser.Fixed,
+},GUI.InvLine8)
+GUI.InvCount8:setStyleSheet(GUI.InvCountCSS:getCSS())
+GUI.InvCount8:hide()
+
+GUI.InvItem8 = Geyser.Label:new({
+  name = &quot;GUI.InvItem8&quot;,
+},GUI.InvLine8)
+GUI.InvItem8:setStyleSheet(GUI.InvItemCSS:getCSS())
+GUI.InvItem8:hide()
+
+--9--
+GUI.InvLine9 = Geyser.HBox:new({
+  name = &quot;GUI.InvLine9&quot;,
+  width = 358,
+  height = 18,
+  v_policy=Geyser.Fixed,
+},GUI.InvList)
+
+GUI.InvCount9 = Geyser.Label:new({
+  name = &quot;GUI.InvCount9&quot;,
+  x = 0,
+  width = 25,
+  height = 18,
+  h_policy=Geyser.Fixed,
+},GUI.InvLine9)
+GUI.InvCount9:setStyleSheet(GUI.InvCountCSS:getCSS())
+GUI.InvCount9:hide()
+
+GUI.InvItem9 = Geyser.Label:new({
+  name = &quot;GUI.InvItem9&quot;,
+},GUI.InvLine9)
+GUI.InvItem9:setStyleSheet(GUI.InvItemCSS:getCSS())
+GUI.InvItem9:hide()
+
+--10--
+GUI.InvLine10 = Geyser.HBox:new({
+  name = &quot;GUI.InvLine10&quot;,
+  width = 358,
+  height = 18,
+  v_policy=Geyser.Fixed,
+},GUI.InvList)
+
+GUI.InvCount10 = Geyser.Label:new({
+  name = &quot;GUI.InvCount10&quot;,
+  x = 0,
+  width = 25,
+  height = 18,
+  h_policy=Geyser.Fixed,
+},GUI.InvLine10)
+GUI.InvCount10:setStyleSheet(GUI.InvCountCSS:getCSS())
+GUI.InvCount10:hide()
+
+GUI.InvItem10 = Geyser.Label:new({
+  name = &quot;GUI.InvItem10&quot;,
+},GUI.InvLine10)
+GUI.InvItem10:setStyleSheet(GUI.InvItemCSS:getCSS())
+GUI.InvItem10:hide()
+
+--11--
+GUI.InvLine11 = Geyser.HBox:new({
+  name = &quot;GUI.InvLine11&quot;,
+  width = 358,
+  height = 18,
+  v_policy=Geyser.Fixed,
+},GUI.InvList)
+
+GUI.InvCount11 = Geyser.Label:new({
+  name = &quot;GUI.InvCount11&quot;,
+  x = 0,
+  width = 25,
+  height = 18,
+  h_policy=Geyser.Fixed,
+},GUI.InvLine11)
+GUI.InvCount11:setStyleSheet(GUI.InvCountCSS:getCSS())
+GUI.InvCount11:hide()
+
+GUI.InvItem11 = Geyser.Label:new({
+  name = &quot;GUI.InvItem11&quot;,
+},GUI.InvLine11)
+GUI.InvItem11:setStyleSheet(GUI.InvItemCSS:getCSS())
+GUI.InvItem11:hide()
+
+--12--
+GUI.InvLine12 = Geyser.HBox:new({
+  name = &quot;GUI.InvLine12&quot;,
+  width = 358,
+  height = 18,
+  v_policy=Geyser.Fixed,
+},GUI.InvList)
+
+GUI.InvCount12 = Geyser.Label:new({
+  name = &quot;GUI.InvCount12&quot;,
+  x = 0,
+  width = 25,
+  height = 18,
+  h_policy=Geyser.Fixed,
+},GUI.InvLine12)
+GUI.InvCount12:setStyleSheet(GUI.InvCountCSS:getCSS())
+GUI.InvCount12:hide()
+
+GUI.InvItem12 = Geyser.Label:new({
+  name = &quot;GUI.InvItem12&quot;,
+},GUI.InvLine12)
+GUI.InvItem12:setStyleSheet(GUI.InvItemCSS:getCSS())
+GUI.InvItem12:hide()
+
+--13--
+GUI.InvLine13 = Geyser.HBox:new({
+  name = &quot;GUI.InvLine13&quot;,
+  width = 358,
+  height = 18,
+  v_policy=Geyser.Fixed,
+},GUI.InvList)
+
+GUI.InvCount13 = Geyser.Label:new({
+  name = &quot;GUI.InvCount13&quot;,
+  x = 0,
+  width = 25,
+  height = 18,
+  h_policy=Geyser.Fixed,
+},GUI.InvLine13)
+GUI.InvCount13:setStyleSheet(GUI.InvCountCSS:getCSS())
+GUI.InvCount13:hide()
+
+GUI.InvItem13 = Geyser.Label:new({
+  name = &quot;GUI.InvItem13&quot;,
+},GUI.InvLine13)
+GUI.InvItem13:setStyleSheet(GUI.InvItemCSS:getCSS())
+GUI.InvItem13:hide()
+
+--14--
+GUI.InvLine14 = Geyser.HBox:new({
+  name = &quot;GUI.InvLine14&quot;,
+  width = 358,
+  height = 18,
+  v_policy=Geyser.Fixed,
+},GUI.InvList)
+
+GUI.InvCount14 = Geyser.Label:new({
+  name = &quot;GUI.InvCount14&quot;,
+  x = 0,
+  width = 25,
+  height = 18,
+  h_policy=Geyser.Fixed,
+},GUI.InvLine14)
+GUI.InvCount14:setStyleSheet(GUI.InvCountCSS:getCSS())
+GUI.InvCount14:hide()
+
+GUI.InvItem14 = Geyser.Label:new({
+  name = &quot;GUI.InvItem14&quot;,
+},GUI.InvLine14)
+GUI.InvItem14:setStyleSheet(GUI.InvItemCSS:getCSS())
+GUI.InvItem14:hide()
+
+--15--
+GUI.InvLine15 = Geyser.HBox:new({
+  name = &quot;GUI.InvLine15&quot;,
+  width = 358,
+  height = 18,
+  v_policy=Geyser.Fixed,
+},GUI.InvList)
+
+GUI.InvCount15 = Geyser.Label:new({
+  name = &quot;GUI.InvCount15&quot;,
+  x = 0,
+  width = 25,
+  height = 18,
+  h_policy=Geyser.Fixed,
+},GUI.InvLine15)
+GUI.InvCount15:setStyleSheet(GUI.InvCountCSS:getCSS())
+GUI.InvCount15:hide()
+
+GUI.InvItem15 = Geyser.Label:new({
+  name = &quot;GUI.InvItem15&quot;,
+},GUI.InvLine15)
+GUI.InvItem15:setStyleSheet(GUI.InvItemCSS:getCSS())
+GUI.InvItem15:hide()
+
+--16--
+GUI.InvLine16 = Geyser.HBox:new({
+  name = &quot;GUI.InvLine16&quot;,
+  width = 358,
+  height = 18,
+  v_policy=Geyser.Fixed,
+},GUI.InvList)
+
+GUI.InvCount16 = Geyser.Label:new({
+  name = &quot;GUI.InvCount16&quot;,
+  x = 0,
+  width = 25,
+  height = 18,
+  h_policy=Geyser.Fixed,
+},GUI.InvLine16)
+GUI.InvCount16:setStyleSheet(GUI.InvCountCSS:getCSS())
+GUI.InvCount16:hide()
+
+GUI.InvItem16 = Geyser.Label:new({
+  name = &quot;GUI.InvItem16&quot;,
+},GUI.InvLine16)
+GUI.InvItem16:setStyleSheet(GUI.InvItemCSS:getCSS())
+GUI.InvItem16:hide()
+
+--17--
+GUI.InvLine17 = Geyser.HBox:new({
+  name = &quot;GUI.InvLine17&quot;,
+  width = 358,
+  height = 18,
+  v_policy=Geyser.Fixed,
+},GUI.InvList)
+
+GUI.InvCount17 = Geyser.Label:new({
+  name = &quot;GUI.InvCount17&quot;,
+  x = 0,
+  width = 25,
+  height = 18,
+  h_policy=Geyser.Fixed,
+},GUI.InvLine17)
+GUI.InvCount17:setStyleSheet(GUI.InvCountCSS:getCSS())
+GUI.InvCount17:hide()
+
+GUI.InvItem17 = Geyser.Label:new({
+  name = &quot;GUI.InvItem17&quot;,
+},GUI.InvLine17)
+GUI.InvItem17:setStyleSheet(GUI.InvItemCSS:getCSS())
+GUI.InvItem17:hide()
+
+--end inventory rows
+
+registerAnonymousEventHandler(&quot;sysConnectionEvent&quot;,&quot;clean_up&quot;)
+registerAnonymousEventHandler(&quot;sysDisconnectionEvent&quot;,&quot;clean_up&quot;)
+registerAnonymousEventHandler(&quot;collapsed_right&quot;,&quot;show_inventory&quot;)
+
+if gmcp.Char ~= nil and gmcp.Char.Inv ~= nil then
+	--We missed inventory, so resend.
+	sendGMCP(&quot;gmcp.Char.Inv.Query&quot;)
+end</script>
+                            <eventHandlerList>
+                                <string>gmcp.Char.Inv</string>
+                            </eventHandlerList>
+                        </Script>
+                        <Script isActive="yes" isFolder="no">
+                            <name>collapse_left</name>
+                            <packageName></packageName>
+                            <script>function collapse_left()
+
+	if not msconfig[&quot;HIDE_LEFT&quot;] then
+		msconfig[&quot;HIDE_LEFT&quot;] = true
+		table.save(ms_path .. &quot;/msconfig.lua&quot;, msconfig)
+		GUI.Left:hide()
+		setBorderLeft(10)
+		GUI.Bottom:move(0,-140)
+		GUI.Top:move(0,0)
+		GUI.CollapseIcon:setStyleSheet([[background-image: url(]] .. ms_path .. [[/images/layout/expandicon.png)]])
+	else
+		msconfig[&quot;HIDE_LEFT&quot;] = false
+		table.save(ms_path .. &quot;/msconfig.lua&quot;, msconfig)
+		GUI.Left:show()
+		setBorderLeft(295)
+		GUI.Bottom:move(285,-140)
+		GUI.Top:move(290,0)
+		GUI.CollapseIcon:setStyleSheet([[background-image: url(]] .. ms_path .. [[/images/layout/collapseicon.png)]])
+	end
+	raiseEvent(&quot;collapsed_left&quot;)
+
+end
+</script>
+                            <eventHandlerList/>
+                        </Script>
+                        <Script isActive="yes" isFolder="no">
+                            <name>collapse_top</name>
+                            <packageName></packageName>
+                            <script>function collapse_top()
+
+	if not msconfig[&quot;HIDE_TOP&quot;] then
+		msconfig[&quot;HIDE_TOP&quot;] = true
+		table.save(ms_path .. &quot;/msconfig.lua&quot;, msconfig)
+		GUI.TopHeader:hide()
+		setBorderTop(55)
+		GUI.Tabs:move(0,0)
+		GUI.Top:resize(&quot;100%&quot;,43)
+		GUI.Top:reposition()
+		GUI.CollapseVIcon:setStyleSheet([[background-image: url(]] .. ms_path .. [[/images/layout/expandvicon.png)]])
+	else
+		msconfig[&quot;HIDE_TOP&quot;] = false
+		table.save(ms_path .. &quot;/msconfig.lua&quot;, msconfig)
+		GUI.TopHeader:show()
+		setBorderTop(125)
+		GUI.Tabs:move(0,80)
+		GUI.Top:resize(&quot;100%&quot;,125)
+		GUI.Top:reposition()
+		GUI.CollapseVIcon:setStyleSheet([[background-image: url(]] .. ms_path .. [[/images/layout/collapsevicon.png)]])
+	end
+	raiseEvent(&quot;collapsed_top&quot;)
+
+end
+
+</script>
+                            <eventHandlerList/>
+                        </Script>
+                        <Script isActive="yes" isFolder="no">
+                            <name>collapse_right</name>
+                            <packageName></packageName>
+                            <script>function collapse_right()
+
+	if not msconfig[&quot;HIDE_RIGHT&quot;] then
+		msconfig[&quot;HIDE_RIGHT&quot;] = true
+		table.save(ms_path .. &quot;/msconfig.lua&quot;, msconfig)
+		GUI.Right:hide()
+		GUI.MapBorderTop:hide()
+		GUI.MapBorderLeft:hide()
+		GUI.MapBorderRight:hide()
+		GUI.MapBorderBtm:hide()
+		GUI.Mapper:hide()
+		setBorderRight(0)
+		GUI.CollapseRIcon:move(-20,-135)
+		GUI.CollapseRIcon:setStyleSheet([[background-image: url(]] .. ms_path .. [[/images/layout/collapseicon.png)]])
+	else
+		msconfig[&quot;HIDE_RIGHT&quot;] = false
+		table.save(ms_path .. &quot;/msconfig.lua&quot;, msconfig)
+		GUI.Right:show()
+		GUI.MapBorderTop:show()
+		GUI.MapBorderLeft:show()
+		GUI.MapBorderRight:show()
+		GUI.MapBorderBtm:show()
+		GUI.Mapper:show()
+		setBorderRight(380)
+		GUI.CollapseRIcon:move(-398,-135)
+		GUI.CollapseRIcon:setStyleSheet([[background-image: url(]] .. ms_path .. [[/images/layout/expandicon.png)]])
+	end
+	raiseEvent(&quot;collapsed_right&quot;)
+
+end
+</script>
+                            <eventHandlerList/>
+                        </Script>
+                        <Script isActive="yes" isFolder="no">
+                            <name>World Map</name>
+                            <packageName></packageName>
+                            <script>--DISPLAY--
+
+GUI.TabWorldMap = Geyser.Label:new({
+  name = &quot;GUI.TabWorldMap&quot;,
+  x = 0, y = 45,
+  width = 856,
+  height = 625,
+},GUI.Tabs)
+GUI.TabWorldMap:setStyleSheet([[ border-width: 3px;border-color: rgba(30,30,30,150);border-style: solid;border-radius: 6;padding: 13px 4px 4px 10px;font-family: Tahoma, Geneva, sans-serif;font-weight: bold;qproperty-alignment: &quot;AlignTop | AlignLeft&quot;;background-color: QLinearGradient(x1: 0, y1: 0, x2: 0, y2: 1,stop:0 rgba(230,250,250,130), stop:.023 rgba(30,30,30,255), stop:.97 rgba(20,20,20,255), stop:1 rgba(80,80,80,150));]]);
+GUI.TabWorldMap:echo(&quot;SHOW:&quot;,&quot;#999966&quot;,&quot;b8&quot;)
+GUI.TabWorldMap:hide()
+
+GUI.WorldMapImg = Geyser.Label:new({
+  name = &quot;GUI.WorldMapImg&quot;,
+  x = 3, y = 40,
+  width = 850,
+  height = 582,
+},GUI.TabWorldMap)
+GUI.WorldMapImg:setStyleSheet([[ border-radius: 6; background-image: url(]]..ms_path..[[/images/map/worldmap.png);]]);
+GUI.WorldMapImg:hide()
+
+GUI.NewbieAreas = Geyser.Label:new({
+  name = &quot;GUI.NewbieAreas&quot;,
+  x = 60, y = 16,
+  width = 100,
+  height = 20,
+},GUI.TabWorldMap)
+GUI.NewbieAreas:setStyleSheet([[ padding: 0 5px; font-family: Tahoma, Geneva, sans-serif; font-weight: bold; border-width: 2px; border-color: #666666; border-style: solid; border-radius: 6; background-color: #003300;]]);
+GUI.NewbieAreas:echo(&quot;NEWBIE AREAS&quot;,&quot;#999966&quot;,&quot;b8&quot;)
+GUI.NewbieAreas:setClickCallback(&quot;newbie_labels&quot;)
+GUI.NewbieAreas:hide()
+
+GUI.Guilds = Geyser.Label:new({
+  name = &quot;GUI.Guilds&quot;,
+  x = 167, y = 16,
+  width = 120,
+  height = 20,
+},GUI.TabWorldMap)
+GUI.Guilds:setStyleSheet([[ padding: 0 5px; font-family: Tahoma, Geneva, sans-serif; font-weight: bold; border-width: 2px; border-color: #666666; border-style: solid; border-radius: 6; background-color: #333300;]]);
+GUI.Guilds:echo(&quot;GUILD LOCATIONS&quot;,&quot;#999966&quot;,&quot;b8&quot;)
+GUI.Guilds:setClickCallback(&quot;guild_labels&quot;)
+GUI.Guilds:hide()
+
+GUI.Transport = Geyser.Label:new({
+  name = &quot;GUI.Transport&quot;,
+  x = 294, y = 16,
+  width = 120,
+  height = 20,
+},GUI.TabWorldMap)
+GUI.Transport:setStyleSheet([[ padding: 0 5px; font-family: Tahoma, Geneva, sans-serif; font-weight: bold; border-width: 2px; border-color: #666666; border-style: solid; border-radius: 6; background-color: #000033;]]);
+GUI.Transport:echo(&quot;TRANSPORTATION&quot;,&quot;#999966&quot;,&quot;b8&quot;)
+GUI.Transport:setClickCallback(&quot;transport_labels&quot;)
+GUI.Transport:hide()
+
+GUI.MappedAreas = Geyser.Label:new({
+  name = &quot;GUI.MappedAreas&quot;,
+  x = 420, y = 16,
+  width = 105,
+  height = 20,
+},GUI.TabWorldMap)
+GUI.MappedAreas:setStyleSheet([[ padding: 0 5px; font-family: Tahoma, Geneva, sans-serif; font-weight: bold; border-width: 2px; border-color: #666666; border-style: solid; border-radius: 6; background-color: #330000;]]);
+GUI.MappedAreas:echo(&quot;MAPPED AREAS&quot;,&quot;#999966&quot;,&quot;b8&quot;)
+GUI.MappedAreas:setClickCallback(&quot;area_labels&quot;)
+GUI.MappedAreas:hide()
+
+-- TRANSPORTATION --
+
+GUI.Port1 = Geyser.Label:new({
+  name = &quot;GUI.Port1&quot;,
+  x = 600, y = 260,
+  width = 30,
+  height = 30,
+},GUI.WorldMapImg)
+GUI.Port1:setStyleSheet([[ background-image: url(]]..ms_path..[[/images/map/port.png); ]]);
+GUI.Port1:hide()
+
+GUI.Port2 = Geyser.Label:new({
+  name = &quot;GUI.Port2&quot;,
+  x = 405, y = 200,
+  width = 30,
+  height = 30,
+},GUI.WorldMapImg)
+GUI.Port2:setStyleSheet([[ background-image: url(]]..ms_path..[[/images/map/port.png); ]]);
+GUI.Port2:hide()
+
+GUI.Port3 = Geyser.Label:new({
+  name = &quot;GUI.Port3&quot;,
+  x = 420, y = 230,
+  width = 30,
+  height = 30,
+},GUI.WorldMapImg)
+GUI.Port3:setStyleSheet([[ background-image: url(]]..ms_path..[[/images/map/port.png); ]]);
+GUI.Port3:hide()
+
+GUI.Port4 = Geyser.Label:new({
+  name = &quot;GUI.Port4&quot;,
+  x = 585, y = 55,
+  width = 30,
+  height = 30,
+},GUI.WorldMapImg)
+GUI.Port4:setStyleSheet([[ background-image: url(]]..ms_path..[[/images/map/port.png); ]]);
+GUI.Port4:hide()
+
+GUI.HH1 = Geyser.Label:new({
+  name = &quot;GUI.HH1&quot;,
+  x = 750, y = 420,
+  width = 30,
+  height = 30,
+},GUI.WorldMapImg)
+GUI.HH1:setStyleSheet([[ background-image: url(]]..ms_path..[[/images/map/hh.png); ]]);
+GUI.HH1:hide()
+
+GUI.HH2 = Geyser.Label:new({
+  name = &quot;GUI.HH2&quot;,
+  x = 230, y = 230,
+  width = 30,
+  height = 30,
+},GUI.WorldMapImg)
+GUI.HH2:setStyleSheet([[ background-image: url(]]..ms_path..[[/images/map/hh.png); ]]);
+GUI.HH2:hide()
+
+GUI.HH3 = Geyser.Label:new({
+  name = &quot;GUI.HH3&quot;,
+  x = 695, y = 130,
+  width = 30,
+  height = 30,
+},GUI.WorldMapImg)
+GUI.HH3:setStyleSheet([[ background-image: url(]]..ms_path..[[/images/map/hh.png); ]]);
+GUI.HH3:hide()
+
+GUI.HH4 = Geyser.Label:new({
+  name = &quot;GUI.HH4&quot;,
+  x = 475, y = 20,
+  width = 30,
+  height = 30,
+},GUI.WorldMapImg)
+GUI.HH4:setStyleSheet([[ background-image: url(]]..ms_path..[[/images/map/hh.png); ]]);
+GUI.HH4:hide()
+
+GUI.HH5 = Geyser.Label:new({
+  name = &quot;GUI.HH5&quot;,
+  x = 460, y = 115,
+  width = 30,
+  height = 30,
+},GUI.WorldMapImg)
+GUI.HH5:setStyleSheet([[ background-image: url(]]..ms_path..[[/images/map/hh.png); ]]);
+GUI.HH5:hide()
+
+GUI.HH6 = Geyser.Label:new({
+  name = &quot;GUI.HH6&quot;,
+  x = 690, y = 285,
+  width = 30,
+  height = 30,
+},GUI.WorldMapImg)
+GUI.HH6:setStyleSheet([[ background-image: url(]]..ms_path..[[/images/map/hh.png); ]]);
+GUI.HH6:hide()
+
+GUI.HH7 = Geyser.Label:new({
+  name = &quot;GUI.HH7&quot;,
+  x = 100, y = 278,
+  width = 30,
+  height = 30,
+},GUI.WorldMapImg)
+GUI.HH7:setStyleSheet([[ background-image: url(]]..ms_path..[[/images/map/hh.png); ]]);
+GUI.HH7:hide()
+
+GUI.HH8 = Geyser.Label:new({
+  name = &quot;GUI.HH8&quot;,
+  x = 245, y = 240,
+  width = 30,
+  height = 30,
+},GUI.WorldMapImg)
+GUI.HH8:setStyleSheet([[ background-image: url(]]..ms_path..[[/images/map/hh.png); ]]);
+GUI.HH8:hide()
+
+GUI.HH9 = Geyser.Label:new({
+  name = &quot;GUI.HH9&quot;,
+  x = 630, y = 410,
+  width = 30,
+  height = 30,
+},GUI.WorldMapImg)
+GUI.HH9:setStyleSheet([[ background-image: url(]]..ms_path..[[/images/map/hh.png); ]]);
+GUI.HH9:hide()
+
+GUI.HH10 = Geyser.Label:new({
+  name = &quot;GUI.HH10&quot;,
+  x = 70, y = 22,
+  width = 30,
+  height = 30,
+},GUI.WorldMapImg)
+GUI.HH10:setStyleSheet([[ background-image: url(]]..ms_path..[[/images/map/hh.png); ]]);
+GUI.HH10:hide()
+
+GUI.HH11 = Geyser.Label:new({
+  name = &quot;GUI.HH11&quot;,
+  x = 220, y = 370,
+  width = 30,
+  height = 30,
+},GUI.WorldMapImg)
+GUI.HH11:setStyleSheet([[ background-image: url(]]..ms_path..[[/images/map/hh.png); ]]);
+GUI.HH11:hide()
+
+GUI.HH12 = Geyser.Label:new({
+  name = &quot;GUI.HH12&quot;,
+  x = 198, y = 223,
+  width = 30,
+  height = 30,
+},GUI.WorldMapImg)
+GUI.HH12:setStyleSheet([[ background-image: url(]]..ms_path..[[/images/map/hh.png); ]]);
+GUI.HH12:hide()
+
+GUI.HH13 = Geyser.Label:new({
+  name = &quot;GUI.HH13&quot;,
+  x = 600, y = 288,
+  width = 30,
+  height = 30,
+},GUI.WorldMapImg)
+GUI.HH13:setStyleSheet([[ background-image: url(]]..ms_path..[[/images/map/hh.png); ]]);
+GUI.HH13:hide()
+
+GUI.HH14 = Geyser.Label:new({
+  name = &quot;GUI.HH14&quot;,
+  x = 190, y = 93,
+  width = 30,
+  height = 30,
+},GUI.WorldMapImg)
+GUI.HH14:setStyleSheet([[ background-image: url(]]..ms_path..[[/images/map/hh.png); ]]);
+GUI.HH14:hide()
+
+GUI.HH15 = Geyser.Label:new({
+  name = &quot;GUI.HH15&quot;,
+  x = 635, y = 60,
+  width = 30,
+  height = 30,
+},GUI.WorldMapImg)
+GUI.HH15:setStyleSheet([[ background-image: url(]]..ms_path..[[/images/map/hh.png); ]]);
+GUI.HH15:hide()
+
+GUI.HH16 = Geyser.Label:new({
+  name = &quot;GUI.HH16&quot;,
+  x = 248, y = 264,
+  width = 30,
+  height = 30,
+},GUI.WorldMapImg)
+GUI.HH16:setStyleSheet([[ background-image: url(]]..ms_path..[[/images/map/hh.png); ]]);
+GUI.HH16:hide()
+
+GUI.HH17 = Geyser.Label:new({
+  name = &quot;GUI.HH17&quot;,
+  x = 80, y = 455,
+  width = 30,
+  height = 30,
+},GUI.WorldMapImg)
+GUI.HH17:setStyleSheet([[ background-image: url(]]..ms_path..[[/images/map/hh.png); ]]);
+GUI.HH17:hide()
+
+GUI.HH18 = Geyser.Label:new({
+  name = &quot;GUI.HH18&quot;,
+  x = 275, y = 335,
+  width = 30,
+  height = 30,
+},GUI.WorldMapImg)
+GUI.HH18:setStyleSheet([[ background-image: url(]]..ms_path..[[/images/map/hh.png); ]]);
+GUI.HH18:hide()
+
+GUI.HH19 = Geyser.Label:new({
+  name = &quot;GUI.HH19&quot;,
+  x = 155, y = 200,
+  width = 30,
+  height = 30,
+},GUI.WorldMapImg)
+GUI.HH19:setStyleSheet([[ background-image: url(]]..ms_path..[[/images/map/hh.png); ]]);
+GUI.HH19:hide()
+
+GUI.HH20 = Geyser.Label:new({
+  name = &quot;GUI.HH20&quot;,
+  x = 275, y = 285,
+  width = 30,
+  height = 30,
+},GUI.WorldMapImg)
+GUI.HH20:setStyleSheet([[ background-image: url(]]..ms_path..[[/images/map/hh.png); ]]);
+GUI.HH20:hide()
+
+GUI.HH21 = Geyser.Label:new({
+  name = &quot;GUI.HH21&quot;,
+  x = 495, y = 160,
+  width = 30,
+  height = 30,
+},GUI.WorldMapImg)
+GUI.HH21:setStyleSheet([[ background-image: url(]]..ms_path..[[/images/map/hh.png); ]]);
+GUI.HH21:hide()
+
+-- GUILDS --
+
+GUI.WMPriestg = Geyser.Label:new({
+  name = &quot;GUI.WMPriestg&quot;,
+  x = 590, y = 275,
+  width = 30,
+  height = 30,
+},GUI.WorldMapImg)
+GUI.WMPriestg:setStyleSheet([[ background-image: url(]]..ms_path..[[/images/map/priestguild.png); ]]);
+GUI.WMPriestg:hide()
+
+GUI.WMLycg = Geyser.Label:new({
+  name = &quot;GUI.WMLycg&quot;,
+  x = 540, y = 250,
+  width = 30,
+  height = 30,
+},GUI.WorldMapImg)
+GUI.WMLycg:setStyleSheet([[ background-image: url(]]..ms_path..[[/images/map/lycguild.png); ]]);
+GUI.WMLycg:hide()
+
+GUI.WMSorcg = Geyser.Label:new({
+  name = &quot;GUI.WMSorcg&quot;,
+  x = 595, y = 295,
+  width = 30,
+  height = 30,
+},GUI.WorldMapImg)
+GUI.WMSorcg:setStyleSheet([[ background-image: url(]]..ms_path..[[/images/map/sorcguild.png); ]]);
+GUI.WMSorcg:hide()
+
+GUI.WMMonkg = Geyser.Label:new({
+  name = &quot;GUI.WMMonkg&quot;,
+  x = 180, y = 160,
+  width = 30,
+  height = 30,
+},GUI.WorldMapImg)
+GUI.WMMonkg:setStyleSheet([[ background-image: url(]]..ms_path..[[/images/map/monkguild.png); ]]);
+GUI.WMMonkg:hide()
+
+GUI.WMDruidg = Geyser.Label:new({
+  name = &quot;GUI.WMDruidg&quot;,
+  x = 245, y = 270,
+  width = 30,
+  height = 30,
+},GUI.WorldMapImg)
+GUI.WMDruidg:setStyleSheet([[ background-image: url(]]..ms_path..[[/images/map/druidguild.png); ]]);
+GUI.WMDruidg:hide()
+
+GUI.WMBardg = Geyser.Label:new({
+  name = &quot;GUI.WMBardg&quot;,
+  x = 292, y = 290,
+  width = 30,
+  height = 30,
+},GUI.WorldMapImg)
+GUI.WMBardg:setStyleSheet([[ background-image: url(]]..ms_path..[[/images/map/bardguild.png); ]]);
+GUI.WMBardg:hide()
+
+GUI.WMBMg = Geyser.Label:new({
+  name = &quot;GUI.WMBMg&quot;,
+  x = 290, y = 310,
+  width = 30,
+  height = 30,
+},GUI.WorldMapImg)
+GUI.WMBMg:setStyleSheet([[ background-image: url(]]..ms_path..[[/images/map/bmguild.png); ]]);
+GUI.WMBMg:hide()
+
+-- MAPPED AREAS --
+
+GUI.WMCC = Geyser.Label:new({
+  name = &quot;GUI.WMCC&quot;,
+  x = 280, y = 320,
+  width = 120,
+  height = 20,
+},GUI.WorldMapImg)
+GUI.WMCC:setStyleSheet([[ font-family: Tahoma, Geneva, sans-serif; background-color: transparent;]]);
+GUI.WMCC:echo(&quot;Central Castle&quot;,&quot;#FFFFCC&quot;,&quot;b8&quot;)
+GUI.WMCC:hide()
+
+GUI.WMRamella = Geyser.Label:new({
+  name = &quot;GUI.WMRamella&quot;,
+  x = 212, y = 395,
+  width = 120,
+  height = 20,
+},GUI.WorldMapImg)
+GUI.WMRamella:setStyleSheet([[ font-family: Tahoma, Geneva, sans-serif; background-color: transparent;]]);
+GUI.WMRamella:echo(&quot;Ramella&quot;,&quot;#FFFFCC&quot;,&quot;b8&quot;)
+GUI.WMRamella:hide()
+
+GUI.WMRaven = Geyser.Label:new({
+  name = &quot;GUI.WMRaven&quot;,
+  x = 510, y = 275,
+  width = 120,
+  height = 20,
+},GUI.WorldMapImg)
+GUI.WMRaven:setStyleSheet([[ font-family: Tahoma, Geneva, sans-serif; background-color: transparent;]]);
+GUI.WMRaven:echo(&quot;Barovia&quot;,&quot;#FFFFCC&quot;,&quot;b8&quot;)
+GUI.WMRaven:hide()
+
+GUI.WMCerthun = Geyser.Label:new({
+  name = &quot;GUI.WMCerthun&quot;,
+  x = 180, y = 348,
+  width = 120,
+  height = 20,
+},GUI.WorldMapImg)
+GUI.WMCerthun:setStyleSheet([[ font-family: Tahoma, Geneva, sans-serif; background-color: transparent;]]);
+GUI.WMCerthun:echo(&quot;Certhun&quot;,&quot;#FFFFCC&quot;,&quot;b8&quot;)
+GUI.WMCerthun:hide()
+
+GUI.WMDrupacia = Geyser.Label:new({
+  name = &quot;GUI.WMDrupacia&quot;,
+  x = 70, y = 460,
+  width = 120,
+  height = 20,
+},GUI.WorldMapImg)
+GUI.WMDrupacia:setStyleSheet([[ font-family: Tahoma, Geneva, sans-serif; background-color: transparent;]]);
+GUI.WMDrupacia:echo(&quot;Caltonin&quot;,&quot;#FFFFCC&quot;,&quot;b8&quot;)
+GUI.WMDrupacia:hide()
+
+GUI.WMValhall = Geyser.Label:new({
+  name = &quot;GUI.WMValhall&quot;,
+  x = 55, y = 35,
+  width = 120,
+  height = 20,
+},GUI.WorldMapImg)
+GUI.WMValhall:setStyleSheet([[ font-family: Tahoma, Geneva, sans-serif; background-color: transparent;]]);
+GUI.WMValhall:echo(&quot;Ladir&quot;,&quot;#FFFFCC&quot;,&quot;b8&quot;)
+GUI.WMValhall:hide()
+
+GUI.WMAlmoth = Geyser.Label:new({
+  name = &quot;GUI.WMAlmoth&quot;,
+  x = 188, y = 103,
+  width = 120,
+  height = 20,
+},GUI.WorldMapImg)
+GUI.WMAlmoth:setStyleSheet([[ font-family: Tahoma, Geneva, sans-serif; background-color: transparent;]]);
+GUI.WMAlmoth:echo(&quot;Minbara&quot;,&quot;#FFFFCC&quot;,&quot;b8&quot;)
+GUI.WMAlmoth:hide()
+
+GUI.WMSCC = Geyser.Label:new({
+  name = &quot;GUI.WMSCC&quot;,
+  x = 398, y = 211,
+  width = 120,
+  height = 20,
+},GUI.WorldMapImg)
+GUI.WMSCC:setStyleSheet([[ font-family: Tahoma, Geneva, sans-serif; background-color: transparent;]]);
+GUI.WMSCC:echo(&quot;Stonecoast&quot;,&quot;#FFFFCC&quot;,&quot;b8&quot;)
+GUI.WMSCC:hide()
+
+GUI.WMRash = Geyser.Label:new({
+  name = &quot;GUI.WMRash&quot;,
+  x = 360, y = 138,
+  width = 120,
+  height = 20,
+},GUI.WorldMapImg)
+GUI.WMRash:setStyleSheet([[ font-family: Tahoma, Geneva, sans-serif; background-color: transparent;]]);
+GUI.WMRash:echo(&quot;Rash&quot;,&quot;#FFFFCC&quot;,&quot;b8&quot;)
+GUI.WMRash:hide()
+
+GUI.WMSaldoldia = Geyser.Label:new({
+  name = &quot;GUI.WMSaldoldia&quot;,
+  x = 345, y = 430,
+  width = 120,
+  height = 20,
+},GUI.WorldMapImg)
+GUI.WMSaldoldia:setStyleSheet([[ font-family: Tahoma, Geneva, sans-serif; background-color: transparent;]]);
+GUI.WMSaldoldia:echo(&quot;Saldoldia&quot;,&quot;#FFFFCC&quot;,&quot;b8&quot;)
+GUI.WMSaldoldia:hide()
+
+GUI.WMSmargash = Geyser.Label:new({
+  name = &quot;GUI.WMSmargash&quot;,
+  x = 440, y = 355,
+  width = 120,
+  height = 20,
+},GUI.WorldMapImg)
+GUI.WMSmargash:setStyleSheet([[ font-family: Tahoma, Geneva, sans-serif; background-color: transparent;]]);
+GUI.WMSmargash:echo(&quot;Smargash&quot;,&quot;#FFFFCC&quot;,&quot;b8&quot;)
+GUI.WMSmargash:hide()
+
+GUI.WMEverlund = Geyser.Label:new({
+  name = &quot;GUI.WMEverlund&quot;,
+  x = 600, y = 310,
+  width = 120,
+  height = 20,
+},GUI.WorldMapImg)
+GUI.WMEverlund:setStyleSheet([[ font-family: Tahoma, Geneva, sans-serif; background-color: transparent;]]);
+GUI.WMEverlund:echo(&quot;Everlund&quot;,&quot;#FFFFCC&quot;,&quot;b8&quot;)
+GUI.WMEverlund:hide()
+
+GUI.WMBW = Geyser.Label:new({
+  name = &quot;GUI.WMBW&quot;,
+  x = 785, y = 285,
+  width = 120,
+  height = 20,
+},GUI.WorldMapImg)
+GUI.WMBW:setStyleSheet([[ font-family: Tahoma, Geneva, sans-serif; background-color: transparent;]]);
+GUI.WMBW:echo(&quot;Bloodwych&quot;,&quot;#FFFFCC&quot;,&quot;b8&quot;)
+GUI.WMBW:hide()
+
+GUI.WMBaz = Geyser.Label:new({
+  name = &quot;GUI.WMBaz&quot;,
+  x = 804, y = 440,
+  width = 120,
+  height = 20,
+},GUI.WorldMapImg)
+GUI.WMBaz:setStyleSheet([[ font-family: Tahoma, Geneva, sans-serif; background-color: transparent;]]);
+GUI.WMBaz:echo(&quot;Baz&quot;,&quot;#FFFFCC&quot;,&quot;b8&quot;)
+GUI.WMBaz:hide()
+
+GUI.WMTyr = Geyser.Label:new({
+  name = &quot;GUI.WMTyr&quot;,
+  x = 574, y = 560,
+  width = 120,
+  height = 20,
+},GUI.WorldMapImg)
+GUI.WMTyr:setStyleSheet([[ font-family: Tahoma, Geneva, sans-serif; background-color: transparent;]]);
+GUI.WMTyr:echo(&quot;Tyr&quot;,&quot;#FFFFCC&quot;,&quot;b8&quot;)
+GUI.WMTyr:hide()
+
+GUI.WMAldar = Geyser.Label:new({
+  name = &quot;GUI.WMAldar&quot;,
+  x = 496, y = 125,
+  width = 120,
+  height = 20,
+},GUI.WorldMapImg)
+GUI.WMAldar:setStyleSheet([[ font-family: Tahoma, Geneva, sans-serif; background-color: transparent;]]);
+GUI.WMAldar:echo(&quot;Aldar&quot;,&quot;#FFFFCC&quot;,&quot;b8&quot;)
+GUI.WMAldar:hide()
+
+GUI.WMHercyna = Geyser.Label:new({
+  name = &quot;GUI.WMHercyna&quot;,
+  x = 720, y = 140,
+  width = 120,
+  height = 20,
+},GUI.WorldMapImg)
+GUI.WMHercyna:setStyleSheet([[ font-family: Tahoma, Geneva, sans-serif; background-color: transparent;]]);
+GUI.WMHercyna:echo(&quot;Hercyna&quot;,&quot;#FFFFCC&quot;,&quot;b8&quot;)
+GUI.WMHercyna:hide()
+
+GUI.WMLesumnon = Geyser.Label:new({
+  name = &quot;GUI.WMLesumnon&quot;,
+  x = 500, y = 190,
+  width = 120,
+  height = 20,
+},GUI.WorldMapImg)
+GUI.WMLesumnon:setStyleSheet([[ font-family: Tahoma, Geneva, sans-serif; background-color: transparent;]]);
+GUI.WMLesumnon:echo(&quot;Lesumnon&quot;,&quot;#FFFFCC&quot;,&quot;b8&quot;)
+GUI.WMLesumnon:hide()
+
+GUI.WMShadowland = Geyser.Label:new({
+  name = &quot;GUI.WMShadowland&quot;,
+  x = 600, y = 55,
+  width = 120,
+  height = 20,
+},GUI.WorldMapImg)
+GUI.WMShadowland:setStyleSheet([[ font-family: Tahoma, Geneva, sans-serif; background-color: transparent;]]);
+GUI.WMShadowland:echo(&quot;Valor&quot;,&quot;#FFFFCC&quot;,&quot;b8&quot;)
+GUI.WMShadowland:hide()
+
+GUI.WMEldarian = Geyser.Label:new({
+  name = &quot;GUI.WMEldarian&quot;,
+  x = 490, y = 25,
+  width = 120,
+  height = 20,
+},GUI.WorldMapImg)
+GUI.WMEldarian:setStyleSheet([[ font-family: Tahoma, Geneva, sans-serif; background-color: transparent;]]);
+GUI.WMEldarian:echo(&quot;Eldarian&quot;,&quot;#FFFFCC&quot;,&quot;b8&quot;)
+GUI.WMEldarian:hide()
+
+GUI.WMDurindil = Geyser.Label:new({
+  name = &quot;GUI.WMDurindil&quot;,
+  x = 90, y = 318,
+  width = 120,
+  height = 20,
+},GUI.WorldMapImg)
+GUI.WMDurindil:setStyleSheet([[ font-family: Tahoma, Geneva, sans-serif; background-color: transparent;]]);
+GUI.WMDurindil:echo(&quot;Durindil&quot;,&quot;#FFFFCC&quot;,&quot;b8&quot;)
+GUI.WMDurindil:hide()
+
+GUI.WMDrex = Geyser.Label:new({
+  name = &quot;GUI.WMDrex&quot;,
+  x = 210, y = 252,
+  width = 120,
+  height = 20,
+},GUI.WorldMapImg)
+GUI.WMDrex:setStyleSheet([[ font-family: Tahoma, Geneva, sans-serif; background-color: transparent;]]);
+GUI.WMDrex:echo(&quot;Drelexor&quot;,&quot;#FFFFCC&quot;,&quot;b8&quot;)
+GUI.WMDrex:hide()
+
+GUI.WMKurly = Geyser.Label:new({
+  name = &quot;GUI.WMKurly&quot;,
+  x = 255, y = 183,
+  width = 120,
+  height = 20,
+},GUI.WorldMapImg)
+GUI.WMKurly:setStyleSheet([[ font-family: Tahoma, Geneva, sans-serif; background-color: transparent;]]);
+GUI.WMKurly:echo(&quot;Kurly&quot;,&quot;#FFFFCC&quot;,&quot;b8&quot;)
+GUI.WMKurly:hide()
+
+GUI.WMBrackmore = Geyser.Label:new({
+  name = &quot;GUI.WMBrackmore&quot;,
+  x = 40, y = 355,
+  width = 120,
+  height = 20,
+},GUI.WorldMapImg)
+GUI.WMBrackmore:setStyleSheet([[ font-family: Tahoma, Geneva, sans-serif; background-color: transparent;]]);
+GUI.WMBrackmore:echo(&quot;Brackmore&quot;,&quot;#FFFFCC&quot;,&quot;b8&quot;)
+GUI.WMBrackmore:hide()
+
+GUI.WMManetheren = Geyser.Label:new({
+  name = &quot;GUI.WMManetheren&quot;,
+  x = 135, y = 265,
+  width = 120,
+  height = 20,
+},GUI.WorldMapImg)
+GUI.WMManetheren:setStyleSheet([[ font-family: Tahoma, Geneva, sans-serif; background-color: transparent;]]);
+GUI.WMManetheren:echo(&quot;Manetheren&quot;,&quot;#FFFFCC&quot;,&quot;b8&quot;)
+GUI.WMManetheren:hide()
+
+-- NEWBIE AREAS --
+
+GUI.NBNForest = Geyser.Label:new({
+  name = &quot;GUI.NBNForest&quot;,
+  x = 295, y = 255,
+  width = 120,
+  height = 30,
+},GUI.WorldMapImg)
+GUI.NBNForest:setStyleSheet([[ font-family: Tahoma, Geneva, sans-serif; background-color: transparent;]]);
+GUI.NBNForest:echo(&quot;Newbie&lt;br/&gt;forest&quot;,&quot;#99FF33&quot;,&quot;b8&quot;)
+GUI.NBNForest:hide()
+
+GUI.NBJungle = Geyser.Label:new({
+  name = &quot;GUI.NBJungle&quot;,
+  x = 325, y = 280,
+  width = 120,
+  height = 20,
+},GUI.WorldMapImg)
+GUI.NBJungle:setStyleSheet([[ font-family: Tahoma, Geneva, sans-serif; background-color: transparent;]]);
+GUI.NBJungle:echo(&quot;Jungle&quot;,&quot;#99FF33&quot;,&quot;b8&quot;)
+GUI.NBJungle:hide()
+
+GUI.NBBaz = Geyser.Label:new({
+  name = &quot;GUI.NBBaz&quot;,
+  x = 755, y = 430,
+  width = 120,
+  height = 30,
+},GUI.WorldMapImg)
+GUI.NBBaz:setStyleSheet([[ font-family: Tahoma, Geneva, sans-serif; background-color: transparent;]]);
+GUI.NBBaz:echo(&quot;Baz fields&quot;,&quot;#99FF33&quot;,&quot;b8&quot;)
+GUI.NBBaz:hide()
+
+GUI.NBEdmonds = Geyser.Label:new({
+  name = &quot;GUI.NBEdmonds&quot;,
+  x = 165, y = 280,
+  width = 120,
+  height = 30,
+},GUI.WorldMapImg)
+GUI.NBEdmonds:setStyleSheet([[ font-family: Tahoma, Geneva, sans-serif; background-color: transparent;]]);
+GUI.NBEdmonds:echo(&quot;Edmond's&lt;br/&gt;Field&quot;,&quot;#99FF33&quot;,&quot;b8&quot;)
+GUI.NBEdmonds:hide()
+
+GUI.NBFrozen = Geyser.Label:new({
+  name = &quot;GUI.NBFrozen&quot;,
+  x = 740, y = 310,
+  width = 120,
+  height = 30,
+},GUI.WorldMapImg)
+GUI.NBFrozen:setStyleSheet([[ font-family: Tahoma, Geneva, sans-serif; background-color: transparent;]]);
+GUI.NBFrozen:echo(&quot;Frozen&lt;br/&gt;wasteland&quot;,&quot;#99FF33&quot;,&quot;b8&quot;)
+GUI.NBFrozen:hide()
+
+GUI.NBGaladriel = Geyser.Label:new({
+  name = &quot;GUI.NBGaladriel&quot;,
+  x = 228, y = 268,
+  width = 120,
+  height = 30,
+},GUI.WorldMapImg)
+GUI.NBGaladriel:setStyleSheet([[ font-family: Tahoma, Geneva, sans-serif; background-color: transparent;]]);
+GUI.NBGaladriel:echo(&quot;Lady&lt;br/&gt;Galadriel's&quot;,&quot;#99FF33&quot;,&quot;b8&quot;)
+GUI.NBGaladriel:hide()
+
+GUI.NBDS = Geyser.Label:new({
+  name = &quot;GUI.NBDS&quot;,
+  x = 630, y = 470,
+  width = 120,
+  height = 30,
+},GUI.WorldMapImg)
+GUI.NBDS:setStyleSheet([[ font-family: Tahoma, Geneva, sans-serif; background-color: transparent;]]);
+GUI.NBDS:echo(&quot;Desert&lt;br/&gt;and steppe&quot;,&quot;#99FF33&quot;,&quot;b8&quot;)
+GUI.NBDS:hide()
+
+GUI.NBHercyna1 = Geyser.Label:new({
+  name = &quot;GUI.NBHercyna1&quot;,
+  x = 680, y = 135,
+  width = 120,
+  height = 30,
+},GUI.WorldMapImg)
+GUI.NBHercyna1:setStyleSheet([[ font-family: Tahoma, Geneva, sans-serif; background-color: transparent;]]);
+GUI.NBHercyna1:echo(&quot;Hercyna&lt;br/&gt;forest&quot;,&quot;#99FF33&quot;,&quot;b8&quot;)
+GUI.NBHercyna1:hide()
+
+GUI.NBHHG = Geyser.Label:new({
+  name = &quot;GUI.NBHHG&quot;,
+  x = 520, y = 320,
+  width = 120,
+  height = 50,
+},GUI.WorldMapImg)
+GUI.NBHHG:setStyleSheet([[ font-family: Tahoma, Geneva, sans-serif; background-color: transparent;]]);
+GUI.NBHHG:echo(&quot;Happy&lt;br/&gt;Hunting&lt;br/&gt;Grounds&quot;,&quot;#99FF33&quot;,&quot;b8&quot;)
+GUI.NBHHG:hide()
+
+GUI.NBCoI = Geyser.Label:new({
+  name = &quot;GUI.NBCoI&quot;,
+  x = 380, y = 240,
+  width = 120,
+  height = 30,
+},GUI.WorldMapImg)
+GUI.NBCoI:setStyleSheet([[ font-family: Tahoma, Geneva, sans-serif; background-color: transparent;]]);
+GUI.NBCoI:echo(&quot;Caverns&lt;br/&gt;of Ice&quot;,&quot;#99FF33&quot;,&quot;b8&quot;)
+GUI.NBCoI:hide()
+
+GUI.NBJoten = Geyser.Label:new({
+  name = &quot;GUI.NBJoten&quot;,
+  x = 25, y = 15,
+  width = 120,
+  height = 30,
+},GUI.WorldMapImg)
+GUI.NBJoten:setStyleSheet([[ font-family: Tahoma, Geneva, sans-serif; background-color: transparent;]]);
+GUI.NBJoten:echo(&quot;Joten&lt;br/&gt;kindergarten&quot;,&quot;#99FF33&quot;,&quot;b8&quot;)
+GUI.NBJoten:hide()
+
+GUI.NBLesumnon = Geyser.Label:new({
+  name = &quot;GUI.NBLesumnon&quot;,
+  x = 480, y = 180,
+  width = 120,
+  height = 30,
+},GUI.WorldMapImg)
+GUI.NBLesumnon:setStyleSheet([[ font-family: Tahoma, Geneva, sans-serif; background-color: transparent;]]);
+GUI.NBLesumnon:echo(&quot;Lesumnon&lt;br/&gt;fields&quot;,&quot;#99FF33&quot;,&quot;b8&quot;)
+GUI.NBLesumnon:hide()
+
+GUI.NBSewers = Geyser.Label:new({
+  name = &quot;GUI.NBSewers&quot;,
+  x = 600, y = 312,
+  width = 120,
+  height = 30,
+},GUI.WorldMapImg)
+GUI.NBSewers:setStyleSheet([[ font-family: Tahoma, Geneva, sans-serif; background-color: transparent;]]);
+GUI.NBSewers:echo(&quot;Everlund&lt;br/&gt;sewers&quot;,&quot;#99FF33&quot;,&quot;b8&quot;)
+GUI.NBSewers:hide()
+
+GUI.NBElemental = Geyser.Label:new({
+  name = &quot;GUI.NBElemental&quot;,
+  x = 585, y = 288,
+  width = 120,
+  height = 30,
+},GUI.WorldMapImg)
+GUI.NBElemental:setStyleSheet([[ font-family: Tahoma, Geneva, sans-serif; background-color: transparent;]]);
+GUI.NBElemental:echo(&quot;Elemental&lt;br/&gt;Grove&quot;,&quot;#99FF33&quot;,&quot;b8&quot;)
+GUI.NBElemental:hide()
+
+GUI.NBToken = Geyser.Label:new({
+  name = &quot;GUI.NBToken&quot;,
+  x = 230, y = 300,
+  width = 120,
+  height = 30,
+},GUI.WorldMapImg)
+GUI.NBToken:setStyleSheet([[ font-family: Tahoma, Geneva, sans-serif; background-color: transparent;]]);
+GUI.NBToken:echo(&quot;Token&lt;br/&gt;Forest&quot;,&quot;#99FF33&quot;,&quot;b8&quot;)
+GUI.NBToken:hide()
+
+GUI.NBTyr = Geyser.Label:new({
+  name = &quot;GUI.NBTyr&quot;,
+  x = 530, y = 540,
+  width = 120,
+  height = 30,
+},GUI.WorldMapImg)
+GUI.NBTyr:setStyleSheet([[ font-family: Tahoma, Geneva, sans-serif; background-color: transparent;]]);
+GUI.NBTyr:echo(&quot;Tyr&lt;br/&gt;slums&quot;,&quot;#99FF33&quot;,&quot;b8&quot;)
+GUI.NBTyr:hide()
+
+GUI.NBNville = Geyser.Label:new({
+  name = &quot;GUI.NBNville&quot;,
+  x = 38, y = 40,
+  width = 120,
+  height = 30,
+},GUI.WorldMapImg)
+GUI.NBNville:setStyleSheet([[ font-family: Tahoma, Geneva, sans-serif; background-color: transparent;]]);
+GUI.NBNville:echo(&quot;Newbieville&quot;,&quot;#99FF33&quot;,&quot;b8&quot;)
+GUI.NBNville:hide()
+
+GUI.NBVlandore = Geyser.Label:new({
+  name = &quot;GUI.NBVlandore&quot;,
+  x = 232, y = 235,
+  width = 120,
+  height = 30,
+},GUI.WorldMapImg)
+GUI.NBVlandore:setStyleSheet([[ font-family: Tahoma, Geneva, sans-serif; background-color: transparent;]]);
+GUI.NBVlandore:echo(&quot;Vlandore&lt;br/&gt;gardens&quot;,&quot;#99FF33&quot;,&quot;b8&quot;)
+GUI.NBVlandore:hide()
+
+GUI.NBKurly = Geyser.Label:new({
+  name = &quot;GUI.NBKurly&quot;,
+  x = 280, y = 150,
+  width = 120,
+  height = 50,
+},GUI.WorldMapImg)
+GUI.NBKurly:setStyleSheet([[ font-family: Tahoma, Geneva, sans-serif; background-color: transparent;]]);
+GUI.NBKurly:echo(&quot;Kurly&lt;br/&gt;Hunting&lt;br/&gt;Grounds&quot;,&quot;#99FF33&quot;,&quot;b8&quot;)
+GUI.NBKurly:hide()</script>
+                            <eventHandlerList/>
+                        </Script>
+                        <Script isActive="yes" isFolder="no">
+                            <name>worldmap_functions</name>
+                            <packageName></packageName>
+                            <script>newbie_shown = false
+guilds_shown = false
+areas_shown = false
+transport_shown = false
+
+Guilds = { &quot;Priest&quot;,&quot;Lyc&quot;,&quot;Sorc&quot;,&quot;BM&quot;,&quot;Monk&quot;,&quot;Druid&quot;,&quot;Bard&quot; }
+
+NewbieAreas = {
+	[&quot;Newbie Forest&quot;] = &quot;NForest&quot;,
+	[&quot;Jungle&quot;] = &quot;Jungle&quot;,
+	[&quot;Baz fields&quot;] = &quot;Baz&quot;,
+	[&quot;Edmond's Field&quot;] = &quot;Edmonds&quot;,
+	[&quot;Frozen wasteland&quot;] = &quot;Frozen&quot;,
+	[&quot;Lady Galadriel's&quot;] = &quot;Galadriel&quot;,
+	[&quot;Desert and steppe&quot;] = &quot;DS&quot;,
+	[&quot;Hercyna forest&quot;] = &quot;Hercyna1&quot;,
+	[&quot;Happy Hunting Grounds&quot;] = &quot;HHG&quot;,
+	[&quot;Caverns of Ice&quot;] = &quot;CoI&quot;,
+	[&quot;Joten kindergarten&quot;] = &quot;Joten&quot;,
+	[&quot;Lesumnon fields&quot;] = &quot;Lesumnon&quot;,
+	[&quot;Everlund sewers&quot;] = &quot;Sewers&quot;,
+	[&quot;Elemental grove&quot;] = &quot;Elemental&quot;,
+	[&quot;Token Forest&quot;] = &quot;Token&quot;,
+	[&quot;Tyr slums&quot;] = &quot;Tyr&quot;,
+	[&quot;Newbieville&quot;] = &quot;Nville&quot;,
+	[&quot;Vlandore gardens&quot;] = &quot;Vlandore&quot;,
+	[&quot;Kurly Hunting Grounds&quot;] = &quot;Kurly&quot;,
+}
+
+AreaLabels = {
+	[&quot;Central Castle&quot;] = {&quot;Central Castle&quot;,&quot;CC&quot;},
+	[&quot;Ramella&quot;] = {&quot;Lands of Ramella&quot;,&quot;Ramella&quot;},
+	[&quot;Barovia&quot;] = {&quot;Realm of the Raven&quot;,&quot;Raven&quot;},
+	[&quot;Certhun&quot;] = {&quot;Certhunia&quot;,&quot;Certhun&quot;},
+	[&quot;Caltonin&quot;] = {&quot;Drupacia, the forgotten realms&quot;,&quot;Drupacia&quot;},
+	[&quot;Ladir&quot;] = {&quot;Valhall&quot;,&quot;Valhall&quot;},
+	[&quot;Minbara&quot;] = {&quot;Almoth&quot;,&quot;Almoth&quot;},
+	[&quot;Stonecoast&quot;] = {&quot;Stonecoast village and castle&quot;,&quot;SCC&quot;},
+	[&quot;Rash&quot;] = {&quot;Rash&quot;,&quot;Rash&quot;},	
+	[&quot;Saldoldia&quot;] = {&quot;Saldoldia&quot;,&quot;Saldoldia&quot;},
+	[&quot;Smargash&quot;] = {&quot;Smargash&quot;,&quot;Smargash&quot;},
+	[&quot;Everlund&quot;] = {&quot;Everlund&quot;,&quot;Everlund&quot;},
+	[&quot;Bloodwych&quot;] = {&quot;Bloodwych&quot;,&quot;BW&quot;},
+	[&quot;Baz&quot;] = {&quot;Bazzinia&quot;,&quot;Baz&quot;},
+	[&quot;Tyr&quot;] = {&quot;Tyr&quot;,&quot;Tyr&quot;},
+	[&quot;Aldar&quot;] = {&quot;Aldar&quot;,&quot;Aldar&quot;},	
+	[&quot;Hercyna&quot;] = {&quot;Hercyna&quot;,&quot;Hercyna&quot;},
+	[&quot;Lesumnon&quot;] = {&quot;Lesumnon&quot;,&quot;Lesumnon&quot;},
+	[&quot;Valor&quot;] = {&quot;Shadowland&quot;,&quot;Shadowland&quot;},
+	[&quot;Eldarian&quot;] = {&quot;Eldarian&quot;,&quot;Eldarian&quot;},
+	[&quot;Durindil&quot;] = {&quot;Town of Durindil&quot;,&quot;Durindil&quot;},
+	[&quot;Drelexor&quot;] = {&quot;The Grasslands and Drelexor Castle&quot;,&quot;Drex&quot;},
+	[&quot;Kurly&quot;] = {&quot;Kurly&quot;,&quot;Kurly&quot;},	
+	[&quot;Brackmore&quot;] = {&quot;Brackmore&quot;,&quot;Brackmore&quot;},
+	[&quot;Manetheren&quot;] = {&quot;Manetheren&quot;,&quot;Manetheren&quot;},
+}
+
+Ports = { &quot;Everlund&quot;, &quot;Stonecoast&quot;, &quot;East Road&quot;, &quot;Valor&quot; }
+Hitchhikes = { &quot;Bazzinia&quot;, &quot;Vlandore&quot;, &quot;Hercyna&quot;, &quot;Eldarian&quot;, &quot;Aldar&quot;, &quot;Bloodwych&quot;,
+					&quot;Arcanarton&quot;, &quot;Land of Evil&quot;, &quot;Mountains&quot;, &quot;Valhall&quot;, &quot;Ramella&quot;,
+					&quot;Drelexor&quot;, &quot;Everlund&quot;, &quot;Almoth&quot;, &quot;Shadowland&quot;, &quot;Llorien&quot;, &quot;Drupacia&quot;,
+					&quot;Saldoldia&quot;, &quot;Manetheren&quot;, &quot;Central Castle&quot;, &quot;Lesumnon&quot; }
+
+function show_layers(event, tab)
+	if tab == &quot;WorldMap&quot; then
+		if event == &quot;show_tab&quot; then
+			GUI.WorldMapImg:show()
+			GUI.NewbieAreas:show()
+			GUI.Guilds:show()
+			GUI.Transport:show()
+			GUI.MappedAreas:show()
+		elseif event == &quot;hide_tab&quot; then
+			GUI.WorldMapImg:hide()
+			GUI.NewbieAreas:hide()
+			GUI.Guilds:hide()
+			GUI.Transport:hide()
+			GUI.MappedAreas:hide()
+			areas_shown = true
+			area_labels()
+			transport_shown = true
+			transport_labels()
+			guilds_shown = true
+			guild_labels()
+			newbie_shown = true
+			newbie_labels()
+		end
+	end
+end
+
+function guild_labels()
+	if guilds_shown then
+		for id,name in ipairs(Guilds) do
+			hideWindow(&quot;GUI.WM&quot;..name..&quot;g&quot;)
+		end
+		setLabelStyleSheet(&quot;GUI.Guilds&quot;,[[padding: 0 5px; font-family: Tahoma, Geneva, sans-serif; font-weight: bold; border-width: 2px; border-color: #666666; border-style: solid; border-radius: 6; background-color: #333300;]])
+		guilds_shown = false
+	else
+		for id,name in ipairs(Guilds) do
+			showWindow(&quot;GUI.WM&quot;..name..&quot;g&quot;)
+		end
+		setLabelStyleSheet(&quot;GUI.Guilds&quot;,[[padding: 0 5px; font-family: Tahoma, Geneva, sans-serif; font-weight: bold; border-width: 2px; border-color: #999966; border-style: solid; border-radius: 6; background-color: #333300;]])
+		guilds_shown = true
+	end
+end
+
+function transport_labels()
+	if transport_shown then
+		for id,name in ipairs(Ports) do
+			hideWindow(&quot;GUI.Port&quot;..id)
+		end
+		for id,name in ipairs(Hitchhikes) do
+			hideWindow(&quot;GUI.HH&quot;..id)
+		end
+		setLabelStyleSheet(&quot;GUI.Transport&quot;,[[padding: 0 5px; font-family: Tahoma, Geneva, sans-serif; font-weight: bold; border-width: 2px; border-color: #666666; border-style: solid; border-radius: 6; background-color: #000033;]])
+		transport_shown = false
+	else
+		for id,name in ipairs(Ports) do
+			showWindow(&quot;GUI.Port&quot;..id)
+		end
+		for id,name in ipairs(Hitchhikes) do
+			showWindow(&quot;GUI.HH&quot;..id)
+		end
+		setLabelStyleSheet(&quot;GUI.Transport&quot;,[[padding: 0 5px; font-family: Tahoma, Geneva, sans-serif; font-weight: bold; border-width: 2px; border-color: #999966; border-style: solid; border-radius: 6; background-color: #000033;]])
+		transport_shown = true
+	end
+end
+
+function area_labels()
+	if areas_shown then
+		for label,data in pairs(AreaLabels) do
+			local arealong, labelid = unpack(data)
+			hideWindow(&quot;GUI.WM&quot;..labelid)
+		end
+		setLabelStyleSheet(&quot;GUI.MappedAreas&quot;,[[padding: 0 5px; font-family: Tahoma, Geneva, sans-serif; font-weight: bold; border-width: 2px; border-color: #666666; border-style: solid; border-radius: 6; background-color: #330000;]])
+		areas_shown = false
+	else
+		for label,data in pairs(AreaLabels) do
+			local arealong, labelid = unpack(data)
+			local mapped  = getAreaTable()
+			for area, id in pairs(mapped) do
+				if arealong == area then
+					showWindow(&quot;GUI.WM&quot;..labelid)
+				end
+			end
+		end
+		setLabelStyleSheet(&quot;GUI.MappedAreas&quot;,[[padding: 0 5px; font-family: Tahoma, Geneva, sans-serif; font-weight: bold; border-width: 2px; border-color: #999966; border-style: solid; border-radius: 6; background-color: #330000;]])
+		areas_shown = true
+	end
+end
+
+function newbie_labels()
+	if newbie_shown then
+		for name,labelid in pairs(NewbieAreas) do
+			hideWindow(&quot;GUI.NB&quot;..labelid)
+		end
+		setLabelStyleSheet(&quot;GUI.NewbieAreas&quot;,[[padding: 0 5px; font-family: Tahoma, Geneva, sans-serif; font-weight: bold; border-width: 2px; border-color: #666666; border-style: solid; border-radius: 6; background-color: #003300;]])
+		newbie_shown = false
+	else
+		for name,labelid in pairs(NewbieAreas) do
+			showWindow(&quot;GUI.NB&quot;..labelid)
+		end
+		setLabelStyleSheet(&quot;GUI.NewbieAreas&quot;,[[padding: 0 5px; font-family: Tahoma, Geneva, sans-serif; font-weight: bold; border-width: 2px; border-color: #999966; border-style: solid; border-radius: 6; background-color: #003300;]])
+		newbie_shown = true
+	end
+end
+
+registerAnonymousEventHandler(&quot;show_tab&quot;,&quot;show_layers&quot;)
+registerAnonymousEventHandler(&quot;hide_tab&quot;,&quot;show_layers&quot;)</script>
+                            <eventHandlerList/>
+                        </Script>
+                        <Script isActive="yes" isFolder="no">
+                            <name>who_functions</name>
+                            <packageName></packageName>
+                            <script>who_list = {{}}
+
+who_scrollamt = 1
+who_page = 20
+who_offset = offset or 0
+
+GUI.Who = GUI.Who or {}
+
+--CSS--
+
+GUI.Who.NameCSS = CSSMan.new([[
+	padding-left: 1px;
+	margin-bottom: 1px;
+	background-color: QLinearGradient(x1: 0, y1: 0, x2: 0, y2: 1,stop:0 rgba(80,90,90,80), stop:.3 rgba(160,180,180,40), stop:.35 rgba(160,180,180,40), stop:1 rgba(60,70,70,80));
+	font-family: Tahoma, Geneva, sans-serif;
+	font-weight: bold;
+	color: #999966;
+	qproperty-alignment: &quot;AlignBottom&quot;;
+	qproperty-wordWrap: false;
+]])
+
+GUI.Who.LevelCSS = CSSMan.new([[
+	padding-left: 1px;
+	margin-bottom: 1px;
+	background-color: QLinearGradient(x1: 0, y1: 0, x2: 0, y2: 1,stop:0 rgba(80,90,90,80), stop:.3 rgba(160,180,180,40), stop:.35 rgba(160,180,180,40), stop:1 rgba(60,70,70,80));
+	font-family: Tahoma, Geneva, sans-serif;
+	font-weight: bold;
+	color: #999966;
+	qproperty-alignment: &quot;AlignBottom | AlignRight&quot;;
+	qproperty-wordWrap: false;
+]])
+
+GUI.Who.SummaryCSS = CSSMan.new([[
+	padding-left: 1px;
+	margin-bottom: 1px;
+	background-color: QLinearGradient(x1: 0, y1: 0, x2: 0, y2: 1,stop:0 rgba(80,90,90,80), stop:.3 rgba(160,180,180,40), stop:.35 rgba(160,180,180,40), stop:1 rgba(60,70,70,80));
+	font-family: Tahoma, Geneva, sans-serif;
+	font-weight: bold;
+	color: #999966;
+	qproperty-alignment: &quot;AlignBottom&quot;;
+	qproperty-wordWrap: false;
+]])
+
+--NAVIGATION--
+
+GUI.Who.Up = Geyser.Label:new({
+  name = &quot;GUI.Who.Up&quot;,
+  x = 18, y = 20,
+  width = 18,
+  height = 18,
+},GUI.TabWho)
+GUI.Who.Up:hide()
+GUI.Who.Up:setStyleSheet([[border-radius: 2; background-color: QLinearGradient(x1: 0, y1: 0, x2: 0, y2: 1,stop:0 rgba(80,90,90,90), stop:.3 rgba(160,180,180,70), stop:.35 rgba(160,180,180,70), stop:1 rgba(60,70,70,90));]])
+
+GUI.Who.UpIcon = Geyser.Label:new({
+  name = &quot;GUI.Who.UpIcon&quot;,
+  x = 1, y = 1,
+  width = 16,
+  height = 16,
+},GUI.Who.Up)
+GUI.Who.UpIcon:hide()
+GUI.Who.UpIcon:setStyleSheet([[background-image: url(]] .. ms_path .. [[/images/layout/upicon.png)]])
+GUI.Who.UpIcon:setClickCallback(&quot;who_update_offset&quot;, who_scrollamt)
+
+GUI.Who.Down = Geyser.Label:new({
+  name = &quot;GUI.Who.Down&quot;,
+  x = 17, y = -45,
+  width = 18,
+  height = 18,
+},GUI.TabWho)
+GUI.Who.Down:hide()
+GUI.Who.Down:setStyleSheet([[border-radius: 2; background-color: QLinearGradient(x1: 0, y1: 0, x2: 0, y2: 1,stop:0 rgba(80,90,90,90), stop:.3 rgba(160,180,180,70), stop:.35 rgba(160,180,180,70), stop:1 rgba(60,70,70,90));]])
+
+GUI.Who.DownIcon = Geyser.Label:new({
+  name = &quot;GUI.Who.DownIcon&quot;,
+  x = 1, y = 1,
+  width = 16,
+  height = 16,
+},GUI.Who.Down)
+GUI.Who.DownIcon:hide()
+GUI.Who.DownIcon:setStyleSheet([[background-image: url(]] .. ms_path .. [[/images/layout/downicon.png)]])
+GUI.Who.DownIcon:setClickCallback(&quot;who_update_offset&quot;,-who_scrollamt)
+
+GUI.Who.PgUp = Geyser.Label:new({
+  name = &quot;GUI.Who.PgUp&quot;,
+  x = 39, y = 20,
+  width = 18,
+  height = 18,
+},GUI.TabWho)
+GUI.Who.PgUp:hide()
+GUI.Who.PgUp:setStyleSheet([[border-radius: 2; background-color: QLinearGradient(x1: 0, y1: 0, x2: 0, y2: 1,stop:0 rgba(80,90,90,90), stop:.3 rgba(160,180,180,70), stop:.35 rgba(160,180,180,70), stop:1 rgba(60,70,70,90));]])
+
+GUI.Who.PgUpIcon = Geyser.Label:new({
+  name = &quot;GUI.Who.PgUpIcon&quot;,
+  x = 1, y = 1,
+  width = 16,
+  height = 16,
+},GUI.Who.PgUp)
+GUI.Who.PgUpIcon:hide()
+GUI.Who.PgUpIcon:setStyleSheet([[background-image: url(]] .. ms_path .. [[/images/layout/pgupicon.png)]])
+GUI.Who.PgUpIcon:setClickCallback(&quot;who_update_offset&quot;,who_page)
+
+GUI.Who.PgDown = Geyser.Label:new({
+  name = &quot;GUI.Who.PgDown&quot;,
+  x = 38, y = -45,
+  width = 18,
+  height = 18,
+},GUI.TabWho)
+GUI.Who.PgDown:hide()
+GUI.Who.PgDown:setStyleSheet([[border-radius: 2; background-color: QLinearGradient(x1: 0, y1: 0, x2: 0, y2: 1,stop:0 rgba(80,90,90,90), stop:.3 rgba(160,180,180,70), stop:.35 rgba(160,180,180,70), stop:1 rgba(60,70,70,90));]])
+
+GUI.Who.PgDownIcon = Geyser.Label:new({
+  name = &quot;GUI.WhoPgDownIcon&quot;,
+  x = 1, y = 1,
+  width = 16,
+  height = 16,
+},GUI.Who.PgDown)
+GUI.Who.PgDownIcon:hide()
+GUI.Who.PgDownIcon:setStyleSheet([[background-image: url(]] .. ms_path .. [[/images/layout/pgdownicon.png)]])
+GUI.Who.PgDownIcon:setClickCallback(&quot;who_update_offset&quot;,-who_page)
+
+GUI.Who.Summary = Geyser.Label:new({
+	name = &quot;GUI.Who.Summary&quot;,
+	x = 60,
+	y = -45,
+	height = 18,
+	width = 320,
+--h_policy=Geyser.Dynamic,
+},GUI.TabWho)
+GUI.Who.Summary:hide()
+GUI.Who.Summary:setStyleSheet(GUI.Who.SummaryCSS:getCSS())
+
+--Who list--
+GUI.Who.List = Geyser.VBox:new({
+  name = &quot;GUI.Who.List&quot;,
+  x = 16, y = 42,
+  width = 400,
+  height = 350,
+},GUI.TabWho)
+
+--List rows--
+GUI.Who.Line = GUI.Who.Line or {}
+GUI.Who.Name = GUI.Who.Name or {}
+GUI.Who.Level = GUI.Who.Level or {}
+for i=1,who_page do
+	GUI.Who.Line[i] = Geyser.HBox:new({
+		name = &quot;GUI.Who.Line&quot;..i,
+		width = 364,
+		height = 18,
+		v_policy=Geyser.Fixed,
+	},GUI.Who.List)
+
+	GUI.Who.Name[i] = Geyser.Label:new({
+		name = &quot;GUI.Who.Name&quot;..i,
+		x = 0,
+		y = 0,
+		height = 18,
+		width = 294,
+		h_policy=Geyser.Fixed,
+	},GUI.Who.Line[i])
+	GUI.Who.Name[i]:setStyleSheet(GUI.Who.NameCSS:getCSS())
+	GUI.Who.Name[i]:hide()
+
+	GUI.Who.Level[i] = Geyser.Label:new({
+		width = 70,
+		name = &quot;GUI.Who.Level&quot;..i,
+		h_policy=Geyser.Fixed,
+	},GUI.Who.Line[i])
+	GUI.Who.Level[i]:setStyleSheet(GUI.Who.LevelCSS:getCSS())
+	GUI.Who.Level[i]:hide()
+end
+
+function show_who_list_tab(event, tab)
+	if tab == &quot;Who&quot; then
+		if event == &quot;show_tab&quot; then
+			GUI.Who.PgUpIcon:show()
+			GUI.Who.UpIcon:show()
+			GUI.Who.PgDownIcon:show()
+			GUI.Who.DownIcon:show()
+			GUI.Who.PgUp:show()
+			GUI.Who.Up:show()
+			GUI.Who.PgDown:show()
+			GUI.Who.Down:show()
+			GUI.Who.Summary:show()
+			for i=1,who_page do
+				GUI.Who.Line[i]:show()
+				GUI.Who.Name[i]:show()
+				GUI.Who.Level[i]:show()
+			end
+			sendGMCP(&quot;gmcp.Who.Query&quot;)
+		elseif event == &quot;hide_tab&quot; then
+			GUI.Who.PgUpIcon:hide()
+			GUI.Who.UpIcon:hide()
+			GUI.Who.PgDownIcon:hide()
+			GUI.Who.DownIcon:hide()
+			GUI.Who.PgUp:hide()
+			GUI.Who.Up:hide()
+			GUI.Who.PgDown:hide()
+			GUI.Who.Down:hide()
+			GUI.Who.Summary:hide()
+			for i=1,who_page do
+				GUI.Who.Line[i]:hide()
+				GUI.Who.Name[i]:hide()
+				GUI.Who.Level[i]:hide()
+			end
+		end
+	end
+end
+
+function show_who_list()
+	pos = who_offset
+	local out;
+	local wizzes = 0
+	local total = 0
+	for key,value in pairs(who_list) do
+		pos = pos+1
+		total = total + 1
+		if value[3] &gt;= 100 then
+			wizzes = wizzes + 1
+		end
+		if pos &gt; 0 then
+			if value[3] &gt;= 100 then
+				out = [[&lt;span style=&quot;color:#CC6666&quot;&gt;]]..value[1]..[[&lt;/span&gt;]]
+			elseif value[3] &gt;= 16 then
+				out = [[&lt;span style=&quot;color:#E79E02&quot;&gt;]]..value[1]..[[&lt;/span&gt;]]
+			else
+				out = [[&lt;span style=&quot;color:#E79E02&quot;&gt;]]..value[1]..[[&lt;/span&gt;]]
+			end
+			echo(&quot;GUI.Who.Name&quot;..pos,out)
+			echo(&quot;GUI.Who.Level&quot;..pos,value[2])
+			showWindow(&quot;GUI.Who.Line&quot;..pos)
+			showWindow(&quot;GUI.Who.Count&quot;..pos)
+			showWindow(&quot;GUI.Who.Item&quot;..pos)
+		end
+	end
+	if (total - wizzes) == 1 then
+		out = &quot;1 player&quot;
+	else
+		out = (total - wizzes) .. &quot; players&quot;
+	end
+	if wizzes == 1 then
+		out = out .. &quot; and 1 wizard&quot;
+	elseif wizzes &gt; 0 then
+		out = out .. &quot; and &quot; .. wizzes .. &quot; wizards&quot;
+	end
+	out = out .. &quot; logged on.&quot;
+	echo(&quot;GUI.Who.Summary&quot;, out)
+	for i=pos+1,who_page do
+		hideWindow(&quot;GUI.Who.Line&quot;..i)
+		hideWindow(&quot;GUI.Who.Name&quot;..i)
+		hideWindow(&quot;GUI.Who.Level&quot;..i)
+	end
+end
+
+function who_update_offset(count)
+	who_offset = who_offset+count
+	maxoffset = -table.size(who_list) + who_page
+	who_offset = math.max(who_offset, maxoffset)
+	who_offset = math.min(0,who_offset)
+	show_who_list()
+end
+
+function who_functions()
+	if gmcp.Who.List ~= nil then
+		who_list = gmcp.Who.List
+		show_who_list()
+	end
+end
+
+registerAnonymousEventHandler(&quot;show_tab&quot;,&quot;show_who_list_tab&quot;)
+registerAnonymousEventHandler(&quot;hide_tab&quot;,&quot;show_who_list_tab&quot;)</script>
+                            <eventHandlerList>
+                                <string>gmcp.Who.List</string>
+                            </eventHandlerList>
+                        </Script>
+                        <Script isActive="yes" isFolder="no">
+                            <name>Logout Information</name>
+                            <packageName></packageName>
+                            <script>GUI.Logout = {}
+GUI.Logout.Line = {}
+GUI.Logout.Name = {}
+
+--
+-- CSS definitions.
+--
+GUI.LogoutCSS = CSSMan.new([[
+	border-width: 2px;
+   border-color: rgba(30,30,30,150);
+   border-style: solid;
+   border-radius: 6;
+	padding: 15px;
+	padding-left: 20px;
+	font-family: Tahoma, Geneva, sans-serif;
+	font-weight: bold;
+	qproperty-alignment: &quot;AlignTop | AlignLeft&quot;;
+	qproperty-wordWrap: true;
+	background-image : url(]] .. ms_path .. [[/images/layout/logoutbg.png);
+]])
+
+GUI.LogoutHeaderCSS = CSSMan.new([[
+	padding-left: 1px;
+	margin-bottom: 1px;
+	border-radius: 6;
+	background-color: QLinearGradient(x1: 0, y1: 0, x2: 0, y2: 1,stop:0 rgba(80,90,90,80), stop:.3 rgba(160,180,180,40), stop:.35 rgba(160,180,180,40), stop:1 rgba(60,70,70,80));
+	font-family: Tahoma, Geneva, sans-serif;
+	font-weight: bold;
+	color: #999966;
+	qproperty-alignment: &quot;AlignCenter&quot;;
+	qproperty-wordWrap: false;
+]])
+
+GUI.LogoutFooterCSS = CSSMan.new([[
+	padding-left: 15px;
+	padding-right: 15px;
+	margin-bottom: 1px;
+	background-color: QLinearGradient(x1: 0, y1: 0, x2: 0, y2: 1,stop:0 rgba(80,90,90,80), stop:.3 rgba(160,180,180,40), stop:.35 rgba(160,180,180,40), stop:1 rgba(60,70,70,80));
+	font-family: Tahoma, Geneva, sans-serif;
+	font-weight: bold;
+	border-radius: 6;
+	color: #999966;
+	qproperty-alignment: &quot;AlignCenter&quot;;
+	qproperty-wordWrap: true;
+]])
+
+GUI.Logout.NameCSS = CSSMan.new([[
+	padding-left: 1px;
+	margin-bottom: 1px;
+	background-color: rgba(0,0,0,0);
+	font-family: Tahoma, Geneva, sans-serif;
+	font-weight: bold;
+	color: #000000;
+	qproperty-alignment: &quot;AlignBottom&quot;;
+	qproperty-wordWrap: false;
+]])
+
+--
+-- Labels creations.
+--
+GUI.Logout.Logout = Geyser.Label:new({
+  name = &quot;GUI.Logout.Logout&quot;,
+  x = 50, y = 100,
+  width = 500,
+  height = 400,
+}, GUI.Tabs)
+GUI.Logout.Logout:setStyleSheet(GUI.LogoutCSS:getCSS());
+GUI.Logout.Logout:setClickCallback(&quot;logout_hide&quot;,nil)
+
+GUI.Logout.Header = Geyser.Label:new({
+  name = &quot;GUI.Logout.Header&quot;,
+  x = 30, y = 25,
+  width = 440,
+  height = 40,
+  h_policy=Geyser.Fixed,
+},GUI.Logout.Logout)
+GUI.Logout.Header:setStyleSheet(GUI.LogoutHeaderCSS:getCSS())
+GUI.Logout.Header:setClickCallback(&quot;logout_hide&quot;,nil)
+
+GUI.Logout.Footer = Geyser.Label:new({
+  name = &quot;GUI.Logout.Footer&quot;,
+  x = 30, y = 295,
+  width = 440,
+  height = 90,
+  h_policy=Geyser.Fixed,
+},GUI.Logout.Logout)
+GUI.Logout.Footer:setStyleSheet(GUI.LogoutFooterCSS:getCSS())
+GUI.Logout.Footer:setClickCallback(&quot;logout_hide&quot;,nil)
+
+for i=1,10 do
+	GUI.Logout.Line[i] = Geyser.HBox:new({
+		name = &quot;GUI.Logout.Line&quot;..i,
+		width = 250,
+		height = 20,
+		x = 125,
+		y = 49 + i * 20,
+		v_policy=Geyser.Fixed,
+	},GUI.Logout.Logout)
+
+	GUI.Logout.Name[i] = Geyser.Label:new({
+		name = &quot;GUI.Logout.Name&quot;..i,
+		x = 0,
+		y = 0,
+		height = 20,
+		width = 250,
+		h_policy=Geyser.Fixed,
+	},GUI.Logout.Line[i])
+	GUI.Logout.Name[i]:setStyleSheet(GUI.Logout.NameCSS:getCSS())
+	GUI.Logout.Name[i]:setClickCallback(&quot;logout_hide&quot;,nil)
+end</script>
+                            <eventHandlerList/>
+                        </Script>
+                        <Script isActive="yes" isFolder="no">
+                            <name>logout_functions</name>
+                            <packageName></packageName>
+                            <script>--
+-- Fill in the Logout box with information.
+---
+function LogoutMS2(header, kill_list, footer)
+	if header ~= nil then
+		GUI.Logout.Header:echo([[&lt;center&gt;]] .. header .. [[&lt;/center&gt;]],&quot;#999966&quot;,&quot;b14&quot;)
+	end
+
+	if kill_list ~= nil then
+		local c = 1
+		if kill_list[1] ~= 0 then
+			for i,v in pairs(kill_list) do
+				GUI.Logout.Name[i]:echo([[&lt;center&gt;]] .. v .. [[&lt;/center&gt;]],&quot;#999966&quot;,&quot;bi10&quot;)
+				c = c + 1
+				if c == 11 then
+					break
+				end
+			end
+		end
+		if c == 1 then
+			GUI.Logout.Name[1]:echo([[&lt;center&gt;~ No Kills ~&lt;/center&gt;]],&quot;#999966&quot;,&quot;bi10&quot;)
+			c = 2
+		end
+		while c &lt; 11 do
+			GUI.Logout.Name[c]:echo(&quot;&quot;,&quot;#999966&quot;,&quot;bi10&quot;)
+			c = c + 1
+		end
+	end
+
+	if footer ~= nil then 
+		GUI.Logout.Footer:echo([[&lt;center&gt;]] .. footer .. [[&lt;/center&gt;]],&quot;#999966&quot;,&quot;b8&quot;)
+		GUI.Logout.Logout:show()
+	end
+end
+
+--
+-- Well, hide logout box...
+--
+function logout_hide(_)
+	GUI.Logout.Logout:hide()
+end
+
+--
+-- GMCP Event handler.
+--
+function logout_functions()
+	if gmcp.Logout[&quot;NrOfKills&quot;] ~= nil then
+		logout_nr_of_kills = gmcp.Logout[&quot;NrOfKills&quot;]
+	end
+	if gmcp.Logout[&quot;Kills&quot;] ~= nil then
+		LogoutMS2(&quot;Biggest Kills&quot;, gmcp.Logout[&quot;Kills&quot;], nil)
+	end
+	if gmcp.Logout[&quot;Summary&quot;] ~= nil then
+		local killtxt
+
+		-- Add number of kills to summary.
+		if logout_nr_of_kills == 1 then
+			killtxt = &quot;You killed only one opponent.&lt;br&gt;&quot;
+		elseif logout_nr_of_kills &gt; 1 then
+			killtxt = &quot;You killed &quot; .. tostring(logout_nr_of_kills) .. &quot; opponents.&lt;br&gt;&quot;
+		else
+			killtxt = &quot;&quot;
+		end
+		LogoutMS2(nil, nil, killtxt .. gmcp.Logout[&quot;Summary&quot;])
+	end
+end
+
+GUI.Logout.Logout:hide()
+
+-- Remove logout box once we reconnect.
+registerAnonymousEventHandler(&quot;sysConnectionEvent&quot;, &quot;logout_hide&quot;)</script>
+                            <eventHandlerList>
+                                <string>gmcp.Logout</string>
+                            </eventHandlerList>
+                        </Script>
+                        <Script isActive="yes" isFolder="no">
+                            <name>gui_help</name>
+                            <packageName></packageName>
+                            <script>--temporary hack to keep mudlet from crashing, remove when version 3.0 is available--
+function do_nothing()
+end
+
+GUI.Avatar:setClickCallback(&quot;do_nothing&quot;)
+GUI.Guild:setClickCallback(&quot;do_nothing&quot;)
+GUI.PlayerLevel:setClickCallback(&quot;do_nothing&quot;)
+GUI.PlayerTitle:setClickCallback(&quot;do_nothing&quot;)
+GUI.PlayerStats:setClickCallback(&quot;do_nothing&quot;)
+GUI.ExpLabel:setClickCallback(&quot;do_nothing&quot;)
+GUI.VitalsLabel:setClickCallback(&quot;do_nothing&quot;)
+GUI.AlignGem:setClickCallback(&quot;do_nothing&quot;)
+GUI.WimpyIcon:setClickCallback(&quot;do_nothing&quot;)
+GUI.WimpyStatus:setClickCallback(&quot;do_nothing&quot;)
+GUI.WimpyDir:setClickCallback(&quot;do_nothing&quot;)
+GUI.MapBorderTop:setClickCallback(&quot;do_nothing&quot;)
+GUI.MapBorderLeft:setClickCallback(&quot;do_nothing&quot;)
+GUI.MapBorderRight:setClickCallback(&quot;do_nothing&quot;)
+GUI.MapBorderBtm:setClickCallback(&quot;do_nothing&quot;)
+GUI.RightInv:setClickCallback(&quot;do_nothing&quot;)
+GUI.BurdenLabel:setClickCallback(&quot;do_nothing&quot;)
+GUI.FoodGaugesLabel:setClickCallback(&quot;do_nothing&quot;)
+GUI.RightMoney:setClickCallback(&quot;do_nothing&quot;)
+GUI.MoneyCount:setClickCallback(&quot;do_nothing&quot;)
+--end hack--
+
+function gui_help(topic, details)
+	local title = &quot;&quot;
+	local out = &quot;&quot;
+
+	clearWindow(&quot;GUI.TabHelp&quot;)
+	if topic == &quot;help&quot; then
+		title = [[Interactive help]]
+		out = [[This window will show you information about different parts of the user interface.&lt;br/&gt;&lt;br/&gt;Simply position your mouse over an item to see what function it serves.&lt;br/&gt;&lt;br/&gt;Clicking the Help button again will hide this window.]]	
+	elseif topic == &quot;avatar&quot; then
+		title = [[Avatar]]
+		out = [[A visual representation of your character. To set an avatar, place an image named &lt;span style=&quot;color: goldenrod&quot;&gt;]]..details..[[.png &lt;/span&gt;in&lt;br/&gt;&lt;span style=&quot;color: goldenrod&quot;&gt;]]..ms_path..[[/images/&lt;/span&gt;&lt;br/&gt;&lt;br/&gt;Image size should be 64x64 pixels. You can find a selection of avatars in&lt;br/&gt;]]..ms_path..[[/images/avatars/Allavatars/&lt;br/&gt;(for an even bigger selection, visit www.allavatars.com)]]
+	elseif topic == &quot;guild&quot; then
+		title = [[Guild]]
+		out = [[This image represents your guild membership.]]
+	elseif topic == &quot;stats&quot; then
+		title = [[Character statistics]]
+		out = [[Your character's main statistics - guild title, level and stats (strength, dexterity, intelligence, constitution, wisdom and charisma, in that order).]]
+	elseif topic == &quot;housekey&quot; then
+		title = [[House key]]
+		out = [[The key to your private home.]]
+	elseif topic == &quot;effects&quot; then
+		title = [[Active effect icons]]
+		out = [[These icons show which spells or skills affect you at a given moment.&lt;br/&gt;&lt;br/&gt;Spell / skill: ]]..details
+	elseif topic == &quot;alignment&quot; then
+		title = [[Alignment indicator]]
+		out = [[The gem image serves as an indicator of your current alignment.&lt;br/&gt;As you get more evil, the gem colour turns gradually from white to dark purple.]]
+	elseif topic == &quot;collapse&quot; then
+		title = [[Layout adjustment]]
+		out = [[Using the arrow icons, you can collapse / restore the left, top and right panels. Every panel can be collapsed individually and you can show or hide any combination of the three.&lt;br/&gt;&lt;br/&gt;NOTE: The client does not remember this setting, so you will have to adjust your layout every time you start a new session.]]
+	elseif topic == &quot;vitals&quot; then
+		title = [[Vitals gauges]]
+		out = [[The gauges show the current level of your vital statistics:&lt;br/&gt;&lt;br/&gt;BLUE - your mana level&lt;br/&gt;RED - your health level&lt;br/&gt;ORANGE - your opponent's health and name (if applicable)]]
+	elseif topic == &quot;wimpy&quot; then
+		title = [[Wimpy indicator]]
+		out = [[Your current wimpy settings.&lt;br/&gt;&lt;br/&gt;When hurt, your character will try to flee battle in the direction specified. With a higher wimpy setting, you will try to flee combat sooner.]]
+	elseif topic == &quot;experience&quot; then
+		title = [[Experience bar]]
+		out = [[The bar shows the experience progress till your next stat raise.]]
+	elseif topic == &quot;money&quot; then
+		title = [[Money]]
+		out = [[Shows the amount of money you have on hand.]]
+	elseif topic == &quot;worldmap&quot; then
+		title = [[World Map]]	
+		out = [[Opens a graphical map of the world of Midnight Sun.]]
+	elseif topic == &quot;foodgauges&quot; then
+		title = [[Intoxication, food and soakedness]]
+		out = [[From left to right, the gauges show your saturation with alcohol, food and non-alcoholic drinks.]]
+	elseif topic == &quot;inventory&quot; then
+		title = [[Inventory]]
+		out = [[Shows the contents of your inventory. Equipped items are shown in &lt;span style=&quot;color:#E79E02&quot;&gt;orange&lt;/span&gt;, kept items in &lt;span style=&quot;color:#CC6666&quot;&gt;pale red&lt;/span&gt; and carried items in &lt;span style=&quot;color:#999966&quot;&gt;grey brown (tan)&lt;/span&gt;.&lt;br/&gt;&lt;br/&gt;To scroll through the list one row at a time use the single arrow icons, the double arrow icons will move the list up or down a whole page. You can also filter the list to only show equipped or carried items.]]
+	elseif topic == &quot;burden&quot; then
+		title = [[Burden indicator]]
+		out = [[Shows how burdened you are (and how much carrying capacity you have left).]]
+	elseif topic == &quot;mapper&quot; then
+		title = [[Mapper]]
+		out = [[The mapper will draw a map of the mud as you walk around. This mostly happens automagically.&lt;br/&gt;&lt;br/&gt;Some rooms may overlap and some rooms will not be mapped correctly. You can move these rooms manually - left click on a room to select it, then right click to open a context menu. You can also select multiple rooms by clicking and dragging the mouse over a rectangular area.&lt;br/&gt;&lt;br/&gt;Clicking on the white bar at the bottom will open a panel with additional options.]]
+	elseif topic == &quot;channels&quot; then
+		title = [[Channels console]]
+		out = [[The Channels tab will show your messages you received during the current session.&lt;br/&gt;You can resize the window by drag the handle, three dots, at the bottom of the window.]]
+	elseif topic == &quot;who&quot; then
+		title = [[Who list]]
+		out = [[The Who list will show the players and wizards currently logged in.]]
+
+
+	elseif topic == &quot;quests&quot; then
+		title = [[Quests overview]]
+		out = [[NOT YET AVAILABLE]]
+	end
+
+	GUI.TabHelp:echo([[&lt;span style=&quot;color: goldenrod; font-size: 13px; text-decoration: underline&quot;&gt;]]..title..[[&lt;/span&gt;&lt;br/&gt;&lt;br/&gt;&lt;span style=&quot;color: #CCCC99; font-size: 12px&quot;&gt;]]..out..[[&lt;/span&gt;]])	
+end</script>
+                            <eventHandlerList/>
+                        </Script>
+                        <Script isActive="yes" isFolder="no">
+                            <name>gui_init</name>
+                            <packageName></packageName>
+                            <script>msconfig = msconfig or {}
+
+function gui_init()
+	table.load(ms_path .. [[/msconfig.lua]], msconfig)
+
+	if msconfig[&quot;HIDE_LEFT&quot;] then
+		GUI.Left:hide()
+		setBorderLeft(10)
+		GUI.Bottom:move(0,-140)
+		GUI.Top:move(0,0)
+		GUI.CollapseIcon:setStyleSheet([[background-image: url(]] .. ms_path .. [[/images/layout/expandicon.png)]])
+	end
+
+	if msconfig[&quot;HIDE_TOP&quot;] then
+		GUI.TopHeader:hide()
+		setBorderTop(55)
+		GUI.Tabs:move(0,0)
+		GUI.Top:resize(&quot;100%&quot;,43)
+		GUI.Top:reposition()
+		GUI.CollapseVIcon:setStyleSheet([[background-image: url(]] .. ms_path .. [[/images/layout/expandvicon.png)]])
+	end
+
+	if msconfig[&quot;HIDE_RIGHT&quot;] then
+		GUI.Right:hide()
+		GUI.MapBorderTop:hide()
+		GUI.MapBorderLeft:hide()
+		GUI.MapBorderRight:hide()
+		GUI.MapBorderBtm:hide()
+		GUI.Mapper:hide()
+		setBorderRight(0)
+		GUI.CollapseRIcon:move(-20,-135)
+		GUI.CollapseRIcon:setStyleSheet([[background-image: url(]] .. ms_path .. [[/images/layout/collapseicon.png)]])
+	end
+
+end
+
+function downloaded_file(_, filename)
+	-- is the file that downloaded ours?
+	if not filename:find(&quot;MS-Map.dat&quot;, 1, true) then
+		return
+	end
+	loadMap(filename)
+	map_functions()
+	display(&quot;Downloaded and loaded Midnight Sun II map&quot;)
+end
+
+-- Check if player does not got a map, and if so load CC map.
+local rooms = getRooms()
+local count = 0;
+for _, desc in pairs(rooms) do
+	count = count + 1
+	if count &gt; 5 then
+		break
+	end
+end
+
+if count &lt; 6 then
+	-- download map and load it
+	-- register our function to run on the event that something was downloaded
+	registerAnonymousEventHandler(&quot;sysDownloadDone&quot;, &quot;downloaded_file&quot;)
+	-- download a list of fake users for a demo
+	downloadFile(getMudletHomeDir()..&quot;/MS-Map.dat&quot;, &quot;http://www.midnightsun2.org/downloads/MS-Map.dat&quot;)
+end</script>
+                            <eventHandlerList>
+                                <string>sysLoadEvent</string>
+                            </eventHandlerList>
+                        </Script>
+                    </ScriptGroup>
+        </ScriptGroup>
+    </ScriptPackage>
+    <KeyPackage/>
+</MudletPackage>
