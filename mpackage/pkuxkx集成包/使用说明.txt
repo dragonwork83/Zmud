@@ -1,0 +1,7 @@
+1. pkuxkx.mpackage 可直接使用mudlet包导入器导入, 里面包含mudlet原生的所有功能, 如发现冲突.可以先把mudlet原生的包删掉
+2. MS-GUI.zip 和 Scripts.zip, 同名文件夹解压, 放入 getMudletHomeDir() 目录
+3. Database_pkuxkx.db 同样放在 getMudletHomeDir() 目录
+
+注: 
+1. 如不确定自己的 getMudletHomeDir() 目录(即北侠所在的目录), 可以在mudlet的指令行输入 lua getMudletHomeDir() ,就会显示你当前玩北侠的mudlet的目录, 将除pkuxkx.mpackage以外的文件解压放入就可以了, 解压出来的注意保留文件夹名
+2. 因不确定在哪个版本mudlet将默认分隔符改为两个;, 但此版本依照大部分老玩家习惯,依旧使用单封号;作为分隔符,所以需要在 "选项" -> "输入行"页签 里 找到 "命令分隔符", 并将之设为单个封号;
